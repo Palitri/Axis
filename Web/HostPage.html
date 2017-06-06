@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <title>Axis Web</title>
+    
+    <script type="text/javascript" src="AxisEngine.js"></script> 
+    
+    <script type="text/javascript">
+        var animation;
+        var axis;
+        
+        function Initialize()
+        {
+            animation = new AxAnimationElement('viewport');
+            axis = new Axis(animation.canvas);
+
+            animation.OnRender = function() { axis.RenderScene(); };
+            axis.ImportScene_2(new AxString('../Resources/Robot/Robot.axs'), function() { animation.StartRendering(); });
+        }
+</script>
+</head>
+
+<body style="margin:0;" onload="AxisInitialize(Initialize);">
+    <canvas id="viewport" style="width:100%; height:100%;"></canvas>
+</body>
+
+</html>
