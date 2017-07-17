@@ -1,0 +1,1581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{470ecc42-611d-4f0b-b47f-5c2dc8ed2520}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{5edfd2a3-e580-4172-82cf-77a191addb76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Base">
+      <UniqueIdentifier>{e7721ab1-af43-4983-9571-3d685699d25f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities">
+      <UniqueIdentifier>{f378ce52-cdac-4269-b23d-2e414f048591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Primitive">
+      <UniqueIdentifier>{c5d4d891-924a-4216-930e-c74346fc8ae0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Properties">
+      <UniqueIdentifier>{76c3ecaf-6591-43f1-8ff9-b12db741aee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities">
+      <UniqueIdentifier>{76ea546e-fd4b-4fe1-8fcd-22fd3aa94e32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Camera">
+      <UniqueIdentifier>{9269ed00-72ff-47ff-98d1-5ecc99795a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Material">
+      <UniqueIdentifier>{211c835a-fdbb-49b8-8b81-cf1ec7cb4c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Mechanisms">
+      <UniqueIdentifier>{86c05bf5-ea0a-47ef-884b-26d18211c366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Mesh">
+      <UniqueIdentifier>{32ee64bd-9446-4058-9f21-1d2e44056e4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Transform">
+      <UniqueIdentifier>{64489f5a-9629-4aeb-8490-a87c2909f8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\Geometry">
+      <UniqueIdentifier>{cff120e5-caed-4167-9cbd-aac7182caf52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\Normals">
+      <UniqueIdentifier>{d49c93a9-7afa-4c04-9f8a-4525f4569ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\TexCoords">
+      <UniqueIdentifier>{6e84fe62-2298-4b6f-baaa-5b7123a39bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileSystem">
+      <UniqueIdentifier>{01aaf463-7555-4031-bd13-5976a35c8b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{08568d4c-1c37-4c42-b9f0-4be6f0739ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media">
+      <UniqueIdentifier>{bc6d2cb1-33df-4c8d-9b5e-32de7035b945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Sound">
+      <UniqueIdentifier>{40dbecc0-6933-4506-9d4d-d7d4969a889d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools">
+      <UniqueIdentifier>{e88ba45a-95c5-41cb-ae22-10b9867ee166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileSystem\PhysicalFileSystem">
+      <UniqueIdentifier>{1019ab03-dd68-4dc4-93fb-6297a7a08f83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\DeviceIndependent">
+      <UniqueIdentifier>{ebf0428a-7dd5-422e-9bbd-129d41debfbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Soras">
+      <UniqueIdentifier>{4a988674-4eb8-4233-acfd-04a051d56f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Soras\Engine">
+      <UniqueIdentifier>{578bc5e9-e64a-4a39-a241-d4e210088c9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Soras\Engine\Primitive">
+      <UniqueIdentifier>{773de2f9-42d8-4db9-a764-24b22a923d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking">
+      <UniqueIdentifier>{e9378f38-c95b-433d-8444-1e2d9d520b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Streams">
+      <UniqueIdentifier>{321c28e7-1642-469f-9e79-12f0a1811370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Threading">
+      <UniqueIdentifier>{722431bf-1ba4-4454-811d-b84ae2fd805e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking\TCPIP">
+      <UniqueIdentifier>{c5aea8a5-8f5d-4d40-897b-ff59749d2186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking\WebServer">
+      <UniqueIdentifier>{322e44e6-282a-4c6a-a809-ff3dc75b0d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking\WebServer\WebPageComponents">
+      <UniqueIdentifier>{8cfdfdf7-8c53-4259-a5e3-b85fed2393f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Image">
+      <UniqueIdentifier>{596b7e31-4767-4ef0-9650-25dedadf996e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Sound">
+      <UniqueIdentifier>{bfc4c46a-b068-4f42-9bad-0776d702d171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene">
+      <UniqueIdentifier>{9426de51-b0df-4505-ab6c-3cb40e8ac29e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\Serialization">
+      <UniqueIdentifier>{3ba6627d-970d-4dfd-be9b-0b51f9c0c360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene\Native">
+      <UniqueIdentifier>{624f2b64-b0ec-44d2-81cd-2ea7a2f111f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene\3ds">
+      <UniqueIdentifier>{7c653d57-9c78-43a5-aae3-f5a7bcf9269c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene\3ds\File3ds">
+      <UniqueIdentifier>{8e4060c3-8e9f-4150-bab6-f52afeed8bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Sound\Wav">
+      <UniqueIdentifier>{2f10c40e-4cc4-4402-993d-1ef941461e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Sound\Wav\WavFile">
+      <UniqueIdentifier>{8c6fc461-83cb-4549-bf07-24b85212c9c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\EntitySet">
+      <UniqueIdentifier>{dbc490dd-424e-4d17-b8f2-e9f4f0cd2172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Script">
+      <UniqueIdentifier>{5c47e2b2-5c77-46dd-9cdd-9929661d4527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Script\Parsing">
+      <UniqueIdentifier>{bc562de9-abb8-4d77-9f17-f226ed8e0eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Script\Processing">
+      <UniqueIdentifier>{786f7b70-a6c0-460c-8cd0-4b17a92649c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Script\Parsing\Expressions">
+      <UniqueIdentifier>{11fd5485-b82e-43b6-b87e-7829d9a78b56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene\Obj">
+      <UniqueIdentifier>{d0fcfe96-762c-45d6-b72f-e526ae91803f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene\Obj\FileObj">
+      <UniqueIdentifier>{6b17a4b3-15d7-4ab0-b216-e2b94fc92362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\SubMesh">
+      <UniqueIdentifier>{61c3fa47-b356-428c-872b-b50769cf0c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Light">
+      <UniqueIdentifier>{15022400-1ff7-4df4-ab61-80b8fbfb18ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation">
+      <UniqueIdentifier>{40058407-cc7b-4880-848f-2591295e9e24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\Tangents">
+      <UniqueIdentifier>{0a8965c3-6d65-4b20-8b3d-dcc3f0dc5efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Sound">
+      <UniqueIdentifier>{f2eea9c7-e483-4a42-b219-cfcfd575aa5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\SoundEmitter">
+      <UniqueIdentifier>{69ff984d-1f41-4db7-9963-ace3c75cbdc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\SoundReceptor">
+      <UniqueIdentifier>{d79bb3d5-9e4b-4099-87e5-b9699b0b8065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Textures">
+      <UniqueIdentifier>{7e83c9e4-115b-427d-9077-1e651684da39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Script">
+      <UniqueIdentifier>{080d4851-758e-4bf5-b614-d0adf0e5fecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Platform">
+      <UniqueIdentifier>{a2b2b249-31e2-4145-babe-49c6d485a26a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\SmoothingGroups">
+      <UniqueIdentifier>{861a0d27-07a1-4f4e-9526-3222d737ecde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Utilities\Imaging">
+      <UniqueIdentifier>{6d15f951-88ab-41bd-a3dd-db185d699e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Image\Native">
+      <UniqueIdentifier>{6e9daabf-7315-405a-8b3b-65a8b0b9a6ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Mechanisms\Geometry">
+      <UniqueIdentifier>{657505ec-3fc4-4fc5-8e73-749ff09c4629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Mechanisms\Texture">
+      <UniqueIdentifier>{9e756a16-64f0-4f96-addb-1d65d3e5ff2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Entities\Settings">
+      <UniqueIdentifier>{63d54343-d2ca-49f9-b582-41f9b8cb553b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Input">
+      <UniqueIdentifier>{636f662d-a18e-432f-9503-a09eb0964a5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{04b0396d-a2b3-4ced-b239-89c63825493d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Input\Models">
+      <UniqueIdentifier>{0b23b41f-024a-4678-8453-3e13dd7290a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input\WindowsForms">
+      <UniqueIdentifier>{c1ea4c88-98a6-448a-a973-a72573d8993f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Soras.h">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\SrMesh.h">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\SrRenderThread.h">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\SrTexture.h">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrARGB.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrARGBInt.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrCullModes.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrLight.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrMaterial.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrMatrix.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrShaderOperations.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrShadingParameters.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrTextureSamplers.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrUnit.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector2Int.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector3.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector3Int.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVertex.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector4Int.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector4.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector4Int.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector4.h">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Base\AxClassId.h">
+      <Filter>Source\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Base\AxEntity.h">
+      <Filter>Source\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Base\AxEntityDispatcher.h">
+      <Filter>Source\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Base\AxModuleDispatcher.h">
+      <Filter>Source\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Base\AxResource.h">
+      <Filter>Source\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Base\AxResourceType.h">
+      <Filter>Source\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Camera\AxCamera.h">
+      <Filter>Source\Engine\Entities\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\EntitySet\AxEntitySet.h">
+      <Filter>Source\Engine\Entities\EntitySet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Light\AxLight.h">
+      <Filter>Source\Engine\Entities\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Material\AxMaterial.h">
+      <Filter>Source\Engine\Entities\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Material\AxMaterialShadingLayer.h">
+      <Filter>Source\Engine\Entities\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxBoxGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxConeGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxGeosphereGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxHeightmapGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxPlaneGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxSphereGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxTorusGeometryMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrame.h">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationAxis.h">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationEuler.h">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameScaling.h">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFramesTrack.h">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameTranslation.h">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxHueMapTextureMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxNormalMapTextureMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxPlasmaFractalTextureMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxFloatValueMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxKeyFrameAnimationMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxLinearInterpolationMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxLinearMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxOrientationMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxPivotalMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxPolynomialMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxPropertyChangeNotifiedMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxSineMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxTimeRateMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mesh\AxMesh.h">
+      <Filter>Source\Engine\Entities\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Script\AxScript.h">
+      <Filter>Source\Engine\Entities\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Sound\AxSound.h">
+      <Filter>Source\Engine\Entities\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\SoundEmitter\AxSoundEmitter.h">
+      <Filter>Source\Engine\Entities\SoundEmitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\SoundReceptor\AxSoundReceptor.h">
+      <Filter>Source\Engine\Entities\SoundReceptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Textures\AxTexture2D.h">
+      <Filter>Source\Engine\Entities\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Transform\AxTransform.h">
+      <Filter>Source\Engine\Entities\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Transform\AxTransformLayer.h">
+      <Filter>Source\Engine\Entities\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Transform\AxTransformOperation.h">
+      <Filter>Source\Engine\Entities\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxBoundingVolume.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxColorOperation.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxIntersectionInfo.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxMatrix.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxModule.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxPCMFormat.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxPixelFormat.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxRenderState.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxShadingOperation.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxVector2.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxVector3.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxVector4.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Primitive\AxVertex.h">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Properties\AxParameter.h">
+      <Filter>Source\Engine\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Properties\AxParameterType.h">
+      <Filter>Source\Engine\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Properties\AxProperty.h">
+      <Filter>Source\Engine\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxBoxGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxConvexHullGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxCopyGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxGeosphereGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxHeightMapGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxIcosahedronGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxMergeGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxPlaneGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxPrismGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxSphereGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxTorusGeometry.h">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxCheckerPatternImage.h">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxGenerateNormalMapImage.h">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxHueMapImage.h">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxPlasmaFractalImage.h">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Normals\AxNormalsGenerator.h">
+      <Filter>Source\Engine\Utilities\Normals</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamReader.h">
+      <Filter>Source\Engine\Utilities\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamWriter.h">
+      <Filter>Source\Engine\Utilities\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Serialization\AxSerializationUtils.h">
+      <Filter>Source\Engine\Utilities\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\SmoothingGroups\AxSmoothingGroups.h">
+      <Filter>Source\Engine\Utilities\SmoothingGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\SmoothingGroups\AxSmoothingGroupsPrimitiveTypes.h">
+      <Filter>Source\Engine\Utilities\SmoothingGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\SubMesh\AxSubMesh.h">
+      <Filter>Source\Engine\Utilities\SubMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\SubMesh\AxSubMeshPrimitiveTypes.h">
+      <Filter>Source\Engine\Utilities\SubMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Tangents\AxTangentsGenerator.h">
+      <Filter>Source\Engine\Utilities\Tangents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxPlanarTexCoords.h">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxSphericalTexCoords.h">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTransformTexCoords.h">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\AxLogging.h">
+      <Filter>Source\Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\AxMaths.h">
+      <Filter>Source\Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\AxTimer.h">
+      <Filter>Source\Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Axis.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxRayIntersectionEvents.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxRenderEvents.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxScreenPickEvents.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxSerializationParameters.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxStandardEntityDispatcher.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxTraceEvents.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AxTraceParameters.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystem.h">
+      <Filter>Source\FileSystem\PhysicalFileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystemDispatcher.h">
+      <Filter>Source\FileSystem\PhysicalFileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileSystem\AxFileInfo.h">
+      <Filter>Source\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileSystem\AxFileSystem.h">
+      <Filter>Source\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentMesh.h">
+      <Filter>Source\Graphics\DeviceIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentShader.h">
+      <Filter>Source\Graphics\DeviceIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\AxSorasGraphicsDevice.h">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\AxSorasGraphicsDeviceDispatcher.h">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\AxSorasMesh.h">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\AxSorasShader.h">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Soras\AxSorasTexture2D.h">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\AxDeviceMesh.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\AxDeviceShader.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\AxDeviceTexture2D.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\AxGraphicsDevice.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Image\Native\AxNativeImage.h">
+      <Filter>Source\Media\Image\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Image\Native\AxNativeImageDispatcher.h">
+      <Filter>Source\Media\Image\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Image\AxImage.h">
+      <Filter>Source\Media\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3ds.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsBaseObject.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsCamera.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsHierarchy.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsKeyFrames.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsLight.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMaterial.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMesh.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsPrimitiveTypes.h">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\Ax3dsScene.h">
+      <Filter>Source\Media\Scene\3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\3ds\Ax3dsSceneDispatcher.h">
+      <Filter>Source\Media\Scene\3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeScene.h">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneDispatcher.h">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObj.h">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjMaterial.h">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjMesh.h">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjPrimitiveTypes.h">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjTextureMap.h">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\AxObjScene.h">
+      <Filter>Source\Media\Scene\Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Obj\AxObjSceneDispatcher.h">
+      <Filter>Source\Media\Scene\Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\AxScene.h">
+      <Filter>Source\Media\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Sound\Wav\WavFile\AxWavFile.h">
+      <Filter>Source\Media\Sound\Wav\WavFile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Sound\Wav\AxWavSoundMedia.h">
+      <Filter>Source\Media\Sound\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Sound\Wav\AxWavSoundMediaDispatcher.h">
+      <Filter>Source\Media\Sound\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Sound\AxSoundMedia.h">
+      <Filter>Source\Media\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\AxMedia.h">
+      <Filter>Source\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpression.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionAssignment.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionCallout.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionConstantValue.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionDo.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionEvaluation.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionFor.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionFunctionDeclaration.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionIf.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionTernaryIf.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionUnion.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariable.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariableDeclaration.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionWhile.h">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxCodeBuilder.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxScriptDataType.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxScriptDataTypes.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxScriptIdentifier.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxScriptIdentifiers.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxScriptToken.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Parsing\AxScriptTokens.h">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Script\Processing\AxCodeProcessor.h">
+      <Filter>Source\Script\Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\AxAudioDevice.h">
+      <Filter>Source\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\AxAudioDeviceSound.h">
+      <Filter>Source\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\AxAudioDeviceSoundEmitter.h">
+      <Filter>Source\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\AxAudioDeviceSoundReceptor.h">
+      <Filter>Source\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpClient.h">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpConnection.h">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpListener.h">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpServer.h">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageComponent.h">
+      <Filter>Source\Tools\Networking\WebServer\WebPageComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageFileListing.h">
+      <Filter>Source\Tools\Networking\WebServer\WebPageComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageHostName.h">
+      <Filter>Source\Tools\Networking\WebServer\WebPageComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebServer\AxWebRequest.h">
+      <Filter>Source\Tools\Networking\WebServer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebServer\AxWebResponse.h">
+      <Filter>Source\Tools\Networking\WebServer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebServer\AxWebServer.h">
+      <Filter>Source\Tools\Networking\WebServer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Platform\AxDrawSurface.h">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Platform\AxPlatformUtils.h">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Platform\AxWindowsForm.h">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Streams\AxFileStream.h">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Streams\AxMemoryStream.h">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Streams\AxStream.h">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Streams\AxSubStream.h">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Threading\AxMutex.h">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Threading\AxThread.h">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Threading\AxThreadsPool.h">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Threading\AxThreadsPoolThread.h">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxBinaryTree.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxDictionary.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxIntegralQuotientDistribution.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxLinkedList.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxList.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxMath.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxMem.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxRandomPool.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxSortedLinkedList.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxStack.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxString.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\AxStrings.h">
+      <Filter>Source\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AxisEngine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AxGlobals.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxBlurTextureMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxGaussianBlurImage.h">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Platform\AxWindowsRegistry.h">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Settings\AxSettings.h">
+      <Filter>Source\Engine\Entities\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneWriter.h">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneReader.h">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneId.h">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\AxInput.h">
+      <Filter>Source\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\AxInputDevice.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxCheckerTextureMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\Models\AxWalkInputModel.h">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\Models\AxFlightInputModel.h">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\AxInputModel.h">
+      <Filter>Source\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\Models\AxOrbitInputModel.h">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Input\Models\AxRotationInputModel.h">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.h">
+      <Filter>Source\Input\WindowsForms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.h">
+      <Filter>Source\Input\WindowsForms</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Graphics\Soras\Engine\Soras.cpp">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\SrMesh.cpp">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\SrRenderThread.cpp">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\SrTexture.cpp">
+      <Filter>Source\Graphics\Soras\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrCullModes.cpp">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrMatrix.cpp">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrShaderOperations.cpp">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrTextureSamplers.cpp">
+      <Filter>Source\Graphics\Soras\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dllMain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Base\AxEntity.cpp">
+      <Filter>Source\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Base\AxEntityDispatcher.cpp">
+      <Filter>Source\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Base\AxModuleDispatcher.cpp">
+      <Filter>Source\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Base\AxResource.cpp">
+      <Filter>Source\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Camera\AxCamera.cpp">
+      <Filter>Source\Engine\Entities\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\EntitySet\AxEntitySet.cpp">
+      <Filter>Source\Engine\Entities\EntitySet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Light\AxLight.cpp">
+      <Filter>Source\Engine\Entities\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Material\AxMaterial.cpp">
+      <Filter>Source\Engine\Entities\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Material\AxMaterialShadingLayer.cpp">
+      <Filter>Source\Engine\Entities\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxBoxGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxConeGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxGeosphereGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxHeightmapGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxPlaneGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxSphereGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxTorusGeometryMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrame.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationAxis.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationEuler.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameScaling.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFramesTrack.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameTranslation.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\KeyFrameAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxHueMapTextureMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxNormalMapTextureMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxPlasmaFractalTextureMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxFloatValueMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxKeyFrameAnimationMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxLinearInterpolationMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxLinearMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxOrientationMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxPivotalMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxPolynomialMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxPropertyChangeNotifiedMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxSineMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxTimeRateMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mesh\AxMesh.cpp">
+      <Filter>Source\Engine\Entities\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Script\AxScript.cpp">
+      <Filter>Source\Engine\Entities\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Sound\AxSound.cpp">
+      <Filter>Source\Engine\Entities\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\SoundEmitter\AxSoundEmitter.cpp">
+      <Filter>Source\Engine\Entities\SoundEmitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\SoundReceptor\AxSoundReceptor.cpp">
+      <Filter>Source\Engine\Entities\SoundReceptor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Textures\AxTexture2D.cpp">
+      <Filter>Source\Engine\Entities\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Transform\AxTransform.cpp">
+      <Filter>Source\Engine\Entities\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Transform\AxTransformLayer.cpp">
+      <Filter>Source\Engine\Entities\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxBoundingVolume.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxIntersectionInfo.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxMatrix.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxModule.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxPCMFormat.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxPixelFormat.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxVector2.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxVector3.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxVector4.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Primitive\AxVertex.cpp">
+      <Filter>Source\Engine\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Properties\AxParameter.cpp">
+      <Filter>Source\Engine\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Properties\AxProperty.cpp">
+      <Filter>Source\Engine\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxBoxGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxConvexHullGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxCopyGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxGeosphereGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxHeightMapGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxIcosahedronGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxMergeGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxPlaneGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxPrismGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxSphereGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxTorusGeometry.cpp">
+      <Filter>Source\Engine\Utilities\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxCheckerPatternImage.cpp">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxGenerateNormalMapImage.cpp">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxHueMapImage.cpp">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxPlasmaFractalImage.cpp">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Normals\AxNormalsGenerator.cpp">
+      <Filter>Source\Engine\Utilities\Normals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamReader.cpp">
+      <Filter>Source\Engine\Utilities\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamWriter.cpp">
+      <Filter>Source\Engine\Utilities\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Serialization\AxSerializationUtils.cpp">
+      <Filter>Source\Engine\Utilities\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\SmoothingGroups\AxSmoothingGroups.cpp">
+      <Filter>Source\Engine\Utilities\SmoothingGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\SubMesh\AxSubMesh.cpp">
+      <Filter>Source\Engine\Utilities\SubMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Tangents\AxTangentsGenerator.cpp">
+      <Filter>Source\Engine\Utilities\Tangents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxPlanarTexCoords.cpp">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxSphericalTexCoords.cpp">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTransformTexCoords.cpp">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\AxLogging.cpp">
+      <Filter>Source\Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\AxMaths.cpp">
+      <Filter>Source\Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\AxTimer.cpp">
+      <Filter>Source\Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Axis.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\AxRayIntersectionEvents.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\AxRenderEvents.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\AxScreenPickEvents.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\AxStandardEntityDispatcher.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\AxTraceEvents.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\AxTraceParameters.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystem.cpp">
+      <Filter>Source\FileSystem\PhysicalFileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystemDispatcher.cpp">
+      <Filter>Source\FileSystem\PhysicalFileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileSystem\AxFileSystem.cpp">
+      <Filter>Source\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentMesh.cpp">
+      <Filter>Source\Graphics\DeviceIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentShader.cpp">
+      <Filter>Source\Graphics\DeviceIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\AxSorasGraphicsDevice.cpp">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\AxSorasGraphicsDeviceDispatcher.cpp">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\AxSorasMesh.cpp">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\AxSorasShader.cpp">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Soras\AxSorasTexture2D.cpp">
+      <Filter>Source\Graphics\Soras</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\AxDeviceMesh.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\AxDeviceShader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\AxDeviceTexture2D.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\AxGraphicsDevice.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Image\Native\AxNativeImage.cpp">
+      <Filter>Source\Media\Image\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Image\Native\AxNativeImageDispatcher.cpp">
+      <Filter>Source\Media\Image\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Image\AxImage.cpp">
+      <Filter>Source\Media\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3ds.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsBaseObject.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsCamera.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsHierarchy.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsKeyFrames.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsLight.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMaterial.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMesh.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsPrimitiveTypes.cpp">
+      <Filter>Source\Media\Scene\3ds\File3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\Ax3dsScene.cpp">
+      <Filter>Source\Media\Scene\3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\3ds\Ax3dsSceneDispatcher.cpp">
+      <Filter>Source\Media\Scene\3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeScene.cpp">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeSceneDispatcher.cpp">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObj.cpp">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjMaterial.cpp">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjMesh.cpp">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjPrimitiveTypes.cpp">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjTextureMap.cpp">
+      <Filter>Source\Media\Scene\Obj\FileObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\AxObjScene.cpp">
+      <Filter>Source\Media\Scene\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Obj\AxObjSceneDispatcher.cpp">
+      <Filter>Source\Media\Scene\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\AxScene.cpp">
+      <Filter>Source\Media\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Sound\Wav\WavFile\AxWavFile.cpp">
+      <Filter>Source\Media\Sound\Wav\WavFile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Sound\Wav\AxWavSoundMedia.cpp">
+      <Filter>Source\Media\Sound\Wav</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Sound\Wav\AxWavSoundMediaDispatcher.cpp">
+      <Filter>Source\Media\Sound\Wav</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Sound\AxSoundMedia.cpp">
+      <Filter>Source\Media\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\AxMedia.cpp">
+      <Filter>Source\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpression.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionAssignment.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionCallout.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionConstantValue.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionDo.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionEvaluation.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionFor.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionFunctionDeclaration.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionIf.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionTernaryIf.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionUnion.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariable.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariableDeclaration.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionWhile.cpp">
+      <Filter>Source\Script\Parsing\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxCodeBuilder.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxScriptDataType.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxScriptDataTypes.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxScriptIdentifier.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxScriptIdentifiers.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxScriptToken.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Parsing\AxScriptTokens.cpp">
+      <Filter>Source\Script\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Script\Processing\AxCodeProcessor.cpp">
+      <Filter>Source\Script\Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\AxAudioDevice.cpp">
+      <Filter>Source\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\AxAudioDeviceSound.cpp">
+      <Filter>Source\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\AxAudioDeviceSoundEmitter.cpp">
+      <Filter>Source\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\AxAudioDeviceSoundReceptor.cpp">
+      <Filter>Source\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpClient.cpp">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpConnection.cpp">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpListener.cpp">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpServer.cpp">
+      <Filter>Source\Tools\Networking\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageComponent.cpp">
+      <Filter>Source\Tools\Networking\WebServer\WebPageComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageFileListing.cpp">
+      <Filter>Source\Tools\Networking\WebServer\WebPageComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageHostName.cpp">
+      <Filter>Source\Tools\Networking\WebServer\WebPageComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebServer\AxWebRequest.cpp">
+      <Filter>Source\Tools\Networking\WebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebServer\AxWebResponse.cpp">
+      <Filter>Source\Tools\Networking\WebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebServer\AxWebServer.cpp">
+      <Filter>Source\Tools\Networking\WebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Platform\AxDrawSurface.cpp">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Platform\AxPlatformUtils.cpp">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Platform\AxWindowsForm.cpp">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Streams\AxFileStream.cpp">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Streams\AxMemoryStream.cpp">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Streams\AxStream.cpp">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Streams\AxSubStream.cpp">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Threading\AxMutex.cpp">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Threading\AxThread.cpp">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Threading\AxThreadsPool.cpp">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Threading\AxThreadsPoolThread.cpp">
+      <Filter>Source\Tools\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\AxIntegralQuotientDistribution.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\AxMath.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\AxMem.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\AxRandomPool.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\AxString.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\AxStrings.cpp">
+      <Filter>Source\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxBlurTextureMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxGaussianBlurImage.cpp">
+      <Filter>Source\Engine\Utilities\Imaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Platform\AxWindowsRegistry.cpp">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Settings\AxSettings.cpp">
+      <Filter>Source\Engine\Entities\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeSceneWriter.cpp">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeSceneReader.cpp">
+      <Filter>Source\Media\Scene\Native</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\AxInput.cpp">
+      <Filter>Source\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\AxInputDevice.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxCheckerTextureMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\Models\AxWalkInputModel.cpp">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\Models\AxFlightInputModel.cpp">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\AxInputModel.cpp">
+      <Filter>Source\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\Models\AxOrbitInputModel.cpp">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\Models\AxRotationInputModel.cpp">
+      <Filter>Source\Engine\Input\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.cpp">
+      <Filter>Source\Input\WindowsForms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.cpp">
+      <Filter>Source\Input\WindowsForms</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Source\dllmain.cpp" />
+    <ClCompile Include="Source\Utils\Reg.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\DIBBitmap.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Providers\Image\AxImageClassFactory.cpp">
+      <Filter>Source\Providers\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Providers\Image\AxImageThumbnailProvider.cpp">
+      <Filter>Source\Providers\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Providers\Scene\AxSceneClassFactory.cpp">
+      <Filter>Source\Providers\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Providers\Scene\AxSceneThumbnailProvider.cpp">
+      <Filter>Source\Providers\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\AxPixelFormat.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Utils\Reg.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\DIBBitmap.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Providers\Image\AxImageClassFactory.h">
+      <Filter>Source\Providers\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Providers\Image\AxImageThumbnailProvider.h">
+      <Filter>Source\Providers\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Providers\Scene\AxSceneClassFactory.h">
+      <Filter>Source\Providers\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\AxChunkId.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\AxPixelFormat.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\dllExports.def" />
+    <None Include="Source\Providers\Scene\AxSceneThumbnailProvider.h">
+      <Filter>Source\Providers\Scene</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{9b952c08-3b0b-4b17-9ebd-fd7d6df443f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Providers">
+      <UniqueIdentifier>{bb49b00c-9618-454f-8eb9-ec7e9dca73c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Providers\Image">
+      <UniqueIdentifier>{5ca598ff-2a9b-48b3-9641-07d0781d22e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Providers\Scene">
+      <UniqueIdentifier>{7a290ad9-0b28-486d-8617-cd94c5b3ca9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utils">
+      <UniqueIdentifier>{2e34409f-aeaf-46b2-a20a-bb119b767ef6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

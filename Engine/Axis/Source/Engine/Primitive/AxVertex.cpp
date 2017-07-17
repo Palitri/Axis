@@ -1,0 +1,19 @@
+//---------------------------------------------------------------------------------------------
+//	Axis 3D Engine Copyright (C) 2017 Palitri
+//
+//	This software is released under the MIT License http://palitri.com/axis/license/
+//
+//	For help and documentation, visit http://palitri.com
+//---------------------------------------------------------------------------------------------
+
+#include "AxVertex.h"
+
+
+AxVertex::AxVertex(void)
+{
+}
+
+
+AxVertex::~AxVertex(void)
+{
+}

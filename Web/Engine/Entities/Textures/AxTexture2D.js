@@ -31,6 +31,7 @@ AxTexture2D.propertyIndex_Width     = AxResource.propertyIndex_ChildPropertiesIn
 AxTexture2D.propertyIndex_Height    = AxResource.propertyIndex_ChildPropertiesIndex + 1;
 
 AxTexture2D.SerializationId_FileName	= 0x21111006;
+AxTexture2D.SerializationId_TextureData	= 0x21112006;
 
 
 /**
@@ -49,12 +50,32 @@ AxTexture2D.prototype.Dispose = function()
 };
 
 /**
+ * Loads a texture from either raw data, image, stream or file name
+ * This methods combines methods Load_1(), Load_2(), Load_3() and Load_4
+ * @param {*|AxImage|AxStream|AxString} arg1 In case of loading from raw data it is the raw data source. In case of loading from an image it is the image. In case of loading from a stream, it is the stream. In case of loading from a file, it is the file name.
+ * @param {!Integer|*} arg2 In case of loading from raw data it is the raw data width. In case of loading from an image, this parameter is not used.. In case of loading from a stream, it is a callback context. In case of loading from a file, it is a callback context.
+ * @param {!Integer|AxTexture2DLoadedCallback} arg3 In case of loading from raw data it is the raw data height. In case of loading from an image, this parameter is not used. In case of loading from a stream, it is a callback function. In case of loading from a file, it is a callback function.
+ * @returns {undefined}
+ */
+AxTexture2D.prototype.Load = function(arg1, arg2, arg3)
+{
+    if (arg1 instanceof AxImage)
+        this.Load_2(arg1);
+    else if (arg1 instanceof AxStream)
+        this.Load_3(arg1, arg2, arg3);
+    else if (arg1 instanceof AxString)
+        this.Load_4(arg1, arg2, arg3);
+    else
+        this.Load_1(arg1, arg2, arg3);
+};
+
+/**
  * Loads a texture from raw-encoded data in the graphics device pixel format
  * @param {*} data A buffer which contains the data for the texture
  * @param {Integer} width Width of the texture
  * @param {Integer} height Height of the texture
  */
-AxTexture2D.prototype.Load = function(data, width, height)
+AxTexture2D.prototype.Load_1 = function(data, width, height)
 {
     this.width = width;
     this.height = height;
@@ -71,7 +92,7 @@ AxTexture2D.prototype.Load = function(data, width, height)
  */
 AxTexture2D.prototype.Load_2 = function(sourceImage)
 {
-    this.Load(sourceImage.pixelData, sourceImage.width, sourceImage.height);
+    this.Load_1(sourceImage.pixelData, sourceImage.width, sourceImage.height);
 };
 
 /**
@@ -99,8 +120,6 @@ AxTexture2D.prototype.Load_3 = function(source, callbackContext, callback)
             }
 
         });
-
-    return true;
 };
 
 /**
@@ -127,6 +146,22 @@ AxTexture2D.prototype.Load_4 = function(fileName, callbackContext, callback)
                     });
             }
         });
+};
+
+/**
+ * Converts the texture data to an image
+ * @returns {AxImage} The image
+ */
+AxTexture2D.prototype.ToImage = function()
+{
+    var pixelFormat = this.context.graphicsDevice.GetPixelFormat();
+
+    var result = new AxImage();
+    result.SetPixelFormat(pixelFormat);
+    result.SetSize(this.width, this.height, 1);
+    this.deviceTexture.GetData(result.pixelData);
+
+    return result;
 };
 
 /**
@@ -167,9 +202,47 @@ AxTexture2D.prototype.SerializeChunks = function(writer)
 {
     AxResource.prototype.SerializeChunks.call(this, writer);
 
-    writer.BeginChunk(AxTexture2D.SerializationId_FileName);
-    writer.stream.WriteString(AxFileSystem.GetRelativeFilePath(this.context.serializationParameters.rootDir, this.fileName));
-    writer.EndChunk();
+    if (AxString.IsNullOrEmpty(this.fileName))
+    {
+        if (this.context.settings.properties.Get(AxSettings.propertyIndex_EmbedGeneratedTextures).GetBool())
+        {
+            var image = this.ToImage();
+            var nativeImage = new AxNativeImage(image);
+
+            writer.BeginChunk(AxTexture2D.SerializationId_TextureData);
+            nativeImage.Save(writer.stream);
+            writer.EndChunk();
+        }
+    }
+    else
+    {
+        if (this.context.settings.properties.Get(AxSettings.propertyIndex_EmbedImportedTextures).GetBool())
+        {
+            var file = this.context.fileSystem.OpenFile(this.fileName);
+
+            if (this.context.settings.properties.Get(AxSettings.propertyIndex_EmbeddedTexturesOriginalEncoding).GetBool())
+            {
+                writer.BeginChunk(AxTexture2D.SerializationId_TextureData);
+                writer.stream.WriteStreamData(file);
+                writer.EndChunk();
+            }
+            else
+            {
+                var image = this.context.LoadImageX(file);
+                var nativeImage = new AxNativeImage(image);
+
+                writer.BeginChunk(AxTexture2D.SerializationId_TextureData);
+                nativeImage.Save(writer.stream);
+                writer.EndChunk();
+            }
+        }
+        else
+        {
+            writer.BeginChunk(AxTexture2D.SerializationId_FileName);
+            writer.stream.WriteString(AxFileSystem.GetRelativeFilePath(this.context.serializationParameters.rootDir, this.fileName));
+            writer.EndChunk();
+        }
+    }
 };
 
 /**
@@ -188,6 +261,18 @@ AxTexture2D.prototype.DeserializeChunk = function(reader)
         {
             var fileName = reader.stream.ReadString();
             this.Load_4(AxFileSystem.MergePaths(this.context.serializationParameters.rootDir, fileName));
+            break;
+        }
+
+        case AxTexture2D.SerializationId_TextureData:
+        {
+            var imageStream = new AxSubStream(reader.stream, reader.chunkSize);
+            this.Load_3(imageStream, imageStream, 
+                function(caller, context, succeeded)
+                {
+                });
+
+            reader.stream.Seek(reader.chunkSize, StreamSeekMode.Relative);
             break;
         }
 

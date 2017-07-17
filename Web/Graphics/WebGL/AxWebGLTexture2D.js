@@ -60,7 +60,7 @@ AxWebGLTexture2D.prototype.Dispose = function()
 
 /**
  * Updates the texture with the given data
- * @param {Integer} data The pixel data to update the texture with
+ * @param {Uint8Array} data The pixel data to update the texture with
  * @param {Integer} width The width in pixels of the texture data
  * @param {Integer} height The height in pixels of the texture data
  * @param {Boolean} renderTarget Denotes whether the texture is to be used as a render target
@@ -107,6 +107,21 @@ AxWebGLTexture2D.prototype.Update = function(data, width, height, renderTarget)
 
 /**
  * Gets the pixel data of a texture
- * @param {} data 
+ * @param {Uint8Array} data The data buffer into which to store the texture's pixel data
  */
-AxWebGLTexture2D.prototype.GetData = function(data) { };
+AxWebGLTexture2D.prototype.GetData = function(data)
+{
+    if (this.frameBuffer === null)
+    {
+        this.frameBuffer = this.context.gl.createFramebuffer();
+        this.context.gl.bindFramebuffer(this.context.gl.FRAMEBUFFER, this.frameBuffer);
+        this.context.gl.framebufferTexture2D(this.context.gl.FRAMEBUFFER, this.context.gl.COLOR_ATTACHMENT0, this.context.gl.TEXTURE_2D, this.texture, 0);
+    }
+    else
+        this.context.gl.bindFramebuffer(this.context.gl.FRAMEBUFFER, this.frameBuffer);
+
+    if (this.context.gl.checkFramebufferStatus(this.context.gl.FRAMEBUFFER) === this.context.gl.FRAMEBUFFER_COMPLETE) 
+    {
+        this.context.gl.readPixels(0, 0, this.width, this.height, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+    }
+};

@@ -1,5 +1,5 @@
 /**
- * Creates a new dispatcher for AxWebImage
+ * Creates a new dispatcher for AxWebGLGraphicsDevice
  * @constructor
  */
 function AxWebGLGraphicsDeviceDispatcher()

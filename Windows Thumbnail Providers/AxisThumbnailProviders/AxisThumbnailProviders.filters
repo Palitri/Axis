@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{225e84b8-e91e-4f5f-baaf-ea14b6858cf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Handlers">
+      <UniqueIdentifier>{1a3f73f8-e646-495f-ab67-8ae42316ff2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Handlers\Image">
+      <UniqueIdentifier>{3b0b72c8-d810-46aa-9804-9e79f7c5d5a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Handlers\Scene">
+      <UniqueIdentifier>{423272e1-1e0e-45c0-8115-0dee8a39e3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utils">
+      <UniqueIdentifier>{062e4f34-4332-4bcb-83c8-d59dae73de82}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Handlers\Scene\MwSceneThumbnailProvider.h">
+      <Filter>Source\Handlers\Scene</Filter>
+    </None>
+    <None Include="Source\dllExports.def">
+      <Filter>Source</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Handlers\Image\MwImageClassFactory.h">
+      <Filter>Source\Handlers\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Handlers\Image\MwImageThumbnailProvider.h">
+      <Filter>Source\Handlers\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Handlers\Scene\MwSceneClassFactory.h">
+      <Filter>Source\Handlers\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\Reg.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\MwPixelFormat.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\DIBBitmap.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\MwChunkId.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Handlers\Image\MwImageThumbnailProvider.cpp">
+      <Filter>Source\Handlers\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Handlers\Image\MwImageClassFactory.cpp">
+      <Filter>Source\Handlers\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Handlers\Scene\MwSceneThumbnailProvider.cpp">
+      <Filter>Source\Handlers\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Handlers\Scene\MwSceneClassFactory.cpp">
+      <Filter>Source\Handlers\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\Reg.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dllmain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\MwPixelFormat.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\DIBBitmap.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

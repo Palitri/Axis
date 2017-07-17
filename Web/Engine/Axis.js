@@ -16,11 +16,16 @@ function Axis(windowHandle)
     this.cameraFOVMode = AxCamera.FOVMode_Vertical;
     this.viewportWidth = windowHandle.width;
     this.viewportHeight = windowHandle.height;
+
+    this.input = new AxInput();
+    this.inputModels = new AxList();
     
     this.settings = new AxSettings();
     
     this.clearOnRenderTarget = false;
     
+    this.currentCamera = new AxTraceParameters();
+
     this.serializationParameters = new AxSerializationParameters();
 
     this.renderEvents = new AxRenderEvents(this);
@@ -45,13 +50,16 @@ function Axis(windowHandle)
     this.graphicsDeviceDispatchers = new AxList();
     this.audioDeviceDispatchers = new AxList();
     this.fileSystemDispatchers = new AxList();
+    this.inputDeviceDispatchers = new AxList();
     
-    this.imageMediaDispatchers.Add(new AxWebImageDispatcher());
     this.imageMediaDispatchers.Add(new AxNativeImageDispatcher());
+    this.imageMediaDispatchers.Add(new AxWebImageDispatcher());
     
     this.sceneMediaDispatchers.Add(new AxNativeSceneDispatcher());
     
     this.graphicsDeviceDispatchers.Add(new AxWebGLGraphicsDeviceDispatcher());
+    
+    this.inputDeviceDispatchers.Add(new AxHtmlCanvasInputDispatcher());
     
     this.fileSystemDispatchers.Add(new AxWebFileSystemDispatcher());
     
@@ -66,6 +74,14 @@ function Axis(windowHandle)
     {
         this.graphicsDevice = this.graphicsDeviceDispatchers.Get(0).CreateObject();
         this.graphicsDevice.SetRenderTargetWindow(this.windowHandle);
+    }
+    
+    this.inputDevices = new AxList();
+    for (var i = 0; i < this.inputDeviceDispatchers.count; i++)
+    {
+        var device = this.inputDeviceDispatchers.Get(i).CreateObject();
+        device.SetContext(this);
+        this.inputDevices.Add(device);
     }
     
     this.fileSystem = null;
@@ -101,7 +117,7 @@ Axis.SerializationId_ResourceSerialization = 0x21100000;
  * @param {AxStream} stream The stream, which contains the scene serialized data
  * @returns {Boolean} True if the scene was imported successfully
  */
-Axis.prototype.ImportScene = function(stream)
+Axis.prototype.ImportScene_1 = function(stream)
 {
     var streamPos = stream.position;
 
@@ -126,11 +142,13 @@ Axis.prototype.ImportScene = function(stream)
 /**
  * Imports a scene from a file
  * The scene can be in any of the registered scene media formats
- * @param {AxString} fileName Name of the file, which contains the scene serialized data
+ * @param {String|AxString} fileName Name of the file, which contains the scene serialized data
  * @param {*} callback Callback method, called when importing the scene has finished
  */
 Axis.prototype.ImportScene_2 = function(fileName, callback)
 {
+    fileName = AxString.GetAxString(fileName);
+    
     var fullFileName = this.GetFullFileName(this.fileSystem.FromNativePathSyntax(fileName));
 
     this.serializationParameters.fullSourceName = fullFileName;
@@ -143,12 +161,27 @@ Axis.prototype.ImportScene_2 = function(fileName, callback)
             if (stream === null)
                 return false;
 
-            var success = context.ImportScene(stream);
+            var success = context.ImportScene_1(stream);
             
             if (!AxUtils.IsUndefinedOrNull(callback))
                 callback(context, fileName, success);
         }
     );
+};
+
+/**
+ * Imports a scene from a file or a stream
+ * The scene can be in any of the registered scene media formats
+ * This method combines methods ImportScene_1() and ImportScene_2()
+ * @param {String|AxString|AxStream} source In case of importing from a file, it is the file name. In case of importing from a stream, it is the stream
+ * @param {*} callback In case of importing from a file, it is a callback method, called when importing the scene has finished. In case of importing from a stream, this argument is not used.
+ */
+Axis.prototype.ImportScene = function(source, callback)
+{
+    if (AxUtils.IsInstanceOf(source, AxStream))
+        this.ImportScene_1(source);
+    else
+        this.ImportScene_2(source, callback);
 };
 
 /**
@@ -184,6 +217,8 @@ Axis.prototype.ProcessEntity = function(entity, parameters)
 
             if (!AxUtils.IsUndefinedOrNull(parameters.transformRef))
                 parameters.cameraRef.BuildMatrix(parameters.transformRef.worldMatrix);
+            
+            this.currentCamera = new AxTraceParameters(parameters);
 
             this.traceEvents.OnCamera(parameters);
             break;
@@ -342,6 +377,8 @@ Axis.prototype.RenderScene = function(presentOnScreen)
         presentOnScreen = true;
     
     this.timer.Tick();
+    
+    this.ProcessInput();
 
     if (this.settings.properties.Get(AxSettings.propertyIndex_ClearScreen).GetBool())
         this.graphicsDevice.ClearScreen(this.settings.properties.Get(AxSettings.propertyIndex_ClearScreenColor).GetEffectiveValue());
@@ -526,33 +563,12 @@ Axis.prototype.AddResource = function(resource)
 };
 
 /**
- * Searches for a resource with a given name and of specific type and returns the result
- * If no such resource is found, returns null
- * @param {AxString} resourceName Name of the resource to search for
- * @param {AxResourceType} resourceType Type of the resource to search for
- * @returns {AxResource} The resource with the given name and of the given type. If none such was found, returns null
- */
-Axis.prototype.FindResourceX_2 = function(resourceName, resourceType)
-{
-    var count = this.resources.count;
-    for (var i = 0; i < count; i++)
-    {
-    	var resource = this.resources.Get(i);
-        if (resource.resourceType === resourceType)
-            if (resource.name.Equals(resourceName))
-                return resource;
-    }
-
-    return null;
-};
-
-/**
  * Searches for a resource with a given id
  * If no such resource is found, returns null
  * @param {Integer} id Id of the resource to search for
  * @return {AxResource} The resource with the given id. If none such was found, returns null
  */
-Axis.prototype.FindResourceX = function(id)
+Axis.prototype.FindResource_1 = function(id)
 {
     var left = 0;
     var right = this.resources.count - 1;
@@ -575,6 +591,47 @@ Axis.prototype.FindResourceX = function(id)
 };
 
 /**
+ * Searches for a resource with a given name and of specific type and returns the result
+ * If no such resource is found, returns null
+ * @param {String|AxString} resourceName Name of the resource to search for
+ * @param {AxResourceType} resourceType Type of the resource to search for
+ * @returns {AxResource} The resource with the given name and of the given type. If none such was found, returns null
+ */
+Axis.prototype.FindResource_2 = function(resourceName, resourceType)
+{
+    resourceName = AxString.GetAxString(resourceName);
+    
+    var count = this.resources.count;
+    for (var i = 0; i < count; i++)
+    {
+    	var resource = this.resources.Get(i);
+        if (resource.resourceType === resourceType)
+            if (resource.name.Equals(resourceName))
+                return resource;
+    }
+
+    return null;
+};
+
+/**
+ * Searches for a resource with a given name and of specific type and returns the result
+ * If no such resource is found, returns null
+ * Can search either by resource id or by resource name
+ * This method combines methods FindResource_1 and FindResource_2
+ * @param {String|AxString|Integer} resourceIdentifier In case of searching by id, it is the id of the searched resource. In case of searching by name, it is the name of the resources.
+ * @param {AxResourceType} resourceType In case of searching by name, it is the type of the resource to search for.
+ * @returns {AxResource} The resource with the given name and of the given type. If none such was found, returns null
+ */
+Axis.prototype.FindResource = function(resourceIdentifier, resourceType)
+{
+    if (AxUtils.IsInteger(resourceIdentifier))
+        return this.FindResource_1(resourceIdentifier);
+    else
+        return this.FindResource_2(resourceIdentifier, resourceType);
+};
+
+
+/**
  * Creates a unique name for the given type of resource
  * If the given resourceName is already unique, then it gets returned unaltered
  * @param {AxString} resourceName Original name to use for generating the unique name
@@ -586,7 +643,7 @@ Axis.prototype.AcquireResourceName = function(resourceName, resourceType)
     var nameIndex = 0;
     var result = new AxString(resourceName);
 
-    while (this.FindResourceX(result, resourceType) !== null)
+    while (this.FindResource_2(result, resourceType) !== null)
     {
         nameIndex++;
         result = resourceName.Insert(new AxString(nameIndex));
@@ -837,6 +894,19 @@ Axis.prototype.DeserializeResource = function(source)
 };
 
 /**
+ * Performs the input models routines and the input devices routines
+ */
+Axis.prototype.ProcessInput = function()
+{
+    for (var i = 0; i < this.inputModels.count; i++)
+        this.inputModels.Get(i).Process();
+
+    for (var i = 0; i < this.inputDevices.count; i++)
+        this.inputDevices.Get(i).Update();
+};
+
+
+/**
  * Swaps the list of light which was collected during the last traversing of the world, with the list of lights which is used for lighting by the shaders
  */
 Axis.prototype.SwapLightsLists = function()
@@ -920,4 +990,13 @@ Axis.prototype.Attach = function(sourceParentSet, sourceIndex, destinationParent
 Axis.prototype.Detach = function(sourceParentSet, sourceIndex)
 {
     this.Attach(sourceParentSet, sourceIndex, null, -1, null);
+};
+
+/**
+ * Returns the id of the canvas used for rendering
+ * @returns {*} The id of the canvas used for rendering
+ */
+Axis.prototype.GetRenderingWindow = function()
+{
+    return this.windowHandle;
 };

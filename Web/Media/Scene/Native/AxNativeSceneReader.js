@@ -59,7 +59,7 @@ AxNativeFileReader.prototype.Read = function(source)
             case AxNativeSceneId.RootBranch:
             {
                 var rootId = reader.stream.ReadInt64();
-                var rootResource = this.context.FindResourceX(this.GetMappedResourceId(rootId));
+                var rootResource = this.context.FindResource_1(this.GetMappedResourceId(rootId));
 
                 if (rootResource !== null)
                 {
@@ -130,7 +130,7 @@ AxNativeFileReader.prototype.LinkResources = function()
                 var reference = parameter.value;
                 if (reference.resourceType === AxResourceType.None)
                 {
-                    var ref = this.context.FindResourceX(this.GetMappedResourceId(reference.id));
+                    var ref = this.context.FindResource_1(this.GetMappedResourceId(reference.id));
                     parameter.value = ref;
                 }
             }
@@ -144,7 +144,7 @@ AxNativeFileReader.prototype.LinkResources = function()
                 var reference = resource.references.Get(i);
                 if (reference.resourceType === AxResourceType.None)
                 {
-                    var ref = this.context.FindResourceX(this.GetMappedResourceId(reference.id));
+                    var ref = this.context.FindResource_1(this.GetMappedResourceId(reference.id));
                     resource.references.Set(i, ref);
                 }
             }

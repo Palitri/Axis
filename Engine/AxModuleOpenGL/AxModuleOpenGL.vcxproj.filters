@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{b61a968f-eefc-4f65-9304-6e109ae88720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{1aa6c713-18fb-4a39-b435-cf7624ff45bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\OpenGL">
+      <UniqueIdentifier>{c7e93844-8487-41f7-8048-92da3abb4c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\OpenGL\DynamicShading">
+      <UniqueIdentifier>{b7518491-6693-4fa9-8f4f-89c8c0286d2f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Graphics\OpenGL\DynamicShading\AxDynamicShaderBlockDefinitions.h">
+      <Filter>Source\Graphics\OpenGL\DynamicShading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\DynamicShading\AxDynamicShaderWriter.h">
+      <Filter>Source\Graphics\OpenGL\DynamicShading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\AxOpenGLDispatcher.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\AxOpenGLGraphicsDevice.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\AxOpenGLMesh.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\AxOpenGLShader.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\AxOpenGLTexture2D.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AxisEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\dllMain.cpp" />
+    <ClCompile Include="Source\Graphics\OpenGL\DynamicShading\AxDynamicShaderBlockDefinitions.cpp">
+      <Filter>Source\Graphics\OpenGL\DynamicShading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\DynamicShading\AxDynamicShaderWriter.cpp">
+      <Filter>Source\Graphics\OpenGL\DynamicShading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\AxOpenGLDispatcher.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\AxOpenGLGraphicsDevice.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\AxOpenGLMesh.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\AxOpenGLShader.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\AxOpenGLTexture2D.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

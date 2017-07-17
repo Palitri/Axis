@@ -9,11 +9,20 @@
  * Provides useful functionality for continuous rendering, mouse and keyboard input
  * @param {*} canvasId The id of the HTML canvas element
  * @param {AxAnimationElementRender} onRenderEvent The method which to perform rendering of a frame
- * @param {Boolean} startRendering Denotes whether to start rendering immediately
+ * @param {!Boolean} startRendering Denotes whether to start rendering immediately. If omitted, assumes a default value of false
+ * @param {!Boolean} enableContextMenu Denotes whether to enable the default context menu on the canvas element. If omitted, assumes a default value of false
  */
-function AxAnimationElement(canvasId, onRenderEvent, startRendering)
+function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableContextMenu)
 {
+    if (AxUtils.IsUndefinedOrNull(startRendering))
+        startRendering = false;
+    
+    if (AxUtils.IsUndefinedOrNull(enableContextMenu))
+        enableContextMenu = false;
+
+    
     this.renderingEnabled = false;
+    this.contextMenuEnabled = enableContextMenu;
     
     this.OnRender = null;
     
@@ -28,24 +37,11 @@ function AxAnimationElement(canvasId, onRenderEvent, startRendering)
     this.mouseButtons = 0;
     this.mouse = { x: 0, y: 0, lastX: 0, lastY: 0, deltaX: 0, deltaY: 0, left: false, right: false, middle: false, back: false, forward: false }; 
     
-    this.onMouseMove = function(x, y) { };
-    this.onMouseDown = function(x, y, button) { };
-    this.onMouseUp = function(x, y, button) { };
-    this.onKeyDown = function(key) { };
-    this.onKeyUp = function(key) { };
-    
-    this.nodeType_Element = 1;
-    this.nodeType_Attr = 2;
-    this.nodeType_Text = 3;
-    this.nodeType_CDATASection = 4;
-    this.nodeType_EntityReference = 5;
-    this.nodeType_Entity = 6;
-    this.nodeType_ProcessingInstruction = 7;
-    this.nodeType_Comment = 8;
-    this.nodeType_Document = 9;
-    this.nodeType_DocumentType = 10;
-    this.nodeType_DocumentFragment = 11;
-    this.nodeType_Notation = 12;
+    this.OnMouseMove = function(x, y) { };
+    this.OnMouseDown = function(x, y, button) { };
+    this.OnMouseUp = function(x, y, button) { };
+    this.OnKeyDown = function(key) { };
+    this.OnKeyUp = function(key) { };
     
     if (!AxUtils.IsUndefinedOrNull(canvasId))
         this.Initialize(canvasId);
@@ -53,11 +49,11 @@ function AxAnimationElement(canvasId, onRenderEvent, startRendering)
     if (!AxUtils.IsUndefinedOrNull(onRenderEvent))
         this.OnRender = onRenderEvent;
     
-    if (!AxUtils.IsUndefinedOrNull(startRendering))
-        if (startRendering)
-            this.StartRendering();
+    if (startRendering)
+        this.StartRendering();
 }
 
+AxAnimationElement.MouseButtonNone      = 0;
 AxAnimationElement.MouseButtonLeft      = 1;
 AxAnimationElement.MouseButtonRight     = 2;
 AxAnimationElement.MouseButtonMiddle    = 4;
@@ -75,23 +71,22 @@ AxAnimationElement.prototype.Initialize = function(canvasId)
     if (AxUtils.IsUndefinedOrNull(this.canvas) || (this.canvas.tagName.toLowerCase() !== 'canvas'))
         throw 'AxWebRendering.Initialize error: Element ' + canvasId + ' is not a valid canvas';
     
+        // Canvas context passed for mouse events
         this.canvas.axWebRendering = this;
         this.canvas.width = this.canvas.offsetWidth;
         this.canvas.height = this.canvas.offsetHeight;
-        this.canvas.addEventListener('mousemove', CanvasMouseMoveEvent, false);
-        this.canvas.addEventListener('mousedown', CanvasMouseButtonEvent, false);
-        this.canvas.addEventListener('mouseup', CanvasMouseButtonEvent, false);
-        //Works
+        this.canvas.addEventListener('mousemove', AxAnimationElement.CanvasMouseMoveEvent, false);
+        this.canvas.addEventListener('mousedown', AxAnimationElement.CanvasMouseButtonEvent, false);
+        this.canvas.addEventListener('mouseup', AxAnimationElement.CanvasMouseButtonEvent, false);
+        this.canvas.addEventListener('mouseleave', AxAnimationElement.CanvasMouseLeaveEvent, false);
+        // Document context passed for keyboar events
         document.axWebRendering = this;
-        document.onkeydown = CanvasKeyDownEvent;
-        document.onkeyup = CanvasKeyUpEvent;
-        ////Doesn't work
-        //this.canvas.addEventListener('keydown', CanvasKeyDownEvent, false);
-        //this.canvas.addEventListener('keyup', CanvasKeyUpEvent, false);
-        //
-        //this.canvas.onkeydown = CanvasKeyDownEvent;
-        //this.canvas.onkeyup = CanvasKeyUpEvent;
+        document.addEventListener('keydown', AxAnimationElement.CanvasKeyDownEvent, false);
+        document.addEventListener('keyup', AxAnimationElement.CanvasKeyUpEvent, false);
 
+        // Handle context menu
+        //this.canvas.addEventListener('contextmenu', CanvasContextMenuEvent, false);
+        this.canvas.oncontextmenu = AxAnimationElement.CanvasContextMenuEvent;
 
     
 
@@ -165,7 +160,7 @@ AxAnimationElement.prototype.Render = function()
 
 
 
-function CanvasMouseMoveEvent(args) 
+AxAnimationElement.CanvasMouseMoveEvent = function(args) 
 {
     var instance = this.axWebRendering;
     
@@ -173,13 +168,13 @@ function CanvasMouseMoveEvent(args)
     var x = args.clientX - rect.left;
     var y = args.clientY - rect.top;
     
-    instance.onMouseMove(x, y);
+    instance.OnMouseMove(x, y);
 
     instance.mouse.x = x;
     instance.mouse.y = y;
-}
+};
 
-function CanvasMouseButtonEvent(args) 
+AxAnimationElement.CanvasMouseButtonEvent = function(args) 
 {
     var instance = this.axWebRendering;
 
@@ -190,39 +185,63 @@ function CanvasMouseButtonEvent(args)
     var buttonsUp = (instance.mouseButtons ^ args.buttons) & (~args.buttons);
 
     if (buttonsDown !== 0)
-        instance.onMouseDown(x, y, buttonsDown);
+        instance.OnMouseDown(x, y, buttonsDown);
     if (buttonsUp !== 0)
-        instance.onMouseUp(x, y, buttonsUp);
+        instance.OnMouseUp(x, y, buttonsUp);
 
-    instance.mouse.left = args.buttons & AxAnimationElement.MouseButtonLeft !== 0;
-    instance.mouse.right = args.buttons & AxAnimationElement.MouseButtonRight !== 0;
-    instance.mouse.middle = args.buttons & AxAnimationElement.MouseButtonMiddle !== 0;
-    instance.mouse.back = args.buttons & AxAnimationElement.MouseButtonBack !== 0;
-    instance.mouse.forward = args.buttons & AxAnimationElement.MouseButtonForward !== 0;
+    instance.mouse.left = (args.buttons & AxAnimationElement.MouseButtonLeft) !== 0;
+    instance.mouse.right = (args.buttons & AxAnimationElement.MouseButtonRight) !== 0;
+    instance.mouse.middle = (args.buttons & AxAnimationElement.MouseButtonMiddle) !== 0;
+    instance.mouse.back = (args.buttons & AxAnimationElement.MouseButtonBack) !== 0;
+    instance.mouse.forward = (args.buttons & AxAnimationElement.MouseButtonForward) !== 0;
 
     instance.mouseButtons = args.buttons;
-}
+};
 
-function CanvasKeyDownEvent(args) 
+AxAnimationElement.CanvasMouseLeaveEvent = function(args) 
+{
+    var instance = this.axWebRendering;
+    
+    var buttons = AxAnimationElement.MouseButtonNone;
+    
+    var buttonsUp = (instance.mouseButtons ^ buttons) & (~buttons);
+
+    if (buttonsUp !== 0)
+        instance.OnMouseUp(instance.mouse.x, instance.mouse.y, buttonsUp);
+
+    instance.mouse.left = false;
+    instance.mouse.right = false;
+    instance.mouse.middle = false;
+    instance.mouse.back = false;
+    instance.mouse.forward = false;
+
+    instance.mouseButtons = buttons;
+};
+
+AxAnimationElement.CanvasContextMenuEvent = function(args) 
 {
     var instance = this.axWebRendering;
 
-    instance.onKeyDown(args.keyCode);
+    return instance.contextMenuEnabled;
+};
+
+
+AxAnimationElement.CanvasKeyDownEvent = function(args)
+{
+    var instance = this.axWebRendering;
+
+    instance.OnKeyDown(args.keyCode);
     
     if (args.keyCode < instance.buttons.length)
         instance.buttons[args.keyCode] = true;
-    
-    //console.log('keyDown', args.keyCode);
-}
+};
 
-function CanvasKeyUpEvent(args) 
+AxAnimationElement.CanvasKeyUpEvent = function(args) 
 {
     var instance = this.axWebRendering;
 
-    instance.onKeyUp(args.keyCode);
+    instance.OnKeyUp(args.keyCode);
 
     if (args.keyCode < instance.buttons.length)
         instance.buttons[args.keyCode] = false;
-    
-    //console.log('keyUp', args.keyCode);
-}
+};

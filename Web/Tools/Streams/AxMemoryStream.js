@@ -48,7 +48,7 @@ AxMemoryStream.prototype.ReadData = function(destination, size)
 {
     var bytesToCopy = AxMath.Min(this.length - this.position, size);
     AxMem.Copy(destination, 0, this.data, this.position, bytesToCopy);
-
+    
     this.position += bytesToCopy;
 
     return bytesToCopy;
@@ -57,11 +57,11 @@ AxMemoryStream.prototype.ReadData = function(destination, size)
 /**
  * Writes data to the memory stream and returns the number of bytes which were successfully written
  * If writing at a position before the end of the stream, depending on the stream's write mode, new data can either overwite bytes ahead of the position or be inserted - pushing the existing data forward.
- * @param {ArrayBuffer} source An array buffer which holds the data to be written
+ * @param {ArrayBuffer} data An array buffer which holds the data to be written
  * @param {Integer} size Number of bytes to write
  * @return {Integer} The number of bytes which were successfully written
  */
-AxMemoryStream.prototype.WriteData = function(source, size)
+AxMemoryStream.prototype.WriteData = function(data, size)
 {
     var requiredCapacity = this.writeMode === StreamWriteMode.Overwrite ? this.position + size : this.length + size;
     var newCapacity = this.capacity;

@@ -204,25 +204,13 @@ AxVector2.prototype.Cross = function()
 
 /**
  * Returns the vector with each of its components multiplied by the components of the given vector
- * @param {AxVector2} v The vector by which compoenents to multiply the components of the original one
+ * @param {AxVector2|Number} arg The AxVector2 vector for component-wise scaling or a scalar number by which to multiply the components of the original vector
  * @returns {AxVector2} The component-wise scaled vector
  */
-AxVector2.prototype.Scale = function(v)
+AxVector2.prototype.Scale = function(arg)
 {
     var result = new AxVector2();
-    AxVector2.Scale(result, this, v);
-    return result;
-};
-
-/**
- * Returns the vector with each of its components multiplied by the given value
- * @param {Number} factor The value by which to multiply the components of the original vector
- * @returns {AxVector2} The component-wise scaled vector
- */
-AxVector2.prototype.Scale = function(factor)
-{
-    var result = new AxVector2();
-    AxVector2.Scale(result, this, factor);
+    AxVector2.Scale(result, this, arg);
     return result;
 };
 
@@ -399,9 +387,23 @@ AxVector2.Cross = function(result, v1)
  * Scales a vector by a scalar value
  * @param {AxVector2} result The resulting vector produced by scaling the given vector
  * @param {AxVector2} v1 Original vector for scaling
+ * @param {AxVector2|Number} factor An AxVector2 vector for component-wise scaling or a scalar number by which to multiply the components of the original vector
+*/
+AxVector2.Scale = function(result, v1, factor)
+{
+    if (AxUtils.IsUndefinedOrNull(factor.x))
+        AxVector2.Scale_1(result, v1, factor);
+    else
+        AxVector2.Scale_2(result, v1, factor);
+};
+
+/**
+ * Scales a vector by a scalar value
+ * @param {AxVector2} result The resulting vector produced by scaling the given vector
+ * @param {AxVector2} v1 Original vector for scaling
  * @param {Number} factor Scaling factor
  */
-AxVector2.Scale = function(result, v1, factor)
+AxVector2.Scale_1 = function(result, v1, factor)
 {
     result.x = v1.x * factor;
     result.y = v1.y * factor;
@@ -413,7 +415,7 @@ AxVector2.Scale = function(result, v1, factor)
  * @param {AxVector2} v1 Original vector for scaling
  * @param {AxVector2} v2 Vector containing the per-component scaling factors
  */
-AxVector2.Scale = function(result, v1, v2)
+AxVector2.Scale_2 = function(result, v1, v2)
 {
     result.x = v1.x * v2.x;
     result.y = v1.y * v2.y;

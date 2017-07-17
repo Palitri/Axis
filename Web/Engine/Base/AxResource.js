@@ -8,6 +8,8 @@ function AxResource()
 
     this.tag = 0;
     
+    this.oldProperties = new AxList();
+
     this.properties = new AxList();
     
     this.properties.Add(new AxProperty(new AxString('Active'), true));
@@ -289,3 +291,56 @@ AxResource.prototype.DeserializeChunk = function(reader)
 
     return true;
 };
+
+/**
+ * Checks whether any of the resource's properties has been changed since the last call and calls the OnPropertiesChanged() and OnPropertyChanged() methods respectively.
+ * @param {!Boolean} checkNewProperties Denotes whether to notify about newly created properties. If omitted, a default value of true is assumed.
+ * @return {Boolean} True if one of more properties have been changed.
+ */
+AxResource.prototype.NotifyPropertiesChange = function(checkNewProperties)
+{
+    if (AxUtils.IsUndefinedOrNull(checkNewProperties))
+        checkNewProperties = true;
+    
+	var propertiesChanged = false;
+	var count = AxMath.Min(this.oldProperties.count, this.properties.count);
+	for (var i = 0; i < count; i++)
+	{
+            var param = this.properties.Get(i).GetEffectiveParameter();
+            var oldValue = this.oldProperties.Get(i);
+            if (!param.Equals(oldValue))
+            {
+                propertiesChanged = true;
+                this.OnPropertyChanged(i);
+                oldValue.SetValue(param.value, param.type);
+            }
+	}
+
+	if (checkNewProperties)
+	{
+            for (var i = this.oldProperties.count; i < this.properties.count; i++)
+            {
+                var param = this.properties.Get(i).GetEffectiveParameter();
+                this.oldProperties.Add(new AxParameter(param.value, param.type));
+                propertiesChanged = true;
+                this.OnPropertyChanged(i);
+            }
+	}
+
+	if (propertiesChanged)
+            this.OnPropertiesChanged();
+
+	return propertiesChanged;
+};
+
+/**
+ * Gets called by the NotifyPropertiesChange() method when one or more properties have been changed
+ */
+AxResource.prototype.OnPropertiesChanged = function() { };
+
+
+/**
+ * Gets called by the NotifyPropertiesChange() method for each changed property
+ * @param {Integer} propertyIndex The index of the changed property
+ */
+AxResource.prototype.OnPropertyChanged = function(propertyIndex) { };

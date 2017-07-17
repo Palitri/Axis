@@ -64,28 +64,34 @@ AxLinearMechanism.prototype.Process = function(deltaTime)
     var loop = this.properties.Get(AxLinearMechanism.propertyIndex_Loop).GetEffectiveParameter().value;
     var oscillate = this.properties.Get(AxLinearMechanism.propertyIndex_Oscillate).GetEffectiveParameter().value;
 
-    if (timed)
-        this.phase += deltaTime / speed;
-    else
-        if (max !== min)
-            this.phase += deltaTime * speed / AxMath.Abs(max - min);
-
+    var interval = max - min;
+    var deltaPhase = timed ? (deltaTime / speed) : (deltaTime * speed / interval);
     var phaseMax = oscillate ? 2.0 : 1.0;
 
+    this.phase += deltaPhase;
+
     var result = true;
-    var loopsCount = AxMath.Floor(this.phase / phaseMax);
-    if (loopsCount !== 0)
+    if (this.phase > phaseMax)
     {
         if (loop)
-            this.phase -= loopsCount * phaseMax;
+            this.phase -= AxMath.Trunc(this.phase);
         else
         {
             this.phase = phaseMax;
             result = false;
         }
     }
-    if (this.phase < 0.0)
-        this.phase += phaseMax;
+
+    else if (this.phase < 0.0)
+    {
+        if (loop)
+            this.phase += phaseMax - AxMath.Trunc(this.phase);
+        else
+        {
+            this.phase = 0.0;
+            result = false;
+        }
+    }
 
     var oscillationPhase = 1.0 - AxMath.Abs(this.phase - 1.0);
     this.parameter.value = min + (max - min) * oscillationPhase;

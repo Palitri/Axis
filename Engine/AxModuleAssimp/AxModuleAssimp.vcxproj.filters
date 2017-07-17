@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{94b6c8e6-d00d-4b79-a6d9-90d72925e53b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media">
+      <UniqueIdentifier>{147e04d2-8a10-47ae-853e-a6d96cde2bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene">
+      <UniqueIdentifier>{9d313b80-c5ba-45b3-a68b-9090039308e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Scene\Assimp">
+      <UniqueIdentifier>{a974756f-3e98-43ed-afba-02f14c859a49}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Media\Scene\Assimp\AxAssimpScene.h">
+      <Filter>Source\Media\Scene\Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\Assimp\AxAssimpSceneDispatcher.h">
+      <Filter>Source\Media\Scene\Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AxisEngine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\dllMain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Assimp\AxAssimpScene.cpp">
+      <Filter>Source\Media\Scene\Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\Assimp\AxAssimpSceneDispatcher.cpp">
+      <Filter>Source\Media\Scene\Assimp</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

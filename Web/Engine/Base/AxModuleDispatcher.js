@@ -32,6 +32,7 @@ AxModuleDispatcher.typeId_Scene             = 2;
 AxModuleDispatcher.typeId_GraphicsDevice    = 3;
 AxModuleDispatcher.typeId_AudioDevice       = 4;
 AxModuleDispatcher.typeId_FileSystem        = 5;
+AxModuleDispatcher.typeId_InputDevice       = 6;
 
 
 

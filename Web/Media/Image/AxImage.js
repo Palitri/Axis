@@ -351,60 +351,60 @@ AxImage.prototype.GetPixel = function(x, y, z)
  */
 AxImage.prototype.GetSample = function(u, v, z)
 {
-    /*TODO
-	float x = u * this.width;
-	float y = v * this.height;
+    var x = u * this.width;
+    var y = v * this.height;
 
-	int x1 = (int)x;
-	int y1 = (int)y;
+    var x1 = AxMath.Trunc(x);
+    var y1 = AxMath.Trunc(y);
 
-	x -= x1;
-	y -= y1;
+    x -= x1;
+    y -= y1;
 
-	x1 %= this.width;
-	y1 %= this.height;
+    x1 %= this.width;
+    y1 %= this.height;
 
-	int x2 = (x1 + 1) % this.width;
-	int y2 = (y1 + 1) % this.height;
+    var x2 = (x1 + 1) % this.width;
+    var y2 = (y1 + 1) % this.height;
 
-	int planeOffset = z * this.width * this.height;
+    var planeOffset = z * this.width * this.height;
 
-	unsigned int p11 = *(unsigned int*)&this.pixelData[(planeOffset + y1 * this.width + x1) * this.pixelFormat.sizeInBytes];
-	unsigned int p12 = *(unsigned int*)&this.pixelData[(planeOffset + y1 * this.width + x2) * this.pixelFormat.sizeInBytes];
-	unsigned int p21 = *(unsigned int*)&this.pixelData[(planeOffset + y2 * this.width + x1) * this.pixelFormat.sizeInBytes];
-	unsigned int p22 = *(unsigned int*)&this.pixelData[(planeOffset + y2 * this.width + x2) * this.pixelFormat.sizeInBytes];
+    var intPixelData = new Uint32Array(this.pixelData.buffer);
+    
+    var p11 = intPixelData[((planeOffset + y1 * this.width + x1) * 4) / this.pixelFormat.sizeInBytes];
+    var p12 = intPixelData[((planeOffset + y1 * this.width + x2) * 4) / this.pixelFormat.sizeInBytes];
+    var p21 = intPixelData[((planeOffset + y2 * this.width + x1) * 4) / this.pixelFormat.sizeInBytes];
+    var p22 = intPixelData[((planeOffset + y2 * this.width + x2) * 4) / this.pixelFormat.sizeInBytes];
 
-	unsigned int result = 0;
-	int bitShift = 0;
+    var result = 0;
+    var bitShift = 0;
 
-	for (int channelIndex = 0; channelIndex < this.pixelFormat.numChannels; channelIndex++)
-	{
-		int channelBitCount = this.pixelFormat.channelBitCount[channelIndex];
-		int channelLimit = 1 << channelBitCount;
-		int channelMax = channelLimit - 1;
-		int fx = (int)(x * channelLimit);
-		int fy = (int)(y * channelLimit);
+    for (var channelIndex = 0; channelIndex < this.pixelFormat.numChannels; channelIndex++)
+    {
+        var channelBitCount = this.pixelFormat.channelBitCount[channelIndex];
+        var channelLimit = 1 << channelBitCount;
+        var channelMax = channelLimit - 1;
+        var fx = AxMath.Trunc(x * channelLimit);
+        var fy = AxMath.Trunc(y * channelLimit);
 
-		int c11 = p11 & channelMax;
-		int c12 = p12 & channelMax;
-		int c21 = p21 & channelMax;
-		int c22 = p22 & channelMax;
+        var c11 = p11 & channelMax;
+        var c12 = p12 & channelMax;
+        var c21 = p21 & channelMax;
+        var c22 = p22 & channelMax;
 
-		int c1 = c11 + (((c12 - c11) * fx) >> channelBitCount);
-		int c2 = c21 + (((c22 - c21) * fx) >> channelBitCount);
-		int c = c1 + (((c2 - c1) * fy) >> channelBitCount);
+        var c1 = c11 + (((c12 - c11) * fx) >> channelBitCount);
+        var c2 = c21 + (((c22 - c21) * fx) >> channelBitCount);
+        var c = c1 + (((c2 - c1) * fy) >> channelBitCount);
 
-		result |= c << bitShift;
-		bitShift += channelBitCount;
+        result |= c << bitShift;
+        bitShift += channelBitCount;
 
-		p11 = p11 >> channelBitCount;
-		p12 = p12 >> channelBitCount;
-		p21 = p21 >> channelBitCount;
-		p22 = p22 >> channelBitCount;
-	}
+        p11 = p11 >> channelBitCount;
+        p12 = p12 >> channelBitCount;
+        p21 = p21 >> channelBitCount;
+        p22 = p22 >> channelBitCount;
+    }
 
-	return result;
-        */
+    return result;
 };
 
 /**

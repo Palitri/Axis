@@ -425,6 +425,8 @@ AxTransform.prototype.GetPositionExtrinsic = function()
  */
 AxTransform.prototype.GetPositionIntrinsic = function()
 {
+    this.Process(this.parent);
+
     var result = new AxVector3();
     AxMatrix.GetTranslation(result, this.localMatrix);
     return result;

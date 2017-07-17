@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{128616AE-BF37-4335-AA97-CF1AE795AB31}</ProjectGuid>
+    <RootNamespace>Axis</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)Libraries;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libraries\vld\Win32;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)Libraries;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(ProjectDir)Libraries\vld\Win32;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>AXDLLCOMPILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>
+      </OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>AXDLLCOMPILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.h" />
+    <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.h" />
+    <ClInclude Include="Source\Engine\Input\Models\AxRotationInputModel.h" />
+    <ClInclude Include="Source\Engine\Input\Models\AxOrbitInputModel.h" />
+    <ClInclude Include="Source\Engine\Input\Models\AxWalkInputModel.h" />
+    <ClInclude Include="Source\Engine\Input\AxInputModel.h" />
+    <ClInclude Include="Source\Engine\Input\Models\AxFlightInputModel.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxCheckerTextureMechanism.h" />
+    <ClInclude Include="Source\Engine\Input\AxInput.h" />
+    <ClInclude Include="Source\Input\AxInputDevice.h" />
+    <ClInclude Include="Source\Engine\Entities\Settings\AxSettings.h" />
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxGaussianBlurImage.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxBlurTextureMechanism.h" />
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxCheckerPatternImage.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxNormalMapTextureMechanism.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxSphereGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTransformTexCoords.h" />
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxHueMapImage.h" />
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxPlasmaFractalImage.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxHueMapTextureMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Texture\AxPlasmaFractalTextureMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxTorusGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxBoxGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxGeosphereGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxPlaneGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxSphereGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxConeGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\Geometry\AxHeightmapGeometryMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxPropertyChangeNotifiedMechanism.h" />
+    <ClInclude Include="Source\Engine\Base\AxClassId.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxTorusGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Serialization\AxSerializationUtils.h" />
+    <ClInclude Include="Source\Media\Image\Native\AxNativeImageDispatcher.h" />
+    <ClInclude Include="Source\Media\Image\Native\AxNativeImage.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxModule.h" />
+    <ClInclude Include="Source\Engine\Utilities\Imaging\AxGenerateNormalMapImage.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxPrismGeometry.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionFunctionDeclaration.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxFloatValueMechanism.h" />
+    <ClInclude Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystemDispatcher.h" />
+    <ClInclude Include="Source\Engine\Entities\Script\AxScript.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxTimeRateMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxLinearInterpolationMechanism.h" />
+    <ClInclude Include="Source\Sound\AxAudioDeviceSoundReceptor.h" />
+    <ClInclude Include="Source\Engine\Entities\SoundReceptor\AxSoundReceptor.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxPCMFormat.h" />
+    <ClInclude Include="Source\Media\Sound\Wav\AxWavSoundMediaDispatcher.h" />
+    <ClInclude Include="Source\Engine\Entities\Sound\AxSound.h" />
+    <ClInclude Include="Source\Engine\Entities\SoundEmitter\AxSoundEmitter.h" />
+    <ClInclude Include="Source\Media\Sound\Wav\AxWavSoundMedia.h" />
+    <ClInclude Include="Source\Sound\AxAudioDevice.h" />
+    <ClInclude Include="Source\Sound\AxAudioDeviceSound.h" />
+    <ClInclude Include="Source\Sound\AxAudioDeviceSoundEmitter.h" />
+    <ClInclude Include="Source\Engine\Utilities\AxLogging.h" />
+    <ClInclude Include="Source\Engine\Utilities\Tangents\AxTangentsGenerator.h" />
+    <ClInclude Include="Source\Engine\Base\AxEntity.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrame.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationEuler.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationAxis.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameScaling.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFramesTrack.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameTranslation.h" />
+    <ClInclude Include="Source\Engine\Entities\Light\AxLight.h" />
+    <ClInclude Include="Source\Graphics\Soras\AxSorasShader.h" />
+    <ClInclude Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentShader.h" />
+    <ClInclude Include="Source\Graphics\AxDeviceShader.h" />
+    <ClInclude Include="Source\Graphics\Soras\AxSorasGraphicsDeviceDispatcher.h" />
+    <ClInclude Include="Source\Media\Sound\AxSoundMedia.h" />
+    <ClInclude Include="Source\Engine\Utilities\SubMesh\AxSubMesh.h" />
+    <ClInclude Include="Source\Engine\Utilities\SmoothingGroups\AxSmoothingGroups.h" />
+    <ClInclude Include="Source\Engine\Utilities\SmoothingGroups\AxSmoothingGroupsPrimitiveTypes.h" />
+    <ClInclude Include="Source\Engine\Utilities\SubMesh\AxSubMeshPrimitiveTypes.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjTextureMap.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObj.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjMaterial.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjMesh.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\FileObj\AxFileObjPrimitiveTypes.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\AxObjScene.h" />
+    <ClInclude Include="Source\Media\Scene\Obj\AxObjSceneDispatcher.h" />
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpClient.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionTernaryIf.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionCallout.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionDo.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionFor.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionWhile.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionIf.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariableDeclaration.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionUnion.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpression.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionAssignment.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionConstantValue.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionEvaluation.h" />
+    <ClInclude Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariable.h" />
+    <ClInclude Include="Source\Script\Parsing\AxScriptDataType.h" />
+    <ClInclude Include="Source\Script\Parsing\AxScriptDataTypes.h" />
+    <ClInclude Include="Source\Script\Parsing\AxScriptIdentifier.h" />
+    <ClInclude Include="Source\Script\Parsing\AxScriptIdentifiers.h" />
+    <ClInclude Include="Source\Script\Parsing\AxScriptToken.h" />
+    <ClInclude Include="Source\Script\Parsing\AxCodeBuilder.h" />
+    <ClInclude Include="Source\Script\Processing\AxCodeProcessor.h" />
+    <ClInclude Include="Source\Script\Parsing\AxScriptTokens.h" />
+    <ClInclude Include="Source\Tools\AxBinaryTree.h" />
+    <ClInclude Include="Source\Tools\AxSortedLinkedList.h" />
+    <ClInclude Include="Source\Engine\AxSerializationParameters.h" />
+    <ClInclude Include="Source\Engine\AxStandardEntityDispatcher.h" />
+    <ClInclude Include="Source\Engine\Base\AxEntityDispatcher.h" />
+    <ClInclude Include="Source\Media\Sound\Wav\WavFile\AxWavFile.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\Ax3dsScene.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\Ax3dsSceneDispatcher.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMaterial.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3ds.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsBaseObject.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsCamera.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsHierarchy.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsKeyFrames.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsLight.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMesh.h" />
+    <ClInclude Include="Source\Media\Scene\3ds\File3ds\AxFile3dsPrimitiveTypes.h" />
+    <ClInclude Include="Source\Media\AxMedia.h" />
+    <ClInclude Include="Source\Engine\Base\AxModuleDispatcher.h" />
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeScene.h" />
+    <ClInclude Include="Source\Media\Scene\AxScene.h" />
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneWriter.h" />
+    <ClInclude Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamWriter.h" />
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneDispatcher.h" />
+    <ClInclude Include="Source\AxisEngine.h" />
+    <ClInclude Include="Source\AxGlobals.h" />
+    <ClInclude Include="Source\Engine\Base\AxResource.h" />
+    <ClInclude Include="Source\Engine\Base\AxResourceType.h" />
+    <ClInclude Include="Source\Engine\Entities\Camera\AxCamera.h" />
+    <ClInclude Include="Source\Engine\Entities\Material\AxMaterial.h" />
+    <ClInclude Include="Source\Engine\Entities\Material\AxMaterialShadingLayer.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxOrientationMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxPolynomialMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxKeyFrameAnimationMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxLinearMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxPivotalMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxSineMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mesh\AxMesh.h" />
+    <ClInclude Include="Source\Engine\Entities\EntitySet\AxEntitySet.h" />
+    <ClInclude Include="Source\Engine\Entities\Textures\AxTexture2D.h" />
+    <ClInclude Include="Source\Engine\Entities\Transform\AxTransform.h" />
+    <ClInclude Include="Source\Engine\Entities\Transform\AxTransformOperation.h" />
+    <ClInclude Include="Source\Engine\Entities\Transform\AxTransformLayer.h" />
+    <ClInclude Include="Source\Engine\Axis.h" />
+    <ClInclude Include="Source\Engine\AxRayIntersectionEvents.h" />
+    <ClInclude Include="Source\Engine\AxRenderEvents.h" />
+    <ClInclude Include="Source\Engine\AxScreenPickEvents.h" />
+    <ClInclude Include="Source\Engine\AxTraceEvents.h" />
+    <ClInclude Include="Source\Engine\AxTraceParameters.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxBoundingVolume.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxColorOperation.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxIntersectionInfo.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxMatrix.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxPixelFormat.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxRenderState.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxShadingOperation.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxVector2.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxVector3.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxVector4.h" />
+    <ClInclude Include="Source\Engine\Primitive\AxVertex.h" />
+    <ClInclude Include="Source\Engine\Properties\AxParameter.h" />
+    <ClInclude Include="Source\Engine\Properties\AxParameterType.h" />
+    <ClInclude Include="Source\Engine\Properties\AxProperty.h" />
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneId.h" />
+    <ClInclude Include="Source\Media\Scene\Native\AxNativeSceneReader.h" />
+    <ClInclude Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamReader.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxBoxGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxConvexHullGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxCopyGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxHeightMapGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxIcosahedronGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxMergeGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxPlaneGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\Geometry\AxGeosphereGeometry.h" />
+    <ClInclude Include="Source\Engine\Utilities\AxMaths.h" />
+    <ClInclude Include="Source\Engine\Utilities\AxTimer.h" />
+    <ClInclude Include="Source\Engine\Utilities\Normals\AxNormalsGenerator.h" />
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxPlanarTexCoords.h" />
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxSphericalTexCoords.h" />
+    <ClInclude Include="Source\FileSystem\AxFileInfo.h" />
+    <ClInclude Include="Source\FileSystem\AxFileSystem.h" />
+    <ClInclude Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystem.h" />
+    <ClInclude Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentMesh.h" />
+    <ClInclude Include="Source\Graphics\AxDeviceMesh.h" />
+    <ClInclude Include="Source\Graphics\AxDeviceTexture2D.h" />
+    <ClInclude Include="Source\Graphics\AxGraphicsDevice.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrARGB.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrARGBInt.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrCullModes.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrLight.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrMaterial.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrMatrix.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrShaderOperations.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrShadingParameters.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrTextureSamplers.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrUnit.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector2Int.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector3.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector3Int.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector4.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVector4Int.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Primitive\SrVertex.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\Soras.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\SrMesh.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\SrRenderThread.h" />
+    <ClInclude Include="Source\Graphics\Soras\Engine\SrTexture.h" />
+    <ClInclude Include="Source\Graphics\Soras\AxSorasGraphicsDevice.h" />
+    <ClInclude Include="Source\Graphics\Soras\AxSorasMesh.h" />
+    <ClInclude Include="Source\Graphics\Soras\AxSorasTexture2D.h" />
+    <ClInclude Include="Source\Media\Image\AxImage.h" />
+    <ClInclude Include="Source\Tools\AxDictionary.h" />
+    <ClInclude Include="Source\Tools\AxIntegralQuotientDistribution.h" />
+    <ClInclude Include="Source\Tools\AxLinkedList.h" />
+    <ClInclude Include="Source\Tools\AxList.h" />
+    <ClInclude Include="Source\Tools\AxMath.h" />
+    <ClInclude Include="Source\Tools\AxMem.h" />
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpConnection.h" />
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpListener.h" />
+    <ClInclude Include="Source\Tools\Networking\TCPIP\AxTcpIpServer.h" />
+    <ClInclude Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageComponent.h" />
+    <ClInclude Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageFileListing.h" />
+    <ClInclude Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageHostName.h" />
+    <ClInclude Include="Source\Tools\Networking\WebServer\AxWebRequest.h" />
+    <ClInclude Include="Source\Tools\Networking\WebServer\AxWebResponse.h" />
+    <ClInclude Include="Source\Tools\Networking\WebServer\AxWebServer.h" />
+    <ClInclude Include="Source\Tools\AxRandomPool.h" />
+    <ClInclude Include="Source\Tools\AxStack.h" />
+    <ClInclude Include="Source\Tools\AxString.h" />
+    <ClInclude Include="Source\Tools\Platform\AxDrawSurface.h" />
+    <ClInclude Include="Source\Tools\Platform\AxPlatformUtils.h" />
+    <ClInclude Include="Source\Tools\Platform\AxWindowsForm.h" />
+    <ClInclude Include="Source\Tools\Platform\AxWindowsRegistry.h" />
+    <ClInclude Include="Source\Tools\Streams\AxStream.h" />
+    <ClInclude Include="Source\Tools\Streams\AxFileStream.h" />
+    <ClInclude Include="Source\Tools\Streams\AxMemoryStream.h" />
+    <ClInclude Include="Source\Tools\Streams\AxSubStream.h" />
+    <ClInclude Include="Source\Tools\AxStrings.h" />
+    <ClInclude Include="Source\Tools\Threading\AxMutex.h" />
+    <ClInclude Include="Source\Tools\Threading\AxThread.h" />
+    <ClInclude Include="Source\Tools\Threading\AxThreadsPool.h" />
+    <ClInclude Include="Source\Tools\Threading\AxThreadsPoolThread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.cpp" />
+    <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.cpp" />
+    <ClCompile Include="Source\Engine\Input\Models\AxRotationInputModel.cpp" />
+    <ClCompile Include="Source\Engine\Input\Models\AxOrbitInputModel.cpp" />
+    <ClCompile Include="Source\Engine\Input\Models\AxWalkInputModel.cpp" />
+    <ClCompile Include="Source\Engine\Input\AxInputModel.cpp" />
+    <ClCompile Include="Source\Engine\Input\Models\AxFlightInputModel.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxCheckerTextureMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Input\AxInput.cpp" />
+    <ClCompile Include="Source\Input\AxInputDevice.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Settings\AxSettings.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxGaussianBlurImage.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxBlurTextureMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxCheckerPatternImage.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxNormalMapTextureMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxSphereGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTransformTexCoords.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxHueMapImage.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxPlasmaFractalImage.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxHueMapTextureMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Texture\AxPlasmaFractalTextureMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxTorusGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxBoxGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxGeosphereGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxPlaneGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxSphereGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxConeGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\Geometry\AxHeightmapGeometryMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxPropertyChangeNotifiedMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxTorusGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Serialization\AxSerializationUtils.cpp" />
+    <ClCompile Include="Source\Media\Image\Native\AxNativeImageDispatcher.cpp" />
+    <ClCompile Include="Source\Media\Image\Native\AxNativeImage.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxModule.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Imaging\AxGenerateNormalMapImage.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxPrismGeometry.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionFunctionDeclaration.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxFloatValueMechanism.cpp" />
+    <ClCompile Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystemDispatcher.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Script\AxScript.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxTimeRateMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxLinearInterpolationMechanism.cpp" />
+    <ClCompile Include="Source\Sound\AxAudioDeviceSoundReceptor.cpp" />
+    <ClCompile Include="Source\Engine\Entities\SoundReceptor\AxSoundReceptor.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxPCMFormat.cpp" />
+    <ClCompile Include="Source\Media\Sound\Wav\AxWavSoundMediaDispatcher.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Sound\AxSound.cpp" />
+    <ClCompile Include="Source\Engine\Entities\SoundEmitter\AxSoundEmitter.cpp" />
+    <ClCompile Include="Source\Media\Sound\Wav\AxWavSoundMedia.cpp" />
+    <ClCompile Include="Source\Sound\AxAudioDevice.cpp" />
+    <ClCompile Include="Source\Sound\AxAudioDeviceSound.cpp" />
+    <ClCompile Include="Source\Sound\AxAudioDeviceSoundEmitter.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\AxLogging.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Tangents\AxTangentsGenerator.cpp" />
+    <ClCompile Include="Source\Engine\Base\AxEntity.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrame.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationEuler.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameRotationAxis.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameScaling.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFramesTrack.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\KeyFrameAnimation\AxKeyFrameTranslation.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Light\AxLight.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\AxSorasShader.cpp" />
+    <ClCompile Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentShader.cpp" />
+    <ClCompile Include="Source\Graphics\AxDeviceShader.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\AxSorasGraphicsDeviceDispatcher.cpp" />
+    <ClCompile Include="Source\Media\Sound\AxSoundMedia.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\SubMesh\AxSubMesh.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\SmoothingGroups\AxSmoothingGroups.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjTextureMap.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObj.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjMaterial.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjMesh.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\FileObj\AxFileObjPrimitiveTypes.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\AxObjScene.cpp" />
+    <ClCompile Include="Source\Media\Scene\Obj\AxObjSceneDispatcher.cpp" />
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpClient.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionTernaryIf.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionCallout.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionDo.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionFor.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionWhile.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionIf.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariableDeclaration.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionUnion.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpression.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionAssignment.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionConstantValue.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionEvaluation.cpp" />
+    <ClCompile Include="Source\Script\Parsing\Expressions\AxScriptExpressionVariable.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxScriptDataType.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxScriptDataTypes.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxScriptIdentifier.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxScriptIdentifiers.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxCodeBuilder.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxScriptToken.cpp" />
+    <ClCompile Include="Source\Script\Processing\AxCodeProcessor.cpp" />
+    <ClCompile Include="Source\Script\Parsing\AxScriptTokens.cpp" />
+    <ClCompile Include="Source\Engine\AxStandardEntityDispatcher.cpp" />
+    <ClCompile Include="Source\Engine\Base\AxEntityDispatcher.cpp" />
+    <ClCompile Include="Source\Media\Sound\Wav\WavFile\AxWavFile.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\Ax3dsScene.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\Ax3dsSceneDispatcher.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMaterial.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3ds.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsBaseObject.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsCamera.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsHierarchy.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsKeyFrames.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsLight.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsMesh.cpp" />
+    <ClCompile Include="Source\Media\Scene\3ds\File3ds\AxFile3dsPrimitiveTypes.cpp" />
+    <ClCompile Include="Source\Media\AxMedia.cpp" />
+    <ClCompile Include="Source\Engine\Base\AxModuleDispatcher.cpp" />
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeScene.cpp" />
+    <ClCompile Include="Source\Media\Scene\AxScene.cpp" />
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeSceneWriter.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamWriter.cpp" />
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeSceneDispatcher.cpp" />
+    <ClCompile Include="Source\dllMain.cpp" />
+    <ClCompile Include="Source\Engine\Base\AxResource.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Camera\AxCamera.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Material\AxMaterial.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Material\AxMaterialShadingLayer.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxOrientationMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxPolynomialMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxKeyFrameAnimationMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxLinearMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxPivotalMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxSineMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mesh\AxMesh.cpp" />
+    <ClCompile Include="Source\Engine\Entities\EntitySet\AxEntitySet.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Textures\AxTexture2D.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Transform\AxTransform.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Transform\AxTransformLayer.cpp" />
+    <ClCompile Include="Source\Engine\Axis.cpp" />
+    <ClCompile Include="Source\Engine\AxRayIntersectionEvents.cpp" />
+    <ClCompile Include="Source\Engine\AxRenderEvents.cpp" />
+    <ClCompile Include="Source\Engine\AxScreenPickEvents.cpp" />
+    <ClCompile Include="Source\Engine\AxTraceEvents.cpp" />
+    <ClCompile Include="Source\Engine\AxTraceParameters.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxBoundingVolume.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxIntersectionInfo.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxMatrix.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxPixelFormat.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxVector2.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxVector3.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxVector4.cpp" />
+    <ClCompile Include="Source\Engine\Primitive\AxVertex.cpp" />
+    <ClCompile Include="Source\Engine\Properties\AxParameter.cpp" />
+    <ClCompile Include="Source\Engine\Properties\AxProperty.cpp" />
+    <ClCompile Include="Source\Media\Scene\Native\AxNativeSceneReader.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Serialization\AxHierarchyStreamReader.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxBoxGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxConvexHullGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxCopyGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxHeightMapGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxIcosahedronGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxMergeGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxPlaneGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Geometry\AxGeosphereGeometry.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\AxMaths.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\AxTimer.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Normals\AxNormalsGenerator.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxPlanarTexCoords.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxSphericalTexCoords.cpp" />
+    <ClCompile Include="Source\FileSystem\AxFileSystem.cpp" />
+    <ClCompile Include="Source\FileSystem\PhysicalFileSystem\AxPhysicalFileSystem.cpp" />
+    <ClCompile Include="Source\Graphics\DeviceIndependent\AxDeviceIndependentMesh.cpp" />
+    <ClCompile Include="Source\Graphics\AxDeviceMesh.cpp" />
+    <ClCompile Include="Source\Graphics\AxDeviceTexture2D.cpp" />
+    <ClCompile Include="Source\Graphics\AxGraphicsDevice.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrCullModes.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrMatrix.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrShaderOperations.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\Primitive\SrTextureSamplers.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\Soras.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\SrMesh.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\SrRenderThread.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\Engine\SrTexture.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\AxSorasGraphicsDevice.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\AxSorasMesh.cpp" />
+    <ClCompile Include="Source\Graphics\Soras\AxSorasTexture2D.cpp" />
+    <ClCompile Include="Source\Media\Image\AxImage.cpp" />
+    <ClCompile Include="Source\Tools\AxIntegralQuotientDistribution.cpp" />
+    <ClCompile Include="Source\Tools\AxMath.cpp" />
+    <ClCompile Include="Source\Tools\AxMem.cpp" />
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpConnection.cpp" />
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpListener.cpp" />
+    <ClCompile Include="Source\Tools\Networking\TCPIP\AxTcpIpServer.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageComponent.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageFileListing.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebServer\WebPageComponents\AxWebPageHostName.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebServer\AxWebRequest.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebServer\AxWebResponse.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebServer\AxWebServer.cpp" />
+    <ClCompile Include="Source\Tools\AxRandomPool.cpp" />
+    <ClCompile Include="Source\Tools\AxString.cpp" />
+    <ClCompile Include="Source\Tools\Platform\AxDrawSurface.cpp" />
+    <ClCompile Include="Source\Tools\Platform\AxPlatformUtils.cpp" />
+    <ClCompile Include="Source\Tools\Platform\AxWindowsForm.cpp" />
+    <ClCompile Include="Source\Tools\Platform\AxWindowsRegistry.cpp" />
+    <ClCompile Include="Source\Tools\Streams\AxStream.cpp" />
+    <ClCompile Include="Source\Tools\Streams\AxFileStream.cpp" />
+    <ClCompile Include="Source\Tools\Streams\AxMemoryStream.cpp" />
+    <ClCompile Include="Source\Tools\Streams\AxSubStream.cpp" />
+    <ClCompile Include="Source\Tools\AxStrings.cpp" />
+    <ClCompile Include="Source\Tools\Threading\AxMutex.cpp" />
+    <ClCompile Include="Source\Tools\Threading\AxThread.cpp" />
+    <ClCompile Include="Source\Tools\Threading\AxThreadsPool.cpp" />
+    <ClCompile Include="Source\Tools\Threading\AxThreadsPoolThread.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

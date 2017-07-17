@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ComponentsDialog</class>
+ <widget class="QDialog" name="ComponentsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>359</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Components</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="1,2,1">
+     <item row="1" column="1">
+      <widget class="QLabel" name="lComponentFeaturesCaption">
+       <property name="text">
+        <string>Features</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lComponentCaption">
+       <property name="text">
+        <string>Components</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="3">
+      <widget class="QComboBox" name="cbComponentTypes">
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A filter for the different types of components.&lt;/p&gt;&lt;p&gt;Use this dropdown to select which type of components to display in the Components list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="lComponentModuleCaption">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Module&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QTreeWidget" name="tFeatures">
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A list of features for the selected component.&lt;/p&gt;&lt;p&gt;Components may have different features, depending on their type and implementation.&lt;/p&gt;&lt;p&gt;Multiple components can support the same features, in which case when needed, these components are tried on the order of their priority.&lt;/p&gt;&lt;p&gt;The components' order can be managed via the Components list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QListWidget" name="lModule">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A list of all the modules installed on the engine.&lt;/p&gt;&lt;p&gt;When a component is selected,  the module which provides that component gets highlighted in the list, to denote that the selected component originates from that module.&lt;/p&gt;&lt;p&gt;A module can contain multiple components of various types.&lt;/p&gt;&lt;p&gt;To install a module, simply copy its file in the designated folder.&lt;/p&gt;&lt;p&gt;The [ Internal ] item in the list stands for the very engine itself, meaning that components which originate from it are not provided by an outer module, but are built in the engine.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QListWidget" name="lComponents">
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A list showing all the installed compoenents of the selected type. Each component has specific features and is provided by a ceratin module. &lt;/p&gt;&lt;p&gt;Selecting and dragging a component up and down the list changes its invocation order, such that upper components have higher invocation priority.&lt;/p&gt;&lt;p&gt;Priority order is relevant, for example, in serialization and deserialization, because there can be multiple components which support a given format and higher priority components will be first tried to handle it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::InternalMove</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,0">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Drag components up and down to move them and change the priority in which they are invoked. Upper components have greater priority.</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ComponentsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ComponentsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -5,6 +5,7 @@
  * @param {Number} periodEnd The value at which the provided argument will produce the end of the sine function
  * @param {Number} amplitudeMin The minimum value of the resulting sine function
  * @param {Number} amplitudeMax The peak value of the resulting sine function
+ * @constructor
  */
 function AxSineMechanism(periodStart, periodEnd, amplitudeMin, amplitudeMax)
 {

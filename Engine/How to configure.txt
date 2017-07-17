@@ -1,0 +1,17 @@
+Note that, where possible, the required DLL files are included in the package itself, so you wouldn't have to bother installing various stuff before being able to run it.
+The downside is that if you're using a different version of VS you might need other versions of the dlls (and especially the c++ redistributables)
+
+
+
+Tools and SDKs used:
+VLD - for memory leak detection - https://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio
+Vorbis - for the vorbis audio format decoder - http://www.vorbis.com/
+OGG - for the OGG file format - http://www.vorbis.com/
+DirectX SDK - https://www.microsoft.com/en-us/download/details.aspx?id=6812
+OpenAL - http://www.openal.org/
+
+
+
+For the DirectX module, you will need the DirectX SDK installed in order to be able to compile and run the module.
+
+For modules, which need SDKs and tools you don't currently have available, you can just unload the respective modules' project from the solution.

@@ -64,3 +64,20 @@ AxUtils.IsBoolean = function(variable)
 {
     return typeof variable === 'boolean';
 };
+
+AxUtils.IsString = function(variable)
+{
+    return (typeof variable === 'string') || (variable instanceof String);
+};
+
+/**
+ * Returns whether an object is an instance of a of a given prototype class
+ * @param {*} obj Object to test for
+ * @param {*} constr A constructur to test against
+ * @returns {Boolean} True if the object is an instance of the given prototype class
+ */
+AxUtils.IsInstanceOf = function(obj, constr)
+{
+    return obj instanceof constr;
+    //return instance.constructor === constr;
+};

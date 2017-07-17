@@ -1,0 +1,96 @@
+class CopyrightTextReplacement
+{
+public:
+
+	static AxString originalText, replacementText, filesExtension;
+	static int processedFilesCount, alteredFilesCount;
+
+	static void ReplaceComments(AxString path, const AxString &filesExtension, const AxString &originalText, const AxString &replacementText)
+	{
+		CopyrightTextReplacement::originalText = originalText;
+		CopyrightTextReplacement::replacementText = replacementText;
+		CopyrightTextReplacement::filesExtension = filesExtension;
+		CopyrightTextReplacement::filesExtension = CopyrightTextReplacement::filesExtension.ToLower();
+
+		CopyrightTextReplacement::processedFilesCount = 0;
+		CopyrightTextReplacement::alteredFilesCount = 0;
+
+		std::cout << "Processing files...\r\n";
+
+		CopyrightTextReplacement::ReplaceCommentsRecursively(path);
+
+		std::cout << CopyrightTextReplacement::alteredFilesCount << " of " << CopyrightTextReplacement::processedFilesCount << " files altered.";
+
+	}
+
+	static void ReplaceCommentsRecursively(AxString path)
+	{
+		AxList<AxFileInfo> dirContents;	
+		AxPhysicalFileSystem fs;
+		fs.GetDirectoryContents(path, dirContents);
+
+		for (int i = 0; i < dirContents.count; i ++)
+		{
+			AxFileInfo fileInfo = dirContents[i];
+
+			AxString fullFileName = AxFileSystem::MergePaths(path, fileInfo.fileName);
+		
+			if (dirContents[i].isDirectory)
+			{
+				CopyrightTextReplacement::ReplaceCommentsRecursively(fullFileName);
+			}
+			else
+			{
+				if (AxFileSystem::GetFileExtension(dirContents[i].fileName).ToLower().Equals(CopyrightTextReplacement::filesExtension))
+				{
+					CopyrightTextReplacement::processedFilesCount++;
+
+					AxFileStream *file = new AxFileStream(fullFileName, FileStreamAccessMode_Read);
+					AxString fileContents = file->ReadTextFull();
+					delete file;
+
+					AxString newFileContents = fileContents.Replace(CopyrightTextReplacement::originalText, CopyrightTextReplacement::replacementText);
+			
+					if (!fileContents.Equals(newFileContents))
+					{
+						AxFileStream(fullFileName, FileStreamAccessMode_Write).WriteText(newFileContents);
+						CopyrightTextReplacement::alteredFilesCount++;
+					}
+					else
+					{
+						std::cout << "File: " << dirContents[i].fileName.GetCharContents() << " was not changed.\r\n";
+					}
+	
+				}
+			}
+		}
+	}
+};
+AxString CopyrightTextReplacement::originalText;
+AxString CopyrightTextReplacement::replacementText;
+AxString CopyrightTextReplacement::filesExtension;
+int CopyrightTextReplacement::processedFilesCount;
+int CopyrightTextReplacement::alteredFilesCount;
+
+
+int main(int argc, char *args[])
+{
+	//CopyrightTextReplacement::ReplaceComments("D:/Projects/C++/Axis/Engine", "cpp",
+	//	"//---------------------------------------------------------------------------------------------\r\n"
+	//	"//	Axis 3D Engine Copyright (C) 2017 Palitri\r\n"
+	//	"//\r\n"
+	//	"//	This software is released under the MIT License http://palitri.com/axis/license/\r\n"
+	//	"//\r\n"
+	//	"//	For help and documentation, visit <http://palitri.com>\r\n"
+	//	"//---------------------------------------------------------------------------------------------"
+	//	,
+	//	"//---------------------------------------------------------------------------------------------\r\n"
+	//	"//	Axis 3D Engine Copyright (C) 2017 Palitri\r\n"
+	//	"//\r\n"
+	//	"//	This software is released under the MIT License http://palitri.com/axis/license/\r\n"
+	//	"//\r\n"
+	//	"//	For help and documentation, visit http://palitri.com\r\n"
+	//	"//---------------------------------------------------------------------------------------------"
+	//	);
+	//std::getchar();
+	//return 0;

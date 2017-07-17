@@ -16,6 +16,7 @@ var scriptFiles =
     
     'Tools/Streams/AxStream.js',
     'Tools/Streams/AxMemoryStream.js',
+    'Tools/Streams/AxSubStream.js',
     
     'Engine/Base/AxResourceType.js',
     'Engine/Base/AxEntity.js',
@@ -44,10 +45,26 @@ var scriptFiles =
     'Engine/Utilities/AxMaths.js',
     'Engine/Utilities/AxTimer.js',
 
+    'Engine/Utilities/Geometry/AxBoxGeometry.js',
+    'Engine/Utilities/Geometry/AxConvexHullGeometry.js',
+    'Engine/Utilities/Geometry/AxCopyGeometry.js',
+    'Engine/Utilities/Geometry/AxHeightMapGeometry.js',
+    'Engine/Utilities/Geometry/AxIcosahedronGeometry.js',
+    'Engine/Utilities/Geometry/AxMergeGeometry.js',
+    'Engine/Utilities/Geometry/AxPlaneGeometry.js',
+    'Engine/Utilities/Geometry/AxGeosphereGeometry.js',
+    'Engine/Utilities/Geometry/AxSphereGeometry.js',
+    'Engine/Utilities/Geometry/AxPrismGeometry.js',
+    'Engine/Utilities/Geometry/AxTorusGeometry.js',
+
     'Engine/Utilities/Normals/AxNormalsGenerator.js',
 
     'Engine/Utilities/Tangents/AxTangentsGenerator.js',
 
+    'Engine/Utilities/TexCoords/AxTransformTexCoords.js',
+    'Engine/Utilities/TexCoords/AxPlanarTexCoords.js',
+    'Engine/Utilities/TexCoords/AxSphericalTexCoords.js',
+    
     'Engine/Utilities/Serialization/AxHierarchyStreamReader.js',
     'Engine/Utilities/Serialization/AxHierarchyStreamWriter.js',
     'Engine/Utilities/Serialization/AxSerializationUtils.js',
@@ -72,14 +89,8 @@ var scriptFiles =
     'Engine/Entities/Material/AxMaterialShadingLayer.js',
     'Engine/Entities/Material/AxMaterial.js',
 
-    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrame.js',
-    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameRotationAxis.js',
-    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameRotationEuler.js',
-    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameScaling.js',
-    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFramesTrack.js',
-    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameTranslation.js',
-
     'Engine/Entities/Mechanisms/AxMechanism.js',
+    'Engine/Entities/Mechanisms/AxPropertyChangeNotifiedMechanism.js',
     'Engine/Entities/Mechanisms/AxFloatValueMechanism.js',
     'Engine/Entities/Mechanisms/AxPolynomialMechanism.js',
     'Engine/Entities/Mechanisms/AxLinearMechanism.js',
@@ -88,7 +99,30 @@ var scriptFiles =
     'Engine/Entities/Mechanisms/AxKeyFrameAnimationMechanism.js',
     'Engine/Entities/Mechanisms/AxTimeRateMechanism.js',
 
+    'Engine/Entities/Mechanisms/Geometry/AxPlaneGeometryMechanism.js',
+    'Engine/Entities/Mechanisms/Geometry/AxBoxGeometryMechanism.js',
+    'Engine/Entities/Mechanisms/Geometry/AxConeGeometryMechanism.js',
+    'Engine/Entities/Mechanisms/Geometry/AxGeosphereGeometryMechanism.js',
+    'Engine/Entities/Mechanisms/Geometry/AxSphereGeometryMechanism.js',
+    'Engine/Entities/Mechanisms/Geometry/AxHeightmapGeometryMechanism.js',
+    'Engine/Entities/Mechanisms/Geometry/AxTorusGeometryMechanism.js',
+
+    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrame.js',
+    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameRotationAxis.js',
+    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameRotationEuler.js',
+    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameScaling.js',
+    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFramesTrack.js',
+    'Engine/Entities/Mechanisms/KeyFrameAnimation/AxKeyFrameTranslation.js',
+
     'Engine/Entities/Settings/AxSettings.js',
+
+    'Engine/Input/AxInput.js',
+    'Engine/Input/AxInputModel.js',
+
+    'Engine/Input/Models/AxFlightInputModel.js',
+    'Engine/Input/Models/AxOrbitInputModel.js',
+    'Engine/Input/Models/AxRotationInputModel.js',
+    'Engine/Input/Models/AxWalkInputModel.js',
 
     'FileSystem/AxFileInfo.js',
     'FileSystem/AxFileSystem.js',
@@ -101,6 +135,8 @@ var scriptFiles =
     'Graphics/AxDeviceShader.js',
     'Graphics/AxGraphicsDevice.js',
 
+    'Graphics/DeviceIndependent/AxDeviceIndependentMesh.js',
+
     'Graphics/WebGL/DynamicShading/AxDynamicShaderBlockDefinition.js',
     'Graphics/WebGL/DynamicShading/AxDynamicShaderWriter.js',
 
@@ -110,6 +146,11 @@ var scriptFiles =
     'Graphics/WebGL/AxWebGLGraphicsDevice.js',
     'Graphics/WebGL/AxWebGLGraphicsDeviceDispatcher.js',
     
+    'Input/AxInputDevice.js',
+
+    'Input/HtmlCanvas/AxHtmlCanvasInputDevice.js',
+    'Input/HtmlCanvas/AxHtmlCanvasInputDispatcher.js',
+
     'Media/AxMedia.js',
 
     'Media/Scene/AxScene.js',
@@ -151,8 +192,8 @@ var scriptFiles =
 
 /**
  * Initializes Axis web engine by loading all necessary files of the library
- * @param {!ScriptFilesLoadedCallbackType} onLoaded Callback which gets fired once all libraries have been loaded and axis is ready to go
- * @param {!ScriptFilesLoadProgressCallbackType} onProgress Callback which gets fired each time the intialization has progressed. A Number parameter gives the progression percentage
+ * @param {!ScriptFilesLoadedCallback} onLoaded Callback which gets fired once all libraries have been loaded and axis is ready to go
+ * @param {!ScriptFilesLoadProgressCallback} onProgress Callback which gets fired each time the intialization has progressed. A Number parameter gives the progression percentage
  * @returns {undefined}
  */
 function AxisInitialize(onLoaded, onProgress)

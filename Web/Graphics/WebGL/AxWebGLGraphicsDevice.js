@@ -128,7 +128,10 @@ AxWebGLGraphicsDevice.prototype.SetRenderTargetTexture = function(texture)
  * Gets the pixel format of the device
  * @return {AxPixelFormat} The pixel format of the device
  */
-AxWebGLGraphicsDevice.prototype.GetPixelFormat = function() { };
+AxWebGLGraphicsDevice.prototype.GetPixelFormat = function()
+{
+    return new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha);
+};
 
 
 

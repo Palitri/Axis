@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{33894e68-53f8-4611-b3cb-d981ad376e7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Sound">
+      <UniqueIdentifier>{162defdc-c4a7-457d-ae50-d942b84d45fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Sound\OpenAL">
+      <UniqueIdentifier>{2193a234-0f2c-4f18-88d0-5c8e6c68b54c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Sound\OpenAL\AxOpenALAudioDevice.h">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\OpenAL\AxOpenALDispatcher.h">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\OpenAL\AxOpenALSound.h">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\OpenAL\AxOpenALSoundEmitter.h">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound\OpenAL\AxOpenALSoundReceptor.h">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AxisEngine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\dllMain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\OpenAL\AxOpenALAudioDevice.cpp">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\OpenAL\AxOpenALDispatcher.cpp">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\OpenAL\AxOpenALSound.cpp">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\OpenAL\AxOpenALSoundEmitter.cpp">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound\OpenAL\AxOpenALSoundReceptor.cpp">
+      <Filter>Source\Sound\OpenAL</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

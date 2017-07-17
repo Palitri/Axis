@@ -118,7 +118,7 @@ AxDictionary.prototype.Remove = function(key)
 
 /**
  * Gets the value for the given key
- * @param {AxReferenceParameter} value The key whose respective value to get
+ * @param {*} value The key whose respective value to get
  * @param {AxReferenceParameter} key A reference, which outputs the value of the entry with the given key.
  * @return {Boolean} True if an entry with the given key exists and the value was successfully acquired
  */

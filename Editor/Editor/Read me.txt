@@ -1,0 +1,19 @@
+Axis Editor Readme
+
+
+
+To create a deployment of the editor:
+1. Make sure the paths in "Set Variables.cmd" are all correct
+2. Build release versions of both the engine and the editor
+3. Execute "Deploy.cmd"
+
+This will create an "Axis\Editor\bin" directory, where the editor will be deployed along with the required Qt and Axis libraries.
+
+
+
+To flush the makefiles:
+1. Make sure the paths in "Flush Makefiles.cmd" are all correct
+2. Execute "Flush Makefiles.cmd"
+
+This will delete the makefiles in the debug and relese folders.
+This may sometimes be needed, if the compiler refuses to use some freshly updated source code.

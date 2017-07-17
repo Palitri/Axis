@@ -1,0 +1,15 @@
+To be able to run and debug Axis Web on your local machine, you might need to have a web server running.
+
+Set the web server to host the whole Axis folder (so that both the "Resoruces" folder and the "Web" folder are accessible)
+
+To do that in Windows, first make sure you have the Internet Information Services features switched on (directions for Win7)
+1. Go to Control Panel -> Programs and Featrues
+2. Select "Turn Windows features on of off"
+3. From "Internet Information Services", make sure "World Wide Web Services" is checked
+
+To set up a web server (directions for Win7)
+1. Go to Control Panel -> Administrative Tools
+2. Select Internet Information Services (IIS) Manager
+3. In the "Connections" panel, right click the root item at the top and select "Add web site"
+4. Set "Physical Path" to the Axis folder, choose a site name, for example "Axis" and click ok
+5. In your browser of choice, you should be able to access "http://localhost/Web/HostPage.html"

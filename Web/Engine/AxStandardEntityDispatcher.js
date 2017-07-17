@@ -86,6 +86,43 @@ AxStandardEntityDispatcher.prototype.CreateEntity = function(context, typeId)
             return new AxTimeRateMechanism(context);
         }
         
+        
+        case AxPlaneGeometryMechanism.classId:
+        {
+            return new AxPlaneGeometryMechanism(context);
+        }
+        
+        case AxBoxGeometryMechanism.classId:
+        {
+            return new AxBoxGeometryMechanism(context);
+        }
+        
+        case AxConeGeometryMechanism.classId:
+        {
+            return new AxConeGeometryMechanism(context);
+        }
+        
+        case AxGeosphereGeometryMechanism.classId:
+        {
+            return new AxGeosphereGeometryMechanism(context);
+        }
+        
+        case AxSphereGeometryMechanism.classId:
+        {
+            return new AxSphereGeometryMechanism(context);
+        }
+        
+        case AxHeightmapGeometryMechanism.classId:
+        {
+            return new AxHeightmapGeometryMechanism(context);
+        }
+        
+        case AxTorusGeometryMechanism.classId:
+        {
+            return new AxTorusGeometryMechanism(context);
+        }
+        
+        
         /*
         case (AxResourceType.Mechanism << 16) | 8:
         {

@@ -59,7 +59,8 @@ AxWebImage.prototype.Load = function(source, callbackContext, callback)
             webCanvas.getContext('2d').drawImage(webImage, 0, 0, webImage.width, webImage.height);
 
             var imageData = webCanvas.getContext('2d').getImageData(0, 0, webCanvas.width, webCanvas.height).data;
-            sender.pixelData = new Uint8Array(imageData.length);
+            sender.SetPixelFormat(new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha));
+            sender.SetSize(webCanvas.width, webCanvas.height, 1);
             var lineSize = webCanvas.width * 4;
             for (var lineIndex = 0; lineIndex < webCanvas.height; lineIndex++)
             {
@@ -67,11 +68,6 @@ AxWebImage.prototype.Load = function(source, callbackContext, callback)
                 var lineData = imageData.slice(lineOffset, lineOffset + lineSize);
                 sender.pixelData.set(lineData, lineIndex * lineSize);
             }
-            //sender.pixelData = new Uin8Array();
-            sender.pixelFormat = new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha);
-            sender.width = webCanvas.width;
-            sender.height = webCanvas.height;
-            sender.depth = 1;
             
             if (!AxUtils.IsUndefinedOrNull(callback))
                 callback(sender, callbackContext, true);

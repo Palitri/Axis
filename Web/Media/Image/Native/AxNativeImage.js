@@ -74,7 +74,7 @@ AxNativeImage.prototype.Load = function(source, callbackContext, callback)
                     pixelDataSize = reader.chunkSize;
 
                 if (pixelDataSize > 0)
-                    reader.stream.ReadData(this.pixelData, pixelDataSize);
+                    reader.stream.ReadData(this.pixelData.buffer, pixelDataSize);
 
                 break;
             }

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{1fc1d239-59e6-4952-97a7-05dcc2fd140a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media">
+      <UniqueIdentifier>{a9ff7ddb-c075-4bef-a975-298cc575a27b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Sound">
+      <UniqueIdentifier>{fad094e3-3312-46d3-9ed0-897678a6ef5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Media\Sound\OGGVorbis">
+      <UniqueIdentifier>{1cd40014-2881-476e-8675-262548144442}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Media\Sound\OGGVorbis\AxOGGVorbisSoundMedia.h">
+      <Filter>Source\Media\Sound\OGGVorbis</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Sound\OGGVorbis\AxOGGVorbisSoundMediaDispatcher.h">
+      <Filter>Source\Media\Sound\OGGVorbis</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AxisEngine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\dllMain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Sound\OGGVorbis\AxOGGVorbisSoundMedia.cpp">
+      <Filter>Source\Media\Sound\OGGVorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Sound\OGGVorbis\AxOGGVorbisSoundMediaDispatcher.cpp">
+      <Filter>Source\Media\Sound\OGGVorbis</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

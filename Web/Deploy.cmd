@@ -21,7 +21,7 @@ set "MinifiedFileFullName=%cd%\AxisEngine-min.js"
 
 @echo Stamping license...
 set "TempFile=deploy.tmp"
-set "LicenseFile=License\AxisLicense-min.js"
+set "LicenseFile=Supplemental\AxisLicense-min.js"
 type %LicenseFile% > %TempFile%
 type %MinifiedFileFullName% >> %TempFile%
 type %TempFile% > %MinifiedFileFullName%
