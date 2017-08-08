@@ -117,6 +117,7 @@ var scriptFiles =
     'Engine/Entities/Settings/AxSettings.js',
 
     'Engine/Input/AxInput.js',
+    'Engine/Input/AxInputControls.js',
     'Engine/Input/AxInputModel.js',
 
     'Engine/Input/Models/AxFlightInputModel.js',
@@ -150,6 +151,8 @@ var scriptFiles =
 
     'Input/HtmlCanvas/AxHtmlCanvasInputDevice.js',
     'Input/HtmlCanvas/AxHtmlCanvasInputDispatcher.js',
+    'Input/HtmlGamepad/AxHtmlGamepadInputDevice.js',
+    'Input/HtmlGamepad/AxHtmlGamepadInputDispatcher.js',
 
     'Media/AxMedia.js',
 

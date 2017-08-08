@@ -1,3 +1,7 @@
+/**
+ * Represents a resource type for an AxResource object
+ * @type Object
+ */
 var AxResourceType = Object.freeze(
 {
     None : 0,

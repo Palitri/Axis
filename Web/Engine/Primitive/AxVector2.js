@@ -1,5 +1,4 @@
 /**
- * @constructor
  * Creates a vector object and initializes its components
  * Sets the components of the vector to the given values. Supports multiple input formats
  * Valid input formats are
@@ -9,6 +8,7 @@
  * (AxVector2) - Copies the components from the given vector
  * @param {!Number|AxVector2} v1 For (number) input - the value to set to all components. For (x, y) input - the value for the X component of the vector. For (AxVector2) input - the vector to copy from.
  * @param {!Number} v2 For (x, y) input - the value for the Y component.
+ * @constructor
  */
 function AxVector2(v1, v2)
 {

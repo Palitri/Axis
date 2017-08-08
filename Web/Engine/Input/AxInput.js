@@ -29,3 +29,22 @@ AxInput.prototype.AcquireInput = function(inputName, inputType)
 
     return null;
 };
+
+/**
+ * Fills an AxInputControls with the input properties corresponding to the given names
+ * @param {AxInputControls} result A list to be filled with AxProperty properties from the input, corresponding the the given property names
+ * @param {String|AxString} inputNames Names of input properties. Can be a single name or multiple comma separated names
+ */
+AxInput.prototype.GetInputControls = function(result, inputNames)
+{
+    inputNames = AxString.GetAxString(inputNames);
+
+    var names = new AxStrings();
+	names.SplitString(inputNames, ",");
+	for (var i = 0; i < names.count; i++)
+	{
+		var prop = this.GetProperty(names.Get(i));
+		if (prop !== null)
+			result.Add(prop);
+	}
+};

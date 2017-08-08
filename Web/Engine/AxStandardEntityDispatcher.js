@@ -1,6 +1,7 @@
 /**
- * 
  * Creates a new entity dispatcher for the standard entities in Axis
+ * The entity dispatcher creates instances of all the AxResource descendant classes by providing the respective classId
+ * @constructor
  */
 function AxStandardEntityDispatcher()
 {

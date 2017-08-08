@@ -676,7 +676,7 @@ bool AxFileObj::Read(AxStream *dataStream)
 		hasLastHeadArg = true;
 	}
 
-	delete this->data;
+	delete[] this->data;
 
 	delete currentMesh;
 

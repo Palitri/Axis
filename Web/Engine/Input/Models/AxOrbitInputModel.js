@@ -17,7 +17,7 @@
  * @param {String|AxString} rollLeftInput Names of the inputs to control the roll left rotation. Passing a null or empty string value would discard the control.
  * @param {String|AxString} rollRightInput Names of the inputs to control the roll right rotation. Passing a null or empty string value would discard the control.
  * @param {String|AxString} orbitConditionInput Names of the inputs to serve as a condition for allowing orbiting. Passing a null or empty string value would discard the condition.
- * @returns {AxOrbitInputModel}
+ * @constructor
  */
 function AxOrbitInputModel(context, pivotalTransform, orbitalTransform, rotationSpeed, rotationResponsiveness, upInput, downInput, leftInput, rightInput, rollLeftInput, rollRightInput, orbitConditionInput)
 {
@@ -25,13 +25,13 @@ function AxOrbitInputModel(context, pivotalTransform, orbitalTransform, rotation
 
     this.orbitVector = new AxVector3();
 
-    this.upInput = new AxList();
-    this.downInput = new AxList();
-    this.leftInput = new AxList();
-    this.rightInput = new AxList();
-    this.rollLeftInput = new AxList();
-    this.rollRightInput = new AxList();
-    this.orbitConditionInput = new AxList();
+    this.upInput = new AxInputControls();
+    this.downInput = new AxInputControls();
+    this.leftInput = new AxInputControls();
+    this.rightInput = new AxInputControls();
+    this.rollLeftInput = new AxInputControls();
+    this.rollRightInput = new AxInputControls();
+    this.orbitConditionInput = new AxInputControls();
 
     this.context = context;
     this.pivotalTransform = pivotalTransform;
@@ -40,13 +40,13 @@ function AxOrbitInputModel(context, pivotalTransform, orbitalTransform, rotation
     this.rotationSpeed = rotationSpeed;
     this.rotationResponsiveness = rotationResponsiveness;
 
-    AxInputModel.ParseInputNames(this.context.input, this.upInput, upInput);
-    AxInputModel.ParseInputNames(this.context.input, this.downInput, downInput);
-    AxInputModel.ParseInputNames(this.context.input, this.leftInput, leftInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rightInput, rightInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rollLeftInput, rollLeftInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rollRightInput, rollRightInput);
-    AxInputModel.ParseInputNames(this.context.input, this.orbitConditionInput, orbitConditionInput);
+    this.context.input.GetInputControls(this.upInput, upInput);
+    this.context.input.GetInputControls(this.downInput, downInput);
+    this.context.input.GetInputControls(this.leftInput, leftInput);
+    this.context.input.GetInputControls(this.rightInput, rightInput);
+    this.context.input.GetInputControls(this.rollLeftInput, rollLeftInput);
+    this.context.input.GetInputControls(this.rollRightInput, rollRightInput);
+    this.context.input.GetInputControls(this.orbitConditionInput, orbitConditionInput);
 }
 
 AxOrbitInputModel.prototype = Object.create(AxInputModel.prototype);
@@ -65,11 +65,11 @@ AxOrbitInputModel.prototype.Process = function()
     var speedFactor = this.context.timer.actualTime;
 
     var orbitVector = new AxVector3();
-    if ((this.orbitConditionInput.count === 0) || AxInputModel.ProcessInputProperties(this.orbitConditionInput, speedFactor) !== 0.0)
+    if ((this.orbitConditionInput.count === 0) || this.orbitConditionInput.GetValue(speedFactor) !== 0.0)
     {
-        orbitVector.x = AxInputModel.ProcessInputProperties(this.leftInput, speedFactor) - AxInputModel.ProcessInputProperties(this.rightInput, speedFactor);
-        orbitVector.y = AxInputModel.ProcessInputProperties(this.upInput, speedFactor) - AxInputModel.ProcessInputProperties(this.downInput, speedFactor);
-        orbitVector.z = AxInputModel.ProcessInputProperties(this.rollLeftInput, speedFactor) - AxInputModel.ProcessInputProperties(this.rollRightInput, speedFactor);
+        orbitVector.x = this.leftInput.GetValue(speedFactor) - this.rightInput.GetValue(speedFactor);
+        orbitVector.y = this.upInput.GetValue(speedFactor) - this.downInput.GetValue(speedFactor);
+        orbitVector.z = this.rollLeftInput.GetValue(speedFactor) - this.rollRightInput.GetValue(speedFactor);
     }
     else
         orbitVector.Set(0.0);

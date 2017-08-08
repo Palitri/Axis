@@ -8,6 +8,7 @@
 
 #include "AxInput.h"
 
+#include "..\..\Tools\AxStrings.h"
 
 AxInput::AxInput(void)
 {
@@ -18,7 +19,7 @@ AxInput::~AxInput(void)
 {
 }
 
-AxProperty *AxInput::AcquireInput(const AxString &inputName, AxParameterType inputType)
+AxProperty *AxInput::AcquireInputControl(const AxString &inputName, AxParameterType inputType)
 {
 	AxProperty *result = this->GetProperty(inputName);
 	
@@ -29,4 +30,16 @@ AxProperty *AxInput::AcquireInput(const AxString &inputName, AxParameterType inp
 		return result;
 
 	return 0;
+}
+
+void AxInput::GetInputControls(AxInputControls &result, const AxString &inputNames)
+{
+	AxStrings names;
+	names.SplitString(AxString(inputNames.contents), ",");
+	for (int i = 0; i < names.count; i++)
+	{
+		AxProperty *prop = this->GetProperty(names[i]);
+		if (prop != 0)
+			result.Add(prop);
+	}
 }

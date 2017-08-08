@@ -1,5 +1,6 @@
 /**
  * Creates a new cone geometry mechanism
+ * @constructor
  */
 function AxConeGeometryMechanism()
 {

@@ -74,6 +74,7 @@
 
 #include "Engine\Input\AxInput.h"
 #include "Engine\Input\AxInputModel.h"
+#include "Engine\Input\AxInputControls.h"
 
 #include "Engine\Input\Models\AxWalkInputModel.h"
 #include "Engine\Input\Models\AxFlightInputModel.h"

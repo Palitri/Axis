@@ -1,6 +1,7 @@
 /**
  * Creates spherical mapped texture coordinates for a mesh
  * @param {AxDeviceMesh} result The mesh to map texture coordinates on to
+ * @constructor
  */
 function AxSphericalTexCoords(result)
 {

@@ -71,7 +71,7 @@ void AxGaussianBlurImage::ComputeKernel(int kernelSize, float standardDeviation)
 {
 	if (this->kernel != 0)
 	{
-		delete this->kernel;
+		delete[] this->kernel;
 		this->kernel = 0;
 	}
 

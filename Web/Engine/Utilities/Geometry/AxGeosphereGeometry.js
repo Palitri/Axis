@@ -5,6 +5,7 @@
  * @param {AxDeviceMesh} result The mesh in which to create the sphere
  * @param {Number} radius The radius of the sphere
  * @param {Integer} subDivisions The number of subdivisions to apply to the polygons of the sphere
+ * @constructor
  */
 function AxGeosphereGeometry(result, radius, subDivisions)
 {

@@ -1,5 +1,6 @@
 /**
  * Creates a new box geometry mechanism
+ * @constructor
  */
 function AxBoxGeometryMechanism()
 {

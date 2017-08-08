@@ -2,6 +2,7 @@
  * Transforms the texture coordinates of a mesh
  * @param {AxDeviceMesh} result The mesh to have its texture coordinates transformed
  * @param {AxMatrix} transformation The transformation to apply to the texture coordinates of the mesh
+ * @constructor
  */
 function AxTransformTexCoords(result, transformation)
 {

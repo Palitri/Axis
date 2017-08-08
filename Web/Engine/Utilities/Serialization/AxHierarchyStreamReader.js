@@ -1,4 +1,9 @@
-
+/**
+ * Creates a new AxHierarchyStreamReader
+ * AxHierarchyStreamReader utilizes the deserialization of streams built in Axis' heirarchical serialization format
+ * @param {AxStream} stream The stream from which to read
+ * @constructor
+ */
 function AxHierarchyStreamReader(stream)
 {
     this.stream = stream;

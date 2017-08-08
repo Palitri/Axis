@@ -1,5 +1,6 @@
 /**
  * Creates a new plane geometry mechanism
+ * @constructor
  */
 function AxPlaneGeometryMechanism()
 {

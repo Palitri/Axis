@@ -1,3 +1,7 @@
+/**
+ * Denotes the writing mode for a stream
+ * @type Object
+ */
 var StreamWriteMode = Object.freeze(
 {
     Overwrite : 0,
@@ -5,8 +9,8 @@ var StreamWriteMode = Object.freeze(
 });
 
 /**
- * @constructor
  * Creates a memory stream object
+ * @constructor
  */
 function AxMemoryStream()
 {

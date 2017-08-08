@@ -40,10 +40,10 @@ AxFile3dsMesh::AxFile3dsMesh(void)
 AxFile3dsMesh::~AxFile3dsMesh(void)
 {
 	if (this->vertices != 0)
-		delete this->vertices;
+		delete[] this->vertices;
 
 	if (this->faces != 0)
-		delete this->faces;
+		delete[] this->faces;
 }
 
 void AxFile3dsMesh::InverseTransformation()

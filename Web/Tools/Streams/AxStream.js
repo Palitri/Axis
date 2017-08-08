@@ -10,11 +10,11 @@ var StreamSeekMode = Object.freeze(
 
 
 /**
- * @constructor
  * Creates a stream object
  * This prototype is meant to be inherited by overriding the following two methods:
  * ReadData(data, size) where data is an ArrayBuffer, size is the amount of bytes to read from the stream into the ArrayBuffer and the return value is the amount of bytes actually read.
  * WriteData(data, size) where data is an ArrayBuffer, size is the amount of bytes to write to the stream from the ArrayBuffer and the return value is the amount of bytes actually written.
+ * @constructor
  */
 function AxStream()
 {

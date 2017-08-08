@@ -1,0 +1,37 @@
+<p>
+Axis 3D Web engine
+<br/>
+Copyright (c) Palitri
+</p>
+<p>
+Application programming interface documentation
+</p>
+<p>
+These documents describe the API for the JavaScript implementation of the Axis 3D engine for web pages.
+<br>
+This programming interface follows the C++ desktop implentation as closely as possible, though there are some language and platform specifics in each implementation.
+</p>
+<p>
+The web implementation of the engine is provided as a project of multiple files in the <a href="http://palitri.com/vault/axis/engine/sdk/current/AxisEngineSDK.zip">Axis SDK</a>
+<br/>
+This is useful when developing your project.
+</p>
+<p>
+It is also available in the form of a single file
+<br/>
+This is useful when deploying the final version of your project.
+<ul>
+<li><a href="http://palitri.com/vault/axis/engine/web/current/AxisEngine-full.js">AxisEngine-full.js</a> file with api summaries</li>
+<li><a href="http://palitri.com/vault/axis/engine/web/current/AxisEngine-min.js">AxisEngine-min.js</a> its minified version</li>
+</ul>
+</p>
+<p>
+For more info, see the <a href="http://localhost:50547/resources/axis/general/versions/">versions</a> page or the <a href="http://localhost:50547/axis/download/">downloads</a> page.
+</p>
+<p>
+This documentation references the source code files from the project included in the SDK.
+The project files, AxisEngine-full.js and AxisEngine-min.js of the same version are practically the same thing and provide identical API and functionality.
+</p>
+<p>
+If you have questions, please feel free to <a href="http://palitri.com/contact/">contact us</a>
+</p>

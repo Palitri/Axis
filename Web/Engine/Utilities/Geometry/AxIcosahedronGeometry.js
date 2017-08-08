@@ -4,6 +4,7 @@
  * New mesh indices are created
  * @param {AxDeviceMesh} result The height scaling factor
  * @param {Number} radius The height scaling factor
+ * @constructor
  */
 function AxIcosahedronGeometry(result, radius)
 {

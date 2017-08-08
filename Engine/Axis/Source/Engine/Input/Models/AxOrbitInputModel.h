@@ -3,6 +3,7 @@
 #include "..\..\..\AxGlobals.h"
 
 #include "..\AxInputModel.h"
+#include "..\AxInputControls.h"
 
 #include "..\..\Axis.h"
 
@@ -19,7 +20,7 @@ public:
 	AxTransform *pivotalTransform, *orbitalTransform;
 
 	float rotationSpeed, rotationResponsiveness;
-	AxList<AxProperty*> upInput, downInput, leftInput, rightInput, rollLeftInput, rollRightInput, orbitConditionInput;
+	AxInputControls upInput, downInput, leftInput, rightInput, rollLeftInput, rollRightInput, orbitConditionInput;
 
 	AxOrbitInputModel(Axis *context, AxTransform *pivotalTransform, AxTransform *orbitalTransform, float rotationSpeed, float rotationResponsiveness, const AxString &upInput, const AxString &downInput, const AxString &leftInput, const AxString &rightInput, const AxString &rollLeftInput, const AxString &rollRightInput, const AxString &orbitConditionInput);
 	virtual ~AxOrbitInputModel(void);

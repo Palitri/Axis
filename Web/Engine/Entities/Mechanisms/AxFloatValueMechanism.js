@@ -1,6 +1,7 @@
 /**
  * Creates a new float value mechanism. Used to produce a simple floating point value
  * @param {Number} value The value which the mechanism is to produce
+ * @constructor
  */
 function AxFloatValueMechanism(value)
 {

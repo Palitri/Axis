@@ -2,6 +2,7 @@
  * Creates a new polynomial mechanism.
  * This mechanism yields the result of a polynomial function
  * @param {Integer} degree The degree of the polynomial
+ * @constructor
  */
 function AxPolynomialMechanism(degree)
 {

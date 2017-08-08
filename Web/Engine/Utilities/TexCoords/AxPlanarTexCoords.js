@@ -3,6 +3,7 @@
  * @param {AxDeviceMesh} result The mesh to map texture coordinates on to
  * @param {AxVector3} planeX The orientation and size of the mapping plane's X axis
  * @param {AxVector3} planeY The orientation and size of the mapping plane's Y axis
+ * @constructor
  */
 function AxPlanarTexCoords(result, planeX, planeY)
 {

@@ -1,5 +1,5 @@
 /**
- * Gets fired when a script file Axis web library progresses on loading
+ * Gets fired when the Axis web library progresses on loading a script file
  * @callback ScriptFilesLoadProgressCallback
  * @param {Number} Percentage of loading progress
  * @param {string} Url of the file just loaded

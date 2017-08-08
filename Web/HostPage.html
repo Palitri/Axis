@@ -16,8 +16,9 @@
             axis.ImportScene("../Resources/Terrain/Terrain.axs", 
                 function() 
                 { 
-                    axis.inputModels.Add(new AxWalkInputModel(axis, axis.FindResource("Camera", AxResourceType.Transform), 20.0, 5.0, 0.5, 5.0,
-                        "Mouse Left,Key W", "Mouse Right,Key S", "Key A", "Key D", "Mouse Scroll,Key Space", "Key Shift", "", "Mouse Y", "", "", "Mouse X", "Mouse Left,Mouse Right"));
+                    axis.inputModels.Add(new AxWalkInputModel(axis, axis.FindResource("Camera", AxResourceType.Transform), 20.0, 5.0, 0.2, 5.0,
+                        "Mouse Left,Key W,Pad Analog Y left", "Mouse Right,Key S", "Key A", "Key D,Pad Analog X left", "Mouse Scroll,Key Space", "Key Shift", "", 
+                        "Mouse Y,Pad Analog Y right", "", "", "Mouse X,Pad Analog X right", "Mouse Left,Mouse Right,Pad Analog Y right,Pad Analog X right"));
 
                     animation.StartRendering();
                 });

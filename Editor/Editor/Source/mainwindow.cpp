@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->importImageDir = settings.value("importImageDir").toString();
     this->exportImageDir = settings.value("exportImageDir").toString();
     this->importSoundDir = settings.value("importSoundDir").toString();
-    this->selectedGraphicsDevice = settings.value("selectedGraphicsDevice", QVariant(QString("OpenGL"))).toString();
+    this->selectedGraphicsDevice = settings.value("selectedGraphicsDevice", QVariant(QString("Direct3D 11"))).toString();
     this->selectedAudioDevice = settings.value("selectedAudioDevice").toString();
     this->recentlyOpenedScenes = settings.value("recentlyOpenedScenes").toStringList();
     this->ui->wRender->fixedYUp = settings.value("fixedYUp", QVariant(true)).toBool();
@@ -841,7 +841,7 @@ void MainWindow::on_horizontalSlider_sliderReleased()
 
 void MainWindow::on_actionOnlineDocumentation_triggered()
 {
-    QDesktopServices::openUrl(QUrl("http://palitri.com/axis/docs/"));
+    QDesktopServices::openUrl(QUrl("http://palitri.com/resources/"));
 }
 
 void MainWindow::on_actionHome_Page_triggered()
@@ -851,7 +851,7 @@ void MainWindow::on_actionHome_Page_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, "Axis", QString("Axis Editor<br/>Beta release, version ") + VER_PRODUCTVERSION_STR + "<br/><a href=\"http://palitri.com\">palitri.com</a>");
+    QMessageBox::about(this, "Axis", QString("Axis Editor<br/>Version ") + VER_PRODUCTVERSION_STR + "<br/><a href=\"http://palitri.com\">palitri.com</a>");
 }
 
 void MainWindow::on_actionExport_triggered()

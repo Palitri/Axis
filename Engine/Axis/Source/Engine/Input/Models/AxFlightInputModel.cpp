@@ -14,20 +14,20 @@ AxFlightInputModel::AxFlightInputModel(Axis *context, AxTransform *transform, fl
 	this->context = context;
 	this->transform = transform;
 
-	AxInputModel::ParseInputNames(this->context->input, this->forwardInput, forwardInput);
-	AxInputModel::ParseInputNames(this->context->input, this->backwardInput, backwardInput);
-	AxInputModel::ParseInputNames(this->context->input, this->leftInput, leftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rightInput, rightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->upInput, upInput);
-	AxInputModel::ParseInputNames(this->context->input, this->downInput, downInput);
-	AxInputModel::ParseInputNames(this->context->input, this->moveConditionInput, moveConditionInput);
-	AxInputModel::ParseInputNames(this->context->input, this->pitchUpInput, pitchUpInput);
-	AxInputModel::ParseInputNames(this->context->input, this->pitchDownInput, pitchDownInput);
-	AxInputModel::ParseInputNames(this->context->input, this->yawLeftInput, yawLeftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->yawRightInput, yawRightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rollLeftInput, rollLeftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rollRightInput, rollRightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->turnConditionInput, turnConditionInput);
+	this->context->input->GetInputControls(this->forwardInput, forwardInput);
+	this->context->input->GetInputControls(this->backwardInput, backwardInput);
+	this->context->input->GetInputControls(this->leftInput, leftInput);
+	this->context->input->GetInputControls(this->rightInput, rightInput);
+	this->context->input->GetInputControls(this->upInput, upInput);
+	this->context->input->GetInputControls(this->downInput, downInput);
+	this->context->input->GetInputControls(this->moveConditionInput, moveConditionInput);
+	this->context->input->GetInputControls(this->pitchUpInput, pitchUpInput);
+	this->context->input->GetInputControls(this->pitchDownInput, pitchDownInput);
+	this->context->input->GetInputControls(this->yawLeftInput, yawLeftInput);
+	this->context->input->GetInputControls(this->yawRightInput, yawRightInput);
+	this->context->input->GetInputControls(this->rollLeftInput, rollLeftInput);
+	this->context->input->GetInputControls(this->rollRightInput, rollRightInput);
+	this->context->input->GetInputControls(this->turnConditionInput, turnConditionInput);
 
 	this->moveSpeed = moveSpeed;
 	this->moveResponsiveness = moveResponsiveness;
@@ -48,11 +48,11 @@ void AxFlightInputModel::Process()
 	float speedFactor = this->context->timer->actualTime;
 
 	AxVector3 moveVector;
-	if ((this->moveConditionInput.count == 0) || AxInputModel::ProcessInputProperties(this->moveConditionInput, speedFactor) != 0.0f)
+	if ((this->moveConditionInput.count == 0) || this->moveConditionInput.GetValue(speedFactor) != 0.0f)
 	{
-		moveVector.x = AxInputModel::ProcessInputProperties(this->leftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->rightInput, speedFactor);
-		moveVector.y = AxInputModel::ProcessInputProperties(this->upInput, speedFactor) - AxInputModel::ProcessInputProperties(this->downInput, speedFactor);
-		moveVector.z = AxInputModel::ProcessInputProperties(this->forwardInput, speedFactor) - AxInputModel::ProcessInputProperties(this->backwardInput, speedFactor);
+		moveVector.x = this->leftInput.GetValue(speedFactor) - this->rightInput.GetValue(speedFactor);
+		moveVector.y = this->upInput.GetValue(speedFactor) - this->downInput.GetValue(speedFactor);
+		moveVector.z = this->forwardInput.GetValue(speedFactor) - this->backwardInput.GetValue(speedFactor);
 	}
 	else
 		moveVector.Set(0.0f);
@@ -63,11 +63,11 @@ void AxFlightInputModel::Process()
 
 
 	AxVector3 turnVector;
-	if ((this->turnConditionInput.count == 0) || AxInputModel::ProcessInputProperties(this->turnConditionInput, speedFactor) != 0.0f)
+	if ((this->turnConditionInput.count == 0) || this->turnConditionInput.GetValue(speedFactor) != 0.0f)
 	{
-		turnVector.x = AxInputModel::ProcessInputProperties(this->pitchUpInput, speedFactor) - AxInputModel::ProcessInputProperties(this->pitchDownInput, speedFactor);
-		turnVector.y = AxInputModel::ProcessInputProperties(this->yawLeftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->yawRightInput, speedFactor);
-		turnVector.z = AxInputModel::ProcessInputProperties(this->rollLeftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->rollRightInput, speedFactor);
+		turnVector.x = this->pitchUpInput.GetValue(speedFactor) - this->pitchDownInput.GetValue(speedFactor);
+		turnVector.y = this->yawLeftInput.GetValue(speedFactor) - this->yawRightInput.GetValue(speedFactor);
+		turnVector.z = this->rollLeftInput.GetValue(speedFactor) - this->rollRightInput.GetValue(speedFactor);
 	}
 	else
 		turnVector.Set(0.0f);

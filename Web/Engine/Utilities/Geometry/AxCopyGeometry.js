@@ -6,6 +6,7 @@
  * @param {AxDeviceMesh} result The mesh in which to copy
  * @param {AxDeviceMesh} source The mesh to be copied
  * @param {!AxMatrix} transform A transformation to be applied on the copied mesh. If omitted, no transformation is applied.
+ * @constructor
  */
 function AxCopyGeometry(result, source, transform)
 {

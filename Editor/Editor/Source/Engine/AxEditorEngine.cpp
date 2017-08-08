@@ -110,7 +110,7 @@ void AxEditorEngine::CreateVisualControls()
 
     // YAxis
     this->yAxis = new AxMesh(this);
-    AxMergeGeometry(*this->yAxis->deviceMesh, arrowBody, arrowTip, arrowTipTransform, arrowBodyTransform);
+    AxMergeGeometry(*this->yAxis->deviceMesh, arrowBody, arrowTip, arrowBodyTransform, arrowTipTransform);
 
     this->yAxis->ComputeNormals();
     this->yAxis->ComputeBounds();
@@ -278,7 +278,7 @@ void AxEditorEngine::CreateVisualControls()
 
     // Scaling YAxis
     this->yScaling = new AxMesh(this);
-    AxMergeGeometry(*this->yScaling->deviceMesh, scalingArrowBody, scalingArrowTip, scalingArrowTipTransform, scalingArrowBodyTransform);
+    AxMergeGeometry(*this->yScaling->deviceMesh, scalingArrowBody, scalingArrowTip, scalingArrowBodyTransform, scalingArrowTipTransform);
 
     this->yScaling->ComputeNormals();
     this->yScaling->ComputeBounds();
@@ -806,21 +806,21 @@ QImage *AxEditorEngine::RenderThumbnailMaterial(AxMaterial *material, int width,
 
 QImage *AxEditorEngine::RenderThumbnailTexture(AxTexture2D *texture, int width, int height)
 {
-    return 0;
+    //return 0;
 
-    //    AxEntitySet *originalRoot = this->root;
-    //    this->root = this->thumbnailTextureSet;
-    //    this->thumbnailTextureProperty->SetValue(texture, AxParameterType_ReferenceTexture);
+    AxEntitySet *originalRoot = this->root;
+    this->root = this->thumbnailTextureSet;
+    this->thumbnailTextureProperty->SetValue(texture, AxParameterType_ReferenceTexture);
 
-    //    AxImage *image = this->TakeScreenshot(width, height);
+    AxImage *image = this->TakeScreenshot(width, height);
 
-    //    this->thumbnailTextureProperty->SetValue(0, AxParameterType_ReferenceTexture);
-    //    this->root = originalRoot;
+    this->thumbnailTextureProperty->SetValue(0, AxParameterType_ReferenceTexture);
+    this->root = originalRoot;
 
-    //    QImage *result = EditorUtils::AxToQImage(image);
-    //    delete image;
+    QImage *result = EditorUtils::AxToQImage(image);
+    delete image;
 
-    //    return result;
+    return result;
 
 
 //    if ((texture->properties[AxTexture2D::propertyIndex_Width]->GetInt() == 0) || (texture->properties[AxTexture2D::propertyIndex_Height]->GetInt() == 0))

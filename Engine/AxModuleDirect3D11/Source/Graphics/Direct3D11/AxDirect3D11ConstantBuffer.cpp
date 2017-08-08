@@ -24,7 +24,7 @@ void AxDirect3D11ConstantBuffer::SetDataSize(int dataSizeInBytes)
 {
 	if (this->data != 0)
 	{
-		delete this->data;
+		delete[] this->data;
 		this->data = 0;
 		this->dataSize = 0;
 	}

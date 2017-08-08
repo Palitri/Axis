@@ -939,6 +939,9 @@
     <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.h">
       <Filter>Source\Input\WindowsForms</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Input\AxInputControls.h">
+      <Filter>Source\Engine\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Graphics\Soras\Engine\Soras.cpp">
@@ -1576,6 +1579,9 @@
     </ClCompile>
     <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.cpp">
       <Filter>Source\Input\WindowsForms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Input\AxInputControls.cpp">
+      <Filter>Source\Engine\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@
  * @param {AxAnimationElementRender} onRenderEvent The method which to perform rendering of a frame
  * @param {!Boolean} startRendering Denotes whether to start rendering immediately. If omitted, assumes a default value of false
  * @param {!Boolean} enableContextMenu Denotes whether to enable the default context menu on the canvas element. If omitted, assumes a default value of false
+ * @constructor
  */
 function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableContextMenu)
 {

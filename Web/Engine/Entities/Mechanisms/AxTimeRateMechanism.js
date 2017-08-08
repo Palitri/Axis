@@ -2,6 +2,7 @@
  * Creates a new time rate mechanism.
  * This mechanism yields the current time rate of the scene
  * @param {Axis} context The context to use for the mechanism
+ * @constructor
  */
 function AxTimeRateMechanism(context)
 {

@@ -11,6 +11,7 @@
  * @param {Number} turns The number turns made by the tube of the torus
  * @param {Boolean} weldEnds Denotes whether to weld the ends of the torus tube
  * @param {Boolean} weldSurface Denotes whether to weld the surface, which makes up the torus tube
+ * @constructor
  */
 function AxTorusGeometry(result, radialSegments, ringSegments, twists, radius, ringRadius, spiralSize, helicalHeight, turns, weldEnds, weldSurface)
 {

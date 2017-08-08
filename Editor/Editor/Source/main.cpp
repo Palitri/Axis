@@ -10,6 +10,9 @@
 #include "VersionInfo.h"
 #include <QApplication>
 
+#include "AxisEngine.h"
+#include "EditorTools/EditorUtils.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -24,7 +27,7 @@ int main(int argc, char *argv[])
     w.show();
 
     if (argc > 1)
-        w.OpenScene(argv[1]);
+        w.OpenScene(EditorUtils::AxToQString(AxString(argv[1]).Replace("\\", "/")));
 
     return a.exec();
 }

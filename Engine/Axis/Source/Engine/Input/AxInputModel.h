@@ -9,9 +9,6 @@
 class AXDLLCLASS AxInputModel
 {
 public:
-	static void ParseInputNames(AxInput *input, AxList<AxProperty*> &properties, const AxString &propertyNames);
-	static float ProcessInputProperties(AxList<AxProperty*> &inputProperties, float deltaTime);
-
 	AxInputModel(void);
 	virtual ~AxInputModel(void);
 

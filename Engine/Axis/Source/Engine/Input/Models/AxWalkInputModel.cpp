@@ -14,18 +14,18 @@ AxWalkInputModel::AxWalkInputModel(Axis *context, AxTransform *transform, float 
 	this->context = context;
 	this->transform = transform;
 
-	AxInputModel::ParseInputNames(this->context->input, this->forwardInput, forwardInput);
-	AxInputModel::ParseInputNames(this->context->input, this->backwardInput, backwardInput);
-	AxInputModel::ParseInputNames(this->context->input, this->leftInput, leftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rightInput, rightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->upInput, upInput);
-	AxInputModel::ParseInputNames(this->context->input, this->downInput, downInput);
-	AxInputModel::ParseInputNames(this->context->input, this->moveConditionInput, moveConditionInput);
-	AxInputModel::ParseInputNames(this->context->input, this->turnUpInput, turnUpInput);
-	AxInputModel::ParseInputNames(this->context->input, this->turnDownInput, turnDownInput);
-	AxInputModel::ParseInputNames(this->context->input, this->turnLeftInput, turnLeftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->turnRightInput, turnRightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->turnConditionInput, turnConditionInput);
+	this->context->input->GetInputControls(this->forwardInput, forwardInput);
+	this->context->input->GetInputControls(this->backwardInput, backwardInput);
+	this->context->input->GetInputControls(this->leftInput, leftInput);
+	this->context->input->GetInputControls(this->rightInput, rightInput);
+	this->context->input->GetInputControls(this->upInput, upInput);
+	this->context->input->GetInputControls(this->downInput, downInput);
+	this->context->input->GetInputControls(this->moveConditionInput, moveConditionInput);
+	this->context->input->GetInputControls(this->turnUpInput, turnUpInput);
+	this->context->input->GetInputControls(this->turnDownInput, turnDownInput);
+	this->context->input->GetInputControls(this->turnLeftInput, turnLeftInput);
+	this->context->input->GetInputControls(this->turnRightInput, turnRightInput);
+	this->context->input->GetInputControls(this->turnConditionInput, turnConditionInput);
 
 	this->moveSpeed = moveSpeed;
 	this->moveResponsiveness = moveResponsiveness;
@@ -46,11 +46,11 @@ void AxWalkInputModel::Process()
 	float speedFactor = this->context->timer->actualTime;
 
 	AxVector3 moveVector;
-	if ((this->moveConditionInput.count == 0) || AxInputModel::ProcessInputProperties(this->moveConditionInput, speedFactor) != 0.0f)
+	if ((this->moveConditionInput.count == 0) || this->moveConditionInput.GetValue(speedFactor) != 0.0f)
 	{
-		moveVector.x = AxInputModel::ProcessInputProperties(this->leftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->rightInput, speedFactor);
-		moveVector.y = AxInputModel::ProcessInputProperties(this->upInput, speedFactor) - AxInputModel::ProcessInputProperties(this->downInput, speedFactor);
-		moveVector.z = AxInputModel::ProcessInputProperties(this->forwardInput, speedFactor) - AxInputModel::ProcessInputProperties(this->backwardInput, speedFactor);
+		moveVector.x = this->leftInput.GetValue(speedFactor) - this->rightInput.GetValue(speedFactor);
+		moveVector.y = this->upInput.GetValue(speedFactor) - this->downInput.GetValue(speedFactor);
+		moveVector.z = this->forwardInput.GetValue(speedFactor) - this->backwardInput.GetValue(speedFactor);
 	}
 	else
 		moveVector.Set(0.0f);
@@ -61,10 +61,10 @@ void AxWalkInputModel::Process()
 
 
 	AxVector2 turnVector;
-	if ((this->turnConditionInput.count == 0) || AxInputModel::ProcessInputProperties(this->turnConditionInput, speedFactor) != 0.0f)
+	if ((this->turnConditionInput.count == 0) || this->turnConditionInput.GetValue(speedFactor) != 0.0f)
 	{
-		turnVector.x = AxInputModel::ProcessInputProperties(this->turnUpInput, speedFactor) - AxInputModel::ProcessInputProperties(this->turnDownInput, speedFactor);
-		turnVector.y = AxInputModel::ProcessInputProperties(this->turnLeftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->turnRightInput, speedFactor);
+		turnVector.x = this->turnUpInput.GetValue(speedFactor) - this->turnDownInput.GetValue(speedFactor);
+		turnVector.y = this->turnLeftInput.GetValue(speedFactor) - this->turnRightInput.GetValue(speedFactor);
 	}
 	else
 		turnVector.Set(0.0f);

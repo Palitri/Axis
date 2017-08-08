@@ -6,6 +6,7 @@
  * @param {AxImage} map The image from which to sample the height values
  * @param {AxVector4} colorFilter The color filter to apply when sampling the height values.
  * @param {Number} heightScaling The height scaling factor
+ * @constructor
  */
 function AxHeightMapGeometry(result, map, colorFilter, heightScaling)
 {
