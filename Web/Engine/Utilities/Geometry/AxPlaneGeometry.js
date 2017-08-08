@@ -7,6 +7,7 @@
  * @param {Integer} ySegments The number of segments along the plane's Y axis
  * @param {!AxVector3} xAxis The orientation of the plane's X axis. If omitted, the arbitraty X axis is assumed
  * @param {!AxVector3} yAxis The orientation of the plane's Y axis. If omitted, the arbitraty Y axis is assumed
+ * @constructor
  */
 function AxPlaneGeometry(result, xSegments, ySegments, xAxis, yAxis)
 {

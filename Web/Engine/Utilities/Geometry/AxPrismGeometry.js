@@ -9,6 +9,7 @@
  * @param {Integer} heightSegments The number of segments along the height of the prism
  * @param {!Integer} bottomCapSegments The number of segments of the bottom base of the prism. If omitted or zero, no bottom base is created
  * @param {!Integer} topCapSegments The number of segments of the top base of the prism. If omitted or zero, no top base is created
+ * @constructor
  */
 function AxPrismGeometry(result, bottomRadius, topRadius, height, radialSegments, heightSegments, bottomCapSegments, topCapSegments)
 {

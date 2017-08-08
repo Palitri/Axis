@@ -6,7 +6,8 @@
  * @param {Integer} heightSegments The number of segments along the longitude of the sphere
  * @param {Number} twist The number of twists along the height of the sphere
  * @param {Boolean} weldSurface Denotes whether to weld the edges of the surface which makes up the sphere. Welded sphere has no "stitched" edge, but can't have a fully proper texture mapped spherically, because it shares the same vertices with both textrure coordintas 0 and 1
-*/
+ * @constructor
+ */
 function AxSphereGeometry(result, radius, radialSegments, heightSegments, twist, weldSurface)
 {
     var heightLinesCount = heightSegments + 1;

@@ -1,6 +1,7 @@
 /**
  * Create a new AxHtmlCanvasInputDevice.
  * This input device uses an Html Canvas element to obtain user input from
+ * @constructor
  */
 function AxHtmlCanvasInputDevice()
 {

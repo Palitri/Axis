@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-const int jsFilesCount = 139;
+const int jsFilesCount = 142;
 const char *jsFiles[jsFilesCount] = {
     "Supplemental/AxisLicense-full.js",
     "Supplemental/Supplemental.js",
@@ -124,6 +124,7 @@ const char *jsFiles[jsFilesCount] = {
 	"Engine/Entities/Settings/AxSettings.js",
 
 	"Engine/Input/AxInput.js",
+	"Engine/Input/AxInputControls.js",
 	"Engine/Input/AxInputModel.js",
 
 	"Engine/Input/Models/AxFlightInputModel.js",
@@ -157,6 +158,8 @@ const char *jsFiles[jsFilesCount] = {
 
 	"Input/HtmlCanvas/AxHtmlCanvasInputDevice.js",
 	"Input/HtmlCanvas/AxHtmlCanvasInputDispatcher.js",
+    "Input/HtmlGamepad/AxHtmlGamepadInputDevice.js",
+    "Input/HtmlGamepad/AxHtmlGamepadInputDispatcher.js",
     
     "Media/AxMedia.js",
 

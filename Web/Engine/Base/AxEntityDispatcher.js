@@ -2,6 +2,7 @@
  * This is a virtual prototype meant to be inherited by overrideing its methods
  * Creates a new entity dispatcher
  * Entity dispatchers are used to create on demand entities by a given type id. This allows abstract entity creation, especially useful in deserialization
+ * @constructor
  */
 function AxEntityDispatcher()
 {

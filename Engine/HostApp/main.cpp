@@ -8,8 +8,12 @@
 
 // This example shows how to create a basic setup with Axis.
 // It creates a Windows form and an instance of the engine, which opens a scene file and renders it.
+// The sample sets "Direct3D 11" for graphics device, because the default is "Axis Soras", which is Axis' software device
+// An AxWalkInput model is added, so that the camera can be controlled by mouse, keyboard and gamepad
 
 #include "AxisEngine.h"
+
+#include <iostream>
 
 class MyRenderWindow :
 	public AxWindowsForm
@@ -24,10 +28,11 @@ public:
 		// Set the desired graphics device. "Axis Soras" is the default device and "Direct3D 11" and "OpenGL" are available. Check Axis::graphicsDeviceDispatchers for a list
 		this->engine->SetGraphicsDevice("Direct3D 11");
 
-		this->engine->ImportScene("../../Resources/Frog/Frog.axs");
+		this->engine->ImportScene("../../Resources/Terrain/Terrain.axs");
 
-		this->engine->inputModels.Add(new AxWalkInputModel(this->engine, (AxTransform*)this->engine->FindResourceX("Camera", AxResourceType_Transform), 20.0f, 5.0f, 1.0f, 5.0f,
-			"Mouse Left,Key W", "Mouse Right,Key S", "Key A", "Key D", "Mouse Scroll,Key Space", "Key Shift", "", "Mouse Y", "", "", "Mouse X", "Mouse Left,Mouse Right"));
+		this->engine->inputModels.Add(new AxWalkInputModel(this->engine, (AxTransform*)this->engine->FindResourceX("Camera", AxResourceType_Transform), 20.0f, 5.0f, 0.2f, 5.0f,
+			"Mouse Left,Key W,Pad Analog Y left", "Mouse Right,Key S", "Key A", "Key D,Pad Analog X left", "Mouse Scroll,Key Space", "Key Shift", "", 
+			"Mouse Y,Pad Analog Y right", "", "", "Mouse X,Pad Analog X right", "Mouse Left,Mouse Right,Pad Analog Y right,Pad Analog X right"));
 	};
 
 	~MyRenderWindow()

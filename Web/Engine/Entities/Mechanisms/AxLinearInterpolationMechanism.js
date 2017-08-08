@@ -6,6 +6,7 @@
  * @param {Number} left The left endpoint of the resulting values interval
  * @param {Number} right The right endpoint of the resulting values interval
  * @param {Boolean} clamp Denotes whether the result should be clamped between the interval endpoints, thus producing interpolation only. If false, it will allow extrapolation for arguments beyond the argument interval
+ * @constructor
  */
 function AxLinearInterpolationMechanism(argumentLeft, argumentRight, left, right, clamp)
 {

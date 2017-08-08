@@ -10,6 +10,7 @@
  * @param {!AxVector3} xAxis The orientation of the box's X axis. If omitted, the arbitrary X axis is assumed.
  * @param {!AxVector3} yAxis The orientation of the box's Y axis. If omitted, the arbitrary Y axis is assumed.
  * @param {!AxVector3} zAxis The orientation of the box's Z axis. If omitted, the arbitrary Z axis is assumed.
+ * @constructor
  */
 function AxBoxGeometry(result, xSegments, ySegments, zSegments, texture3x2, xAxis, yAxis, zAxis)
 {

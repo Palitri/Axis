@@ -1,5 +1,4 @@
 /**
- * @constructor
  * Creates a vector object and initializes its components
  * Sets the components of the vector to the given values. Supports multiple input formats
  * Valid input formats are
@@ -13,7 +12,8 @@
  * @param {!Number} v2 For (x, y, z, w) input - the value for the Y component. For (AxVector2, z, w) input - the value for the Z component. For (AxVector3, w) input - the value for the W component.
  * @param {!Number} v3 For (x, y, z, w) input - the value for the Z component. For (AxVector2, z, w) input - the value for the W component.
  * @param {!Number} v4 For (x, y, z, w) input - the value for the W component.
-*/
+ * @constructor
+ */
 function AxVector4(v1, v2, v3, v4)
 {
     if (AxUtils.IsUndefinedOrNull(v1))

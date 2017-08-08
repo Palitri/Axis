@@ -6,6 +6,11 @@ function AxActiveLightInfo()
     this.distance = 0.0;
 }
 
+/**
+ * Creates and initializes an instance of the Axis engine
+ * @param {Canvas} windowHandle A canvas object onto which to render
+ * @constructor
+ */
 function Axis(windowHandle)
 {
     this.resourceID = 0;
@@ -60,6 +65,7 @@ function Axis(windowHandle)
     this.graphicsDeviceDispatchers.Add(new AxWebGLGraphicsDeviceDispatcher());
     
     this.inputDeviceDispatchers.Add(new AxHtmlCanvasInputDispatcher());
+    this.inputDeviceDispatchers.Add(new AxHtmlGamepadInputDispatcher());
     
     this.fileSystemDispatchers.Add(new AxWebFileSystemDispatcher());
     

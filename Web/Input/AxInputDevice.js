@@ -1,6 +1,7 @@
 /**
  * Create a new AxInputDevice
  * AxInputDevice is the base class of Axis devices, which manage input from keyboard, mouse, gamepads, joystics and etcetera
+ * @constructor
  */
 function AxInputDevice()
 {

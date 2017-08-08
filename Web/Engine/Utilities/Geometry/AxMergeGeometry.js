@@ -8,6 +8,7 @@
  * @param {AxDeviceMesh} geometry2 The second mesh to merge
  * @param {!AxMatrix} transform1 A transformation to apply to the first mesh in the merged geometry. If omitted, no transformation is applied
  * @param {!AxMatrix} transform2 A transformation to apply to the second mesh in the merged geometry. If omitted, no transformation is applied
+ * @constructor
  */
 function AxMergeGeometry(result, geometry1, geometry2, transform1, transform2)
 {

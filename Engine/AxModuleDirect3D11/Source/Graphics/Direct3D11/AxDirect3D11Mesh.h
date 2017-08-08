@@ -22,6 +22,7 @@ public:
 
 	int vertexCount;
 	int indexCount;
+	int indexSize;
 
 	AxDirect3D11GraphicsDevice *context;
 

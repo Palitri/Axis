@@ -12,8 +12,8 @@ AxStack.prototype = Object.create(AxList.prototype);
 
 /**
  * Pushes a new iteam to the top of the stack
- * @param {type} value Value of the item to be pushed
- * @returns {AxStack.prototype@call;Add} The pushed value
+ * @param {*} value Value of the item to be pushed
+ * @returns {*} The pushed value
  */
 AxStack.prototype.Push = function(value)
 {

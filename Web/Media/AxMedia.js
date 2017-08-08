@@ -1,6 +1,7 @@
 /**
  * Creates a new media object
  * This is a virtual prototype meant to be inherited by overrideing its methods
+ * @constructor
  */
 function AxMedia()
 {

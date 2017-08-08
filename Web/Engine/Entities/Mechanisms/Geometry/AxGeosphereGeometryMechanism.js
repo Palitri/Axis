@@ -1,5 +1,6 @@
 /**
  * Creates a new geosphere geometry mechanism
+ * @constructor
  */
  function AxGeosphereGeometryMechanism()
 {

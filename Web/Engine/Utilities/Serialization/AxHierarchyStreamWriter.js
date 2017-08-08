@@ -1,5 +1,6 @@
 /**
  * Creates a new AxHierarchyStreamWriter
+ * AxHierarchyStreamWriter utilizes the serialization of data in Axis' heirarchical serialization format
  * @param {AxStream} stream The stream in which to write
  * @constructor
  */

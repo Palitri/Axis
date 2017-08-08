@@ -1,5 +1,6 @@
 /**
  * Creates a new sphere geometry mechanism
+ * @constructor
  */
 function AxSphereGeometryMechanism()
 {

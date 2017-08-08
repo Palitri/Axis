@@ -2,6 +2,7 @@
  * This is a virtual prototype meant to be inherited by overrideing its methods
  * Creates a new entity object
  * Entities are fundamenal serializable objects, building blocks of a axis scenery
+ * @constructor
  */
 function AxEntity()
 {

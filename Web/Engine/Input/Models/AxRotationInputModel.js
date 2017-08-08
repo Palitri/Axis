@@ -24,13 +24,13 @@ function AxRotationInputModel(context, transform, rotationSpeed, rotationRespons
 
     this.rotationVector = new AxVector3();
 
-    this.upInput = new AxList();
-    this.downInput = new AxList();
-    this.leftInput = new AxList();
-    this.rightInput = new AxList();
-    this.rollLeftInput = new AxList();
-    this.rollRightInput = new AxList();
-    this.rotationConditionInput = new AxList();
+    this.upInput = new AxInputControls();
+    this.downInput = new AxInputControls();
+    this.leftInput = new AxInputControls();
+    this.rightInput = new AxInputControls();
+    this.rollLeftInput = new AxInputControls();
+    this.rollRightInput = new AxInputControls();
+    this.rotationConditionInput = new AxInputControls();
 
     this.context = context;
     this.transform = transform;
@@ -38,13 +38,13 @@ function AxRotationInputModel(context, transform, rotationSpeed, rotationRespons
     this.rotationSpeed = rotationSpeed;
     this.rotationResponsiveness = rotationResponsiveness;
 
-    AxInputModel.ParseInputNames(this.context.input, this.upInput, upInput);
-    AxInputModel.ParseInputNames(this.context.input, this.downInput, downInput);
-    AxInputModel.ParseInputNames(this.context.input, this.leftInput, leftInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rightInput, rightInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rollLeftInput, rollLeftInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rollRightInput, rollRightInput);
-    AxInputModel.ParseInputNames(this.context.input, this.rotationConditionInput, rotationConditionInput);
+    this.context.input.GetInputControls(this.upInput, upInput);
+    this.context.input.GetInputControls(this.downInput, downInput);
+    this.context.input.GetInputControls(this.leftInput, leftInput);
+    this.context.input.GetInputControls(this.rightInput, rightInput);
+    this.context.input.GetInputControls(this.rollLeftInput, rollLeftInput);
+    this.context.input.GetInputControls(this.rollRightInput, rollRightInput);
+    this.context.input.GetInputControls(this.rotationConditionInput, rotationConditionInput);
 }
 
 AxRotationInputModel.prototype = Object.create(AxInputModel.prototype);
@@ -60,11 +60,11 @@ AxRotationInputModel.prototype.Process = function(){
     var speedFactor = this.context.timer.actualTime;
 
     var rotationVector = new AxVector3();
-    if ((this.rotationConditionInput.count === 0) || AxInputModel.ProcessInputProperties(this.rotationConditionInput, speedFactor) !== 0.0)
+    if ((this.rotationConditionInput.count === 0) || this.rotationConditionInput.GetValue(speedFactor) !== 0.0)
     {
-        rotationVector.x = AxInputModel.ProcessInputProperties(this.leftInput, speedFactor) - AxInputModel.ProcessInputProperties(this.rightInput, speedFactor);
-        rotationVector.y = AxInputModel.ProcessInputProperties(this.upInput, speedFactor) - AxInputModel.ProcessInputProperties(this.downInput, speedFactor);
-        rotationVector.z = AxInputModel.ProcessInputProperties(this.rollLeftInput, speedFactor) - AxInputModel.ProcessInputProperties(this.rollRightInput, speedFactor);
+        rotationVector.x = this.leftInput.GetValue(speedFactor) - this.rightInput.GetValue(speedFactor);
+        rotationVector.y = this.upInput.GetValue(speedFactor) - this.downInput.GetValue(speedFactor);
+        rotationVector.z = this.rollLeftInput.GetValue(speedFactor) - this.rollRightInput.GetValue(speedFactor);
     }
     else
         rotationVector.Set(0.0);

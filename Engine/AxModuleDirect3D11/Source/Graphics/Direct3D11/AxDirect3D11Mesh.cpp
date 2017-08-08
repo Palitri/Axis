@@ -25,6 +25,8 @@ AxDirect3D11Mesh::AxDirect3D11Mesh(void)
 	this->vertexData = 0;
 	this->vertexCount = 0;
 
+	this->indexSize = 4;
+	
 	this->indexData = 0;
 	this->indexCount = 0;
 }
@@ -100,9 +102,9 @@ bool AxDirect3D11Mesh::UpdateVertices(int offset, int count)
 		D3D11_BUFFER_DESC bufferDescription;
 		AxMem::Zero(&bufferDescription, sizeof(bufferDescription));
 		bufferDescription.ByteWidth = this->vertexCount * this->vertexSize;
-		bufferDescription.Usage = D3D11_USAGE_DEFAULT;
+		bufferDescription.Usage = D3D11_USAGE_DYNAMIC;//D3D11_USAGE_DEFAULT;
 		bufferDescription.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		bufferDescription.CPUAccessFlags = 0;
+		bufferDescription.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;//0;
 		bufferDescription.MiscFlags = 0;
 		bufferDescription.StructureByteStride = this->vertexSize;
 
@@ -116,6 +118,14 @@ bool AxDirect3D11Mesh::UpdateVertices(int offset, int count)
 		if (FAILED(this->context->device->CreateBuffer(&bufferDescription, &initData, &this->vertexBuffer)))
 			return false;
 	}
+	else
+	{
+		D3D11_MAPPED_SUBRESOURCE mappedVB;
+		AxMem::Zero(&mappedVB, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		this->context->deviceContext->Map(this->vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedVB);
+		AxMem::Copy(mappedVB.pData, this->vertexData, this->vertexCount * this->vertexSize);
+		this->context->deviceContext->Unmap(this->vertexBuffer, 0);
+	}
 
 	return true;
 }
@@ -126,12 +136,12 @@ bool AxDirect3D11Mesh::UpdateIndices(int offset, int count)
 	{
 		D3D11_BUFFER_DESC bufferDescription;
 		AxMem::Zero(&bufferDescription, sizeof(bufferDescription));
-		bufferDescription.ByteWidth = this->indexCount * 4;
-		bufferDescription.Usage = D3D11_USAGE_DEFAULT;
+		bufferDescription.ByteWidth = this->indexCount * this->indexSize;
+		bufferDescription.Usage = D3D11_USAGE_DYNAMIC;//D3D11_USAGE_DEFAULT;
 		bufferDescription.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		bufferDescription.CPUAccessFlags = 0;
+		bufferDescription.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;//0;
 		bufferDescription.MiscFlags = 0;
-		bufferDescription.StructureByteStride = 4;
+		bufferDescription.StructureByteStride = this->indexSize;
 
 		if (bufferDescription.ByteWidth == 0)
 			return false;
@@ -142,6 +152,14 @@ bool AxDirect3D11Mesh::UpdateIndices(int offset, int count)
 		
 		if (FAILED(this->context->device->CreateBuffer(&bufferDescription, &initData, &this->indexBuffer)))
 			return false;
+	}
+	else
+	{
+		D3D11_MAPPED_SUBRESOURCE mappedIB;
+		AxMem::Zero(&mappedIB, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		this->context->deviceContext->Map(this->indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedIB);
+		AxMem::Copy(mappedIB.pData, this->indexData, this->indexCount * this->indexSize);
+		this->context->deviceContext->Unmap(this->indexBuffer, 0);
 	}
 
 	return true;

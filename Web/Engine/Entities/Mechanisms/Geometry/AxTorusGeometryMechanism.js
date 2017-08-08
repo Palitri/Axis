@@ -1,5 +1,6 @@
 /**
  * Creates a new torus geometry mechanism
+ * @constructor
  */
 function AxTorusGeometryMechanism()
 {

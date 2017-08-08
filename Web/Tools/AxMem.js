@@ -1,4 +1,6 @@
 /**
+ * Creates an instane of AxMem
+ * AxMem provides tools for memory management
  * @constructor
  */
 function AxMem()

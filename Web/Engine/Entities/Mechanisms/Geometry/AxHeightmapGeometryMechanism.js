@@ -1,5 +1,6 @@
 /**
  * Creates a new heightmap geometry mechanism
+ * @constructor
  */
 function AxHeightmapGeometryMechanism()
 {

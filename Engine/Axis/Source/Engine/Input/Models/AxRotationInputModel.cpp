@@ -17,13 +17,13 @@ AxRotationInputModel::AxRotationInputModel(Axis *context, AxTransform *transform
 	this->rotationSpeed = rotationSpeed;
 	this->rotationResponsiveness = rotationResponsiveness;
 
-	AxInputModel::ParseInputNames(this->context->input, this->upInput, upInput);
-	AxInputModel::ParseInputNames(this->context->input, this->downInput, downInput);
-	AxInputModel::ParseInputNames(this->context->input, this->leftInput, leftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rightInput, rightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rollLeftInput, rollLeftInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rollRightInput, rollRightInput);
-	AxInputModel::ParseInputNames(this->context->input, this->rotationConditionInput, rotationConditionInput);
+	this->context->input->GetInputControls(this->upInput, upInput);
+	this->context->input->GetInputControls(this->downInput, downInput);
+	this->context->input->GetInputControls(this->leftInput, leftInput);
+	this->context->input->GetInputControls(this->rightInput, rightInput);
+	this->context->input->GetInputControls(this->rollLeftInput, rollLeftInput);
+	this->context->input->GetInputControls(this->rollRightInput, rollRightInput);
+	this->context->input->GetInputControls(this->rotationConditionInput, rotationConditionInput);
 }
 
 
@@ -39,11 +39,11 @@ void AxRotationInputModel::Process()
 	float speedFactor = this->context->timer->actualTime;
 
 	AxVector3 rotationVector;
-	if ((this->rotationConditionInput.count == 0) || AxInputModel::ProcessInputProperties(this->rotationConditionInput, speedFactor) != 0.0f)
+	if ((this->rotationConditionInput.count == 0) || this->rotationConditionInput.GetValue(speedFactor) != 0.0f)
 	{
-		rotationVector.x = AxInputModel::ProcessInputProperties(this->leftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->rightInput, speedFactor);
-		rotationVector.y = AxInputModel::ProcessInputProperties(this->upInput, speedFactor) - AxInputModel::ProcessInputProperties(this->downInput, speedFactor);
-		rotationVector.z = AxInputModel::ProcessInputProperties(this->rollLeftInput, speedFactor) - AxInputModel::ProcessInputProperties(this->rollRightInput, speedFactor);
+		rotationVector.x = this->leftInput.GetValue(speedFactor) - this->rightInput.GetValue(speedFactor);
+		rotationVector.y = this->upInput.GetValue(speedFactor) - this->downInput.GetValue(speedFactor);
+		rotationVector.z = this->rollLeftInput.GetValue(speedFactor) - this->rollRightInput.GetValue(speedFactor);
 	}
 	else
 		rotationVector.Set(0.0f);

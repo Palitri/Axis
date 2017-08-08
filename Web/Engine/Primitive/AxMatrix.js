@@ -1,6 +1,6 @@
 /**
+ * Creates a matrix object and initializes it as identity
  * @constructor
- * Creates a matrix object and initializes it with identity
  */
 function AxMatrix()
 {

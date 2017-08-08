@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\Input\AxInputControls.h" />
     <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.h" />
     <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.h" />
     <ClInclude Include="Source\Engine\Input\Models\AxRotationInputModel.h" />
@@ -322,6 +323,7 @@
     <ClInclude Include="Source\Tools\Threading\AxThreadsPoolThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Engine\Input\AxInputControls.cpp" />
     <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.cpp" />
     <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.cpp" />
     <ClCompile Include="Source\Engine\Input\Models\AxRotationInputModel.cpp" />

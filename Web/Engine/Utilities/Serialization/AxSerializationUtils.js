@@ -1,4 +1,6 @@
 /**
+ * Creates a new instance of AxSerializationUtils
+ * Contains utilities for serialization and deserialization of different types of Axis objects
  * @constructor
  */
 function AxSerializationUtils()
