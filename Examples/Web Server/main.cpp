@@ -1,11 +1,10 @@
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//	Axis 3D Engine example Copyright (C) 2014  Ivan Donev
+//---------------------------------------------------------------------------------------------
+//	Axis 3D Engine Copyright (C) 2017 Palitri
 //
-//	This program is released under the MIT License. You are free to use, distribute and modify this code as you see fit. For more info, please read the MIT License
+//	This software is released under the MIT License http://palitri.com/axis/license/
 //
-//	For help and documentation on the engine, visit <http://morroworks.com>
-//	You're very welcome to post your questions and get support at the community page!
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//	For help and documentation, visit http://palitri.com
+//---------------------------------------------------------------------------------------------
 
 // This example shows how to run Axis Web Server
 // The web server is intended for web interface of game servers.

@@ -244,7 +244,7 @@ bool AxWebServer::GetContentType(AxString requestedResource, AxString &responseT
 	int extensionTextStart = requestedResource.LastIndexOf(".") + 1;
 	AxString requestedResourceExtension = requestedResource.SubString(extensionTextStart, requestedResource.length - extensionTextStart).ToLower();
 
-	const int numSupportedExtensions = 11;
+	const int numSupportedExtensions = 12;
 	const char *extensions[numSupportedExtensions][2] =
 	{ 
 		{ "htm", "text/html" },
@@ -257,7 +257,8 @@ bool AxWebServer::GetContentType(AxString requestedResource, AxString &responseT
 		{ "png", "image/png" },
 		{ "gif", "image/gif" },
 		{ "ico", "image/x-icon" },
-		{ "zip", "application/zip"}
+		{ "zip", "application/zip"},
+		{ "axs", "application/axis-scene1"}
 	};
 
 	for (int i = 0; i < numSupportedExtensions; i++)
