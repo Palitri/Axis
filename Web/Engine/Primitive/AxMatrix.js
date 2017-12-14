@@ -122,6 +122,26 @@ AxMatrix.Copy = function(result, source)
 };
 	
 /**
+ * Copies the source matrix into the result, treating them as 3x3 matrices by operating only on their first three rows and columns, ignoring the fourth row and column
+ * The fourth row and column are irrelevant in this operation and are ignored and left unchanged.
+ * It can be useful for example, in operations where translation must be disregarded
+ * @param {AxMatrix} result The matrix to copy to
+ * @param {AxMatrix} source The matrix to copy from
+ */
+AxMatrix.Copy3x3 = function(result, source)
+{
+	result._11 = source._11;
+	result._12 = source._12;
+	result._13 = source._13;
+	result._21 = source._21;
+	result._22 = source._22;
+	result._23 = source._23;
+	result._31 = source._31;
+	result._32 = source._32;
+	result._33 = source._33;
+};
+
+/**
  * Creates an identity matrix
  * @param {AxMatrix} result The matrix to create identity into
  */

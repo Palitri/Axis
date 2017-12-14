@@ -75,7 +75,15 @@ AxWebGLTexture2D.prototype.Update = function(data, width, height, renderTarget)
         {
             this.texture = this.context.gl.createTexture();
             this.context.gl.bindTexture(this.context.gl.TEXTURE_2D, this.texture);
-            this.context.gl.texImage2D(this.context.gl.TEXTURE_2D, 0, this.context.gl.RGBA, width, height, 0, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+            
+            if (AxUtils.IsInstanceOf(data, Image))
+            {
+                this.context.gl.pixelStorei(this.context.gl.UNPACK_FLIP_Y_WEBGL, true);
+                this.context.gl.texImage2D(this.context.gl.TEXTURE_2D, 0, this.context.gl.RGBA, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+            }
+            else
+                this.context.gl.texImage2D(this.context.gl.TEXTURE_2D, 0, this.context.gl.RGBA, width, height, 0, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+            
             this.context.gl.texParameteri(this.context.gl.TEXTURE_2D, this.context.gl.TEXTURE_MAG_FILTER, this.context.gl.LINEAR);
             this.context.gl.texParameteri(this.context.gl.TEXTURE_2D, this.context.gl.TEXTURE_MIN_FILTER, this.context.gl.LINEAR);
 
@@ -92,12 +100,23 @@ AxWebGLTexture2D.prototype.Update = function(data, width, height, renderTarget)
         {
             this.texture = this.context.gl.createTexture();
             this.context.gl.bindTexture(this.context.gl.TEXTURE_2D, this.texture);
-            this.context.gl.texImage2D(this.context.gl.TEXTURE_2D, 0, this.context.gl.RGBA, width, height, 0, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+            
+            if (AxUtils.IsInstanceOf(data, Image))
+            {
+                this.context.gl.pixelStorei(this.context.gl.UNPACK_FLIP_Y_WEBGL, true);
+                this.context.gl.texImage2D(this.context.gl.TEXTURE_2D, 0, this.context.gl.RGBA, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+            }
+            else
+                this.context.gl.texImage2D(this.context.gl.TEXTURE_2D, 0, this.context.gl.RGBA, width, height, 0, this.context.gl.RGBA, this.context.gl.UNSIGNED_BYTE, data);
+            
             this.context.gl.texParameteri(this.context.gl.TEXTURE_2D, this.context.gl.TEXTURE_MAG_FILTER, this.context.gl.LINEAR);
             this.context.gl.texParameteri(this.context.gl.TEXTURE_2D, this.context.gl.TEXTURE_MIN_FILTER, this.context.gl.LINEAR_MIPMAP_NEAREST);
             this.context.gl.generateMipmap(this.context.gl.TEXTURE_2D);
         }
-
+        
+//       this.context.gl.texParameteri(this.context.gl.TEXTURE_2D, this.context.gl.TEXTURE_WRAP_S, this.context.gl.CLAMP_TO_EDGE);
+//       this.context.gl.texParameteri(this.context.gl.TEXTURE_2D, this.context.gl.TEXTURE_WRAP_T, this.context.gl.CLAMP_TO_EDGE);
+   
     }
     
     this.width = width;

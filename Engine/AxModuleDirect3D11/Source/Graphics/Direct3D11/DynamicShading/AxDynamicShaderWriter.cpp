@@ -366,8 +366,9 @@ void AxDynamicShaderWriter::AddShadingLayer(AxShadingOperation shadingOp, AxColo
 			
 			this->psCode.ProvideDefinition("mapNormal",  "\tfloat3 mapNormal;");
 			this->psCode.ProvideDefinition("",  
-				AxString("\tmapNormal = (t") + pNormalMap + ".Sample(s" + pNormalMap + ", input.texCoords).xyz * 2.0 - 1.0) * " + pNormalMapFactor + ";\r\n"
-				"\tinput.normal = mapNormal.x * input.tangent + mapNormal.y * input.biTangent + mapNormal.z * input.normal;\r\n");
+				AxString("\tmapNormal = (t") + pNormalMap + ".Sample(s" + pNormalMap + ", input.texCoords).xyz * 2.0 - 1.0);\r\n"
+				"\tmapNormal = mapNormal.x * input.tangent + mapNormal.y * input.biTangent + mapNormal.z * input.normal;\r\n"
+				"input.normal = lerp(input.normal, mapNormal, " + pNormalMapFactor + ");\r\n");
 
 			break;
 		}

@@ -72,6 +72,15 @@ AxWebGLGraphicsDevice.prototype.SetRenderTargetWindow = function(windowHandle)
             this.gl.enable(this.gl.CULL_FACE);
             this.gl.frontFace(this.gl.CW);
             this.gl.cullFace(this.gl.BACK);
+            //
+            //this.gl.depthFunc(this.gl.LESSER);
+            //this.gl.disable(this.gl.BLEND);
+//            this.gl.disable(this.gl.CULL_FACE);
+//            this.gl.disable(this.gl.DEPTH_TEST);
+//            this.gl.enable(this.gl.BLEND);
+//            this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+            
+
 
             this.SetViewport(0, 0, windowHandle.width, windowHandle.height);
         }
@@ -81,7 +90,7 @@ AxWebGLGraphicsDevice.prototype.SetRenderTargetWindow = function(windowHandle)
 
         if (!this.gl) 
         {
-            console.log("Could not initialize WebGL");
+            console.log("Could not initialize WebGL Graphics Device");
         }
     }
     else

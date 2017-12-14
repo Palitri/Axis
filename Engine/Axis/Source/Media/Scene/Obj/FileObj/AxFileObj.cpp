@@ -12,6 +12,8 @@
 
 AxFileObj::AxFileObj(void)
 {
+	this->data = 0;
+	this->dataSize = 0;
 }
 
 
@@ -22,6 +24,9 @@ AxFileObj::~AxFileObj(void)
 
 	for (int i = 0; i < this->materials.count; i++)
 		delete this->materials[i];
+
+	if (this->data != 0)
+		delete[] this->data;
 }
 
 bool AxFileObj::ParseLine()
@@ -356,8 +361,10 @@ bool AxFileObj::Read(AxStream *dataStream)
 
 	this->dataPos = 0;
 	this->dataSize = (int)(dataStream->length - dataStream->position);
+	if (this->data != 0)
+		delete[] this->data;
 	this->data = new char[this->dataSize];
-	dataStream->ReadData(data, this->dataSize);
+	dataStream->ReadData(this->data, this->dataSize);
 
 	AxFileObjArgument lastHeadArg;
 	bool hasLastHeadArg = false;
@@ -677,6 +684,7 @@ bool AxFileObj::Read(AxStream *dataStream)
 	}
 
 	delete[] this->data;
+	this->data = 0;
 
 	delete currentMesh;
 

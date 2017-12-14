@@ -118,6 +118,18 @@ AxTransform.prototype.InsertTransformLayer = function(operation, index)
             this.properties.Insert(propertyIndex++, new AxProperty(new AxString('Scale AbsoluteY'), 1.0));
             this.properties.Insert(propertyIndex++, new AxProperty(new AxString('Scale AbsoluteZ'), 1.0));
             break;
+
+        case AxTransformOperation.Reflect:
+			this.properties.Insert(propertyIndex++, new AxProperty(new AxString("Reflect"), 0));
+            break;
+
+		case AxTransformOperation.Skybox:
+			this.properties.Insert(propertyIndex++, new AxProperty(new AxString("Camera"), 0));
+            break;
+
+		case AxTransformOperation.Billboard:
+			this.properties.Insert(propertyIndex++, new AxProperty(new AxString("Billboard target"), 0));
+            break;
     }
 
     var numNewProperties = this.properties.count - numProperties;
@@ -179,6 +191,7 @@ AxTransform.prototype.Process = function(parent)
     AxMatrix.Copy(this.localMatrix, this.transform);
 
     var cameraTransform = null;
+    var billboardTarget = null;
     var transformsCount = this.transformLayers.count;
     if (transformsCount !== 0)
     {
@@ -228,7 +241,7 @@ AxTransform.prototype.Process = function(parent)
 
                 case AxTransformOperation.Scale:
                 {
-                    AxMatrix.CreateScale(this.m,
+                    AxMatrix.CreateScaling(this.m,
                         this.properties.Get(propertyIndex).GetEffectiveParameter().value,
                         this.properties.Get(propertyIndex).GetEffectiveParameter().value,
                         this.properties.Get(propertyIndex).GetEffectiveParameter().value);
@@ -315,6 +328,14 @@ AxTransform.prototype.Process = function(parent)
 
                     break;
                 }        
+                
+				case AxTransformOperation.Billboard:
+				{
+					billboardTarget = this.properties.Get(propertyIndex).GetEffectiveValue();
+                    propertyIndex += 1;
+					break;
+				}
+                
             }
         }
     }
@@ -332,7 +353,15 @@ AxTransform.prototype.Process = function(parent)
         AxMatrix.GetTranslation(location, cameraTransform.worldMatrix);
         AxMatrix.SetTranslation(this.pivotedWorldMatrix, location);
         AxMatrix.SetScaling(this.pivotedWorldMatrix, new AxVector3(100.0));
-    }    
+    }   
+    
+	if (billboardTarget !== null)
+	{
+		var distance = this.GetPositionExtrinsic().DistanceTo(billboardTarget.GetPositionExtrinsic());
+		AxMatrix.Multiply3x3(this.pivotedWorldMatrix, this.localMatrix, billboardTarget.pivotedWorldMatrix);
+		
+		AxMatrix.SetScaling(this.pivotedWorldMatrix, this.GetScalingIntrinsic().Scale(distance / 10.0));
+	}
 };
 
 

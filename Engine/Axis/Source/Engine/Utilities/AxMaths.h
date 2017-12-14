@@ -42,5 +42,7 @@ public:
 	static float SizeFromDistanceAndAngle(float distance, float angle);
 	static float LensToFOV(float lens, float filmSize = 36.0f);
 	static float FOVToLens(float fov, float filmSize = 36.0f);
+	static float LerpAngle(float a1, float a2, float factor);
+	static void AxMaths::GetIndexBlending(int fromIndex, int toIndex, float factor, int &index1, int &index2, float &blend);
 };
 

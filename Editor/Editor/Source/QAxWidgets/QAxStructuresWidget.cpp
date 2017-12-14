@@ -18,6 +18,18 @@ QAxStructuresWidget::QAxStructuresWidget(QWidget *parent) :
     QTreeWidget(parent)
 {
     this->contextMenu = new QMenu(this);
+    QAction *copyShallowAction = new QAction("Copy shallow", this);
+    QObject::connect(copyShallowAction, SIGNAL(triggered()), this, SLOT(ContextMenuShallowCopyTriggered()));
+    this->contextMenu->addAction(copyShallowAction);
+
+    QAction *copyDeepAction = new QAction("Copy deep", this);
+    QObject::connect(copyDeepAction, SIGNAL(triggered()), this, SLOT(ContextMenuDeepCopyTriggered()));
+    this->contextMenu->addAction(copyDeepAction);
+
+    QAction *cloneTransformAction = new QAction("Clone transform", this);
+    QObject::connect(cloneTransformAction, SIGNAL(triggered()), this, SLOT(ContextMenuCloneTransformTriggered()));
+    this->contextMenu->addAction(cloneTransformAction);
+
     QAction *deleteAction = new QAction("Delete", this);
     QObject::connect(deleteAction, SIGNAL(triggered()), this, SLOT(ContextMenuDeleteTriggered()));
     this->contextMenu->addAction(deleteAction);
@@ -288,6 +300,83 @@ void QAxStructuresWidget::ContextMenuRequested(QPoint pos)
 
     if (this->contextMenuItem != 0)
         this->contextMenu->popup(this->viewport()->mapToGlobal(pos));
+}
+
+void QAxStructuresWidget::ContextMenuShallowCopyTriggered()
+{
+    AxEntitySet *contextEntitySet = (AxEntitySet*)this->GetAxResourceFromItem(this->contextMenuItem);
+    QTreeWidgetItem *contextItemParent = this->GetItemParent(this->contextMenuItem);
+    AxEntitySet *contextParentSet = (AxEntitySet*)this->GetAxResourceFromItem(contextItemParent);
+    int contextItemIndex = contextItemParent->indexOfChild(this->contextMenuItem);
+
+    // Create new entity set and copy the resoruces from the original
+    AxEntitySet *newSet = (AxEntitySet*)this->editor->GetAxis()->AddResource(new AxEntitySet());
+    newSet->name = this->editor->GetAxis()->AcquireResourceName(contextEntitySet->name, AxResourceType_EntitySet);
+    newSet->references.Copy(contextEntitySet->references.values, contextEntitySet->references.count);
+
+    // Add the new set to the parent
+    contextParentSet->references.Insert(contextItemIndex + 1, newSet);
+
+    // Create the new tree widget item
+    QTreeWidgetItem *item = new QTreeWidgetItem(contextItemParent);
+    this->BuildStructureTreeNode(newSet, item, true);
+}
+
+AxEntitySet * QAxStructuresWidget::DeepCopyResourceSet(AxEntitySet *originalSet)
+{
+    AxEntitySet *newSet = (AxEntitySet*)this->editor->GetAxis()->AddResource(new AxEntitySet());
+    newSet->name = this->editor->GetAxis()->AcquireResourceName(originalSet->name, AxResourceType_EntitySet);
+    for (int i = 0; i < originalSet->properties.count; i++)
+        newSet->properties[i]->SetValue(originalSet->properties[i]->value, originalSet->properties[i]->type);
+
+    for (int i = 0; i < originalSet->references.count; i++)
+    {
+        AxResource *resourceReference = originalSet->references.Get(i);
+        if (resourceReference->resourceType == AxResourceType_EntitySet)
+            newSet->references.Add(this->DeepCopyResourceSet((AxEntitySet*)resourceReference));
+        else
+            newSet->references.Add(resourceReference);
+    }
+
+    return newSet;
+}
+
+void QAxStructuresWidget::ContextMenuDeepCopyTriggered()
+{
+    AxEntitySet *contextEntitySet = (AxEntitySet*)this->GetAxResourceFromItem(this->contextMenuItem);
+    QTreeWidgetItem *contextItemParent = this->GetItemParent(this->contextMenuItem);
+    AxEntitySet *contextParentSet = (AxEntitySet*)this->GetAxResourceFromItem(contextItemParent);
+    int contextItemIndex = contextItemParent->indexOfChild(this->contextMenuItem);
+
+    AxEntitySet *copiedSet = this->DeepCopyResourceSet(contextEntitySet);
+
+    // Add the new set to the parent
+    contextParentSet->references.Insert(contextItemIndex + 1, copiedSet);
+
+    // Create the new tree widget item
+    QTreeWidgetItem *item = new QTreeWidgetItem(contextItemParent);
+    this->BuildStructureTreeNode(copiedSet, item, true);
+}
+
+
+void QAxStructuresWidget::ContextMenuCloneTransformTriggered()
+{
+    AxTransform *originalTransform = (AxTransform*)this->GetAxResourceFromItem(this->contextMenuItem);
+    QTreeWidgetItem *contextItemParent = this->GetItemParent(this->contextMenuItem);
+    AxEntitySet *contextParentSet = (AxEntitySet*)this->GetAxResourceFromItem(contextItemParent);
+    int contextItemIndex = contextItemParent->indexOfChild(this->contextMenuItem);
+
+    AxTransform *newTransform = (AxTransform*)this->editor->GetAxis()->AddResource(new AxTransform());
+    newTransform->name = this->editor->GetAxis()->AcquireResourceName(originalTransform->name, AxResourceType_Transform);
+
+    AxMatrix::Copy(newTransform->transform, originalTransform->transform);
+
+    // Remove the resource and put the new entity set in its place
+    contextParentSet->references.RemoveAt(contextItemIndex);
+    contextParentSet->references.Insert(contextItemIndex, newTransform);
+
+    this->BuildStructureTreeNode(contextParentSet, contextItemParent, false);
+
 }
 
 void QAxStructuresWidget::ContextMenuDeleteTriggered()

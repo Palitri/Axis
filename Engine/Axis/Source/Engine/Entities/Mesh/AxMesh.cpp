@@ -8,6 +8,8 @@
 
 #include "AxMesh.h"
 
+#include "..\..\..\Graphics\DeviceIndependent\AxDeviceIndependentMesh.h"
+
 #include "..\..\Utilities\AxMaths.h"
 #include "..\..\Utilities\Normals\AxNormalsGenerator.h"
 #include "..\..\Utilities\Tangents\AxTangentsGenerator.h"
@@ -37,10 +39,17 @@ AxMesh::AxMesh(Axis *context)
 	this->serializeBones = true;
 	this->serializeNormals = false;
 	this->serializeTangents = false;
+
+	this->blendChannelsCount = 0;
+	this->blendChannels = 0;
+	this->blendOrigin = 0;
+	this->blendBuffer = 0;
 }
 
 AxMesh::~AxMesh(void)
 {
+	this->SetBlendChannelsCount(0);
+
 	delete this->deviceMesh;
 }
 
@@ -161,6 +170,79 @@ void AxMesh::CopyFrom(AxMesh &source)
 	this->deviceMesh->CopyFrom(source.deviceMesh);
 }
 
+void AxMesh::SetBlendChannelsCount(int numberOfChannels)
+{
+	if (this->blendChannels != 0)
+	{
+		delete[] this->blendChannels;
+		this->blendChannels = 0;
+		this->blendChannelsCount = 0;
+
+		delete[] this->blendOrigin;
+		this->blendOrigin = 0;
+
+		delete[] this->blendBuffer;
+		this->blendBuffer = 0;
+	}
+
+	if (numberOfChannels > 0)
+	{
+		for (int i = 0; i < numberOfChannels; i++)
+		{
+			AxString propName = AxString("Blend ") + i;
+			AxProperty *prop = this->GetProperty(propName);
+			if (prop == 0)
+				prop = this->properties.Add(new AxProperty(propName, 0.0f));
+		}
+		this->propertyIndex_Blend = this->properties.IndexOf(this->GetProperty("Blend 0"));
+
+		int vertexCount = this->deviceMesh->GetVertexCount();
+
+		this->blendChannels = new AxVector3[numberOfChannels * vertexCount];
+		this->blendChannelsCount = numberOfChannels;
+
+		this->blendOrigin = new AxVector3[vertexCount];
+		this->blendBuffer = new AxVector3[vertexCount];
+
+		for (int i = 0; i < vertexCount; i++)
+			this->deviceMesh->GetVertexPosition(i, this->blendOrigin[i]);
+	}
+}
+
+void AxMesh::ApplyBlendChannels()
+{
+	if (this->blendChannelsCount == 0)
+		return;
+
+	int vertexCount = this->deviceMesh->GetVertexCount();
+
+	AxMem::Copy(this->blendBuffer, this->blendOrigin, vertexCount * sizeof(AxVector3));
+
+	for (int channelIndex = 0; channelIndex < this->blendChannelsCount; channelIndex++)
+	{
+		float blendFactor = this->properties[this->propertyIndex_Blend + channelIndex]->GetFloat();
+
+		if (AxMath::Abs(blendFactor) < 0.01f)
+			continue;
+
+		for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+		{
+			AxVector3 *blendVector = &this->blendChannels[channelIndex * vertexCount + vertexIndex];
+			AxVector3 *blendSum = &this->blendBuffer[vertexIndex];
+
+			blendSum->x += blendVector->x * blendFactor;
+			blendSum->y += blendVector->y * blendFactor;
+			blendSum->z += blendVector->z * blendFactor;
+		}
+	}
+
+	for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+		this->deviceMesh->SetVertexPosition(vertexIndex, this->blendBuffer[vertexIndex]);
+
+	this->deviceMesh->UpdateVertices(0, vertexCount);
+}
+
+
 bool AxMesh::Deserialize(AxStream &source)
 {
 	this->serializeVertices = false;
@@ -203,10 +285,18 @@ void AxMesh::SerializeChunks(AxHierarchyStreamWriter &writer)
 	{
 		writer.BeginChunk(AxMesh::SerializationId_Vertices);
 		writer.stream->WriteInt32(numVertices);
-		for (int i = 0; i < numVertices; i++)
+		if (this->blendOrigin == 0)
 		{
-			this->deviceMesh->GetVertexPosition(i, v3);
-			AxSerializationUtils::SerializeVector3(*writer.stream, v3);
+			for (int i = 0; i < numVertices; i++)
+			{
+				this->deviceMesh->GetVertexPosition(i, v3);
+				AxSerializationUtils::SerializeVector3(*writer.stream, v3);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < numVertices; i++)
+				AxSerializationUtils::SerializeVector3(*writer.stream, this->blendOrigin[i]);
 		}
 		writer.EndChunk();
 	}
@@ -255,6 +345,21 @@ void AxMesh::SerializeChunks(AxHierarchyStreamWriter &writer)
 			this->deviceMesh->GetVertexBones(i, v41, v42);
 			AxSerializationUtils::SerializeVector4(*writer.stream, v41);
 			AxSerializationUtils::SerializeVector4(*writer.stream, v42);
+		}
+		writer.EndChunk();
+	}
+
+	if (this->blendChannelsCount > 0)
+	{
+		writer.BeginChunk(AxMesh::SerializationId_BlendVertices);
+		writer.stream->WriteInt32(this->blendChannelsCount);
+		writer.stream->WriteInt32(numVertices);
+		for (int blendChannelIndex = 0; blendChannelIndex < this->blendChannelsCount; blendChannelIndex++)
+		{
+			for (int i = 0; i < numVertices; i++)
+			{
+				AxSerializationUtils::SerializeVector3(*writer.stream, this->blendChannels[blendChannelIndex * numVertices + i]);
+			}
 		}
 		writer.EndChunk();
 	}
@@ -335,6 +440,24 @@ bool AxMesh::DeserializeChunk(AxHierarchyStreamReader &reader)
 			}
 
 			this->serializeBones = true;
+
+			break;
+		}
+
+		case AxMesh::SerializationId_BlendVertices:
+		{
+			int numBlendChannels = reader.stream->ReadInt32();
+			int numVertices = reader.stream->ReadInt32();
+
+			this->SetBlendChannelsCount(numBlendChannels);
+
+			for (int blendChannelIndex = 0; blendChannelIndex < numBlendChannels; blendChannelIndex++)
+			{
+				for (int i = 0; i < numVertices; i++)
+				{
+					this->blendChannels[blendChannelIndex * numVertices + i] = AxSerializationUtils::DeserializeVector3(*reader.stream);
+				}
+			}
 
 			break;
 		}

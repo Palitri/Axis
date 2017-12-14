@@ -23,6 +23,9 @@ private:
     QTreeWidgetItem *GetItemParent(QTreeWidgetItem *item);
     void InsertItem(QTreeWidgetItem *destItemParent, QTreeWidgetItem *item, int destIndex);
 
+    AxEntitySet *DeepCopyResourceSet(AxEntitySet *originalSet);
+
+
 public:
     static const int DragMode_None = 0;
     static const int DragMode_Resource = 1;
@@ -56,6 +59,9 @@ public slots:
     void CurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
     void ContextMenuRequested(QPoint pos);
+    void ContextMenuShallowCopyTriggered();
+    void ContextMenuDeepCopyTriggered();
+    void ContextMenuCloneTransformTriggered();
     void ContextMenuDeleteTriggered();
     void ContextMenuWrapInEntitySetTriggered();
 

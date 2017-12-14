@@ -132,6 +132,19 @@ void AxMatrix::Copy(AxMatrix &result, AxMatrix &source)
 	result._43 = source._43;
 	result._44 = source._44;
 }
+
+void AxMatrix::Copy3x3(AxMatrix &result, AxMatrix &source)
+{
+	result._11 = source._11;
+	result._12 = source._12;
+	result._13 = source._13;
+	result._21 = source._21;
+	result._22 = source._22;
+	result._23 = source._23;
+	result._31 = source._31;
+	result._32 = source._32;
+	result._33 = source._33;
+}
 	
 void AxMatrix::CreateIdentity(AxMatrix &result)
 {

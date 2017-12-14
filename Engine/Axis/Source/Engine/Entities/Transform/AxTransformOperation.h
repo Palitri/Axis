@@ -17,5 +17,6 @@ enum AxTransformOperation
     AxTransformOperation_RotateAbsoluteZ = 8,
     AxTransformOperation_ScaleAbsolute = 9,
     AxTransformOperation_Reflect = 10,
-    AxTransformOperation_Skybox = 11
+    AxTransformOperation_Skybox = 11,
+    AxTransformOperation_Billboard = 12
 };

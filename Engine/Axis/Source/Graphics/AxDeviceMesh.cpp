@@ -39,13 +39,13 @@ void AxDeviceMesh::CopyFrom(AxDeviceMesh *source)
 		AxVector2 v2;
 
 		source->GetVertexPosition(i, v3);
-		this->GetVertexPosition(i, v3);
+		this->SetVertexPosition(i, v3);
 
 		source->GetVertexNormal(i, v3);
-		this->GetVertexNormal(i, v3);
+		this->SetVertexNormal(i, v3);
 
 		source->GetVertexTexCoords(i, v2);
-		this->GetVertexTexCoords(i, v2);
+		this->SetVertexTexCoords(i, v2);
 	}
 	this->UpdateVertices(0, numVertices);
 }

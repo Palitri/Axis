@@ -425,3 +425,40 @@ float AxMaths::FOVToLens(float fov, float filmSize)
 {
 	return AxMaths::DistanceFromSizeAndAngle(fov, filmSize);
 }
+
+float AxMaths::LerpAngle(float a1, float a2, float factor)
+{
+    float result;
+	float delta = a2 - a1;
+	if (AxMath::Abs(delta) < AxMath::Pi)
+        result = a1 + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath::Pi2;
+            result = a1 + delta * factor;
+            if (result < 0)
+				result += AxMath::Pi2;
+        }
+        else
+        {
+			delta += AxMath::Pi2;
+            result = a1 + delta * factor;
+            if (result > AxMath::Pi2)
+                result -= AxMath::Pi2;
+        }
+    }
+
+	return result;
+}
+
+void AxMaths::GetIndexBlending(int fromIndex, int toIndex, float factor, int &index1, int &index2, float &blend)
+{
+	int max = toIndex - fromIndex;
+	float realIndex = fromIndex + factor * max;
+	index1 = AxMath::Min((int)AxMath::Floor(realIndex), toIndex);
+	index2 = AxMath::Min(index1 + 1, toIndex);
+	blend = realIndex - index1;
+};
+

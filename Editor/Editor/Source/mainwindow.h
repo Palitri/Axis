@@ -196,6 +196,7 @@ private slots:
     void on_actionBlur_triggered();
     void on_actionProperties_2_triggered();
     void on_actionChecker_pattern_triggered();
+    void on_actionCompute_selected_mesh_normals_triggered();
 };
 
 #endif // MAINWINDOW_H

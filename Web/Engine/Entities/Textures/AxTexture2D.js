@@ -92,6 +92,14 @@ AxTexture2D.prototype.Load_1 = function(data, width, height)
  */
 AxTexture2D.prototype.Load_2 = function(sourceImage)
 {
+    for (var i = 0; i < sourceImage.pixelData.length; i++)
+    {
+//        if (i % 4 === 3)
+//            sourceImage.pixelData[i] = 128;
+//        if (i % 4 === 2)
+//            sourceImage.pixelData[i] = 128;
+    }
+    
     this.Load_1(sourceImage.pixelData, sourceImage.width, sourceImage.height);
 };
 

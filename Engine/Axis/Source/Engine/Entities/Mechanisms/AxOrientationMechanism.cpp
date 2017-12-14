@@ -35,8 +35,7 @@ AxOrientationMechanism::~AxOrientationMechanism(void)
 
 bool AxOrientationMechanism::Process(float deltaTime)
 {
-	AxVector3 currentPosition, targetPosition, targetVector,
-			  spherical, newSpherical;
+	AxVector3 targetVector, spherical, newSpherical;
     
 	AxMatrix azimuth, elevation;
 
@@ -50,9 +49,9 @@ bool AxOrientationMechanism::Process(float deltaTime)
 	float inertness = *(float*)this->properties[AxOrientationMechanism::propertyIndex_Inertness]->value;
 	float minAngle = *(float*)this->properties[propertyIndex_MinAngle]->value;
 
-	AxMatrix::GetTranslation(currentPosition, transform->worldMatrix);
-	AxMatrix::GetTranslation(targetPosition, target->worldMatrix);
-    AxVector3::Subtract(targetVector, currentPosition, targetPosition);
+	AxVector3 currentPosition = transform->GetPositionExtrinsic();
+	AxVector3 targetPosition = target->GetPositionExtrinsic();
+	AxVector3::Subtract(targetVector, currentPosition, targetPosition);
     AxVector3::CartesianToSpherical(spherical, targetVector);
     if (inertness == 0)
         AxVector3::Copy(newSpherical, spherical);
@@ -60,11 +59,11 @@ bool AxOrientationMechanism::Process(float deltaTime)
     {
         float transitionLength = AxMath::Sqrt(spherical.x * spherical.x + spherical.y * spherical.y);
         if (transitionLength < minAngle)
-            AxVector3::LerpSherical(newSpherical, lastSpherical, spherical, AxMath::Min(deltaTime / inertness, 1.0f));
+            AxVector3::LerpSpherical(newSpherical, lastSpherical, spherical, AxMath::Min(deltaTime / inertness, 1.0f));
         else
             // TODO: What is this "else" for?
 			// Well, it seems to be here for, yet unimplemented, handling maximum distance
-			AxVector3::LerpSherical(newSpherical, lastSpherical, spherical, AxMath::Min(deltaTime / inertness, 1.0f));
+			AxVector3::LerpSpherical(newSpherical, lastSpherical, spherical, AxMath::Min(deltaTime / inertness, 1.0f));
     }
 
     AxVector3::Copy(lastSpherical, newSpherical);
@@ -72,7 +71,7 @@ bool AxOrientationMechanism::Process(float deltaTime)
     AxMatrix::CreateRotationZ(azimuth, lastSpherical.y);
     AxMatrix::CreateRotationY(elevation, -lastSpherical.x);
     AxMatrix::Multiply(azimuth, azimuth, elevation);
-	AxMatrix::Multiply(transform->worldMatrix, azimuth, transform->worldMatrix);
+	AxMatrix::Multiply(transform->transform, azimuth, transform->transform);
 
     return true;
 }

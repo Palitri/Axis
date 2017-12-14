@@ -49,6 +49,8 @@ AxRenderEvents.prototype.OnMesh = function(parameters)
     if (!parameters.materialRef.successfullyCompiled)
         return;
 
+	parameters.meshRef.ApplyBlendChannels();
+
     var transform = new AxMatrix();
     AxMatrix.Multiply(transform, parameters.transformRef.pivotedWorldMatrix, parameters.cameraRef.viewProjection);
     if (parameters.meshRef.properties.Get(AxMesh.propertyIndex_Cull).GetBool())
@@ -80,7 +82,7 @@ AxRenderEvents.prototype.OnMesh = function(parameters)
     
 AxRenderEvents.prototype.OnMechanism = function(parameters)
 {
-    if (parameters.mechanismRef._updateState !== this.updateState)
+    //if (parameters.mechanismRef._updateState !== this.updateState)
     {
         parameters.mechanismRef.Process(this.context.timer.time);
         parameters.mechanismRef._updateState = this.updateState;
@@ -89,7 +91,7 @@ AxRenderEvents.prototype.OnMechanism = function(parameters)
 
 AxRenderEvents.prototype.OnTransform = function(parameters)
 {
-    if (parameters.transformRef._updateState !== this.updateState)
+    //if (parameters.transformRef._updateState !== this.updateState)
     {
         parameters.transformRef.Process(parameters.parentTransformRef);
         parameters.transformRef._updateState = this.updateState;

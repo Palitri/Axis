@@ -1204,3 +1204,18 @@ void MainWindow::on_actionProperties_2_triggered()
     this->settingsDialog->show();
 }
 
+
+void MainWindow::on_actionCompute_selected_mesh_normals_triggered()
+{
+    AxResource *selectedResource = this->GetSelectedResource();
+    if (selectedResource == 0)
+        return;
+
+    if (selectedResource->resourceType != AxResourceType_Mesh)
+        return;
+
+    AxMesh* selectedMesh = (AxMesh*)selectedResource;
+
+    selectedMesh->ComputeNormals();
+
+}

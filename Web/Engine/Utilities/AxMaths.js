@@ -585,3 +585,51 @@ AxMaths.FOVToLens = function(fov, filmSize)
     
     return AxMaths.DistanceFromSizeAndAngle(fov, filmSize);
 };
+
+/**
+ * Interpolates between the smallest angular interval of two given angles 
+ * Depending on the given angles, the result may not be a straight forward interpolation between the two values as mere numbers, because the interpolation is performed through the shortest angular interval.
+ * @param {Number} a1 The first angle to interpolate from
+ * @param {Number} a2 The second angle to interpolate to
+ * @param {Number} factor The factor of interpolation
+ * @returns {Number} The interpolation result.
+ */
+AxMaths.LerpAngle = function(a1, a2, factor)
+{
+    var result;
+    
+    var delta = a2 - a1;
+    if (AxMath.Abs(delta) < AxMath.Pi)
+        result = a1 + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath.Pi2;
+            result = a1 + delta * factor;
+            if (result < 0)
+                result += AxMath.Pi2;
+        }
+        else
+        {
+            delta += AxMath.Pi * 2;
+            result = a1 + delta * factor;
+            if (result > AxMath.Pi2)
+                result -= AxMath.Pi2;
+        }
+    }
+    
+    return result;
+};
+
+AxMaths.GetIndexBlending = function(fromIndex, toIndex, factor)
+{
+    var result = { index1: 0, index2: 0, blend: 0.0 };
+	var max = toIndex - fromIndex;
+	var realIndex = fromIndex + factor * max;
+	result.index1 = AxMath.Min(AxMath.Floor(realIndex), toIndex);
+	result.index2 = AxMath.Min(result.index1 + 1, toIndex);
+	result.blend = realIndex - result.index1;
+    
+    return result;
+};

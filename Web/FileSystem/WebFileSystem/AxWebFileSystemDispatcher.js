@@ -1,5 +1,5 @@
 /**
- * Creates a new dispatcher for AxWebImage
+ * Creates a new dispatcher for AxWebFileSystemDispatcher
  * @constructor
  */
 function AxWebFileSystemDispatcher()
@@ -39,7 +39,7 @@ AxWebFileSystemDispatcher.prototype.GetInfo = function(infoId, infoTag, info)
 
 /**
  * Creates an instance of the dispatched object.
- * @return {AxWebGLGraphicsDevice}
+ * @return {AxWebFileSystem}
  */
 AxWebFileSystemDispatcher.prototype.CreateObject = function()
 {

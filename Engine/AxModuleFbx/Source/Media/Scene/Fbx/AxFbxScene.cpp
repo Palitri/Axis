@@ -756,6 +756,8 @@ void AxFbxScene::LoadMesh_Vertices(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh, A
 
 void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh)
 {
+	AxTexCoordChannels *texChannels = new AxTexCoordChannels();
+
 	int numLayers = fbxMesh->GetLayerCount();
 	for (int layerIndex = 0; layerIndex < numLayers; layerIndex++)
 	{
@@ -779,10 +781,12 @@ void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMe
 					AxVector2 texCoords = this->FbxToAxVector2(layerUV->GetDirectArray().GetAt(texCoordsIndex));
 					
 					deviceMesh->SetVertexTexCoords(vertexIndex, texCoords);
+
+					//texChannels->AddFaceVertexTexCoords(vertexIndex, texCoords);
 				}
 			}
 
-			// If uv is per polygon means each polygon has own uv mapping. Normally, this means polygons that share the same vertex position may have different uv, which requires to create a new vertex, but instead we'll only write to the existing vertices
+			// If uv is per polygon means each polygon has own uv mapping. Normally, this means polygons which share the same vertex position might have different uv, which requires to create a new vertex, but instead we'll only write to the existing vertices
 			else if (mappingMode == FbxGeometryElement::eByPolygonVertex)
 			{
 				const int numIndices = (useIndex) ? layerUV->GetIndexArray().GetCount() : 0;
@@ -790,15 +794,20 @@ void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMe
 				int index = 0;
 				for (int polyIndex = 0; polyIndex < numPolygons; polyIndex++)
 				{
+					texChannels->AddFace();
+
 					const int numPolyVertices = fbxMesh->GetPolygonSize(polyIndex);
 					for (int polyVertexIndex = 0; polyVertexIndex < numPolyVertices; polyVertexIndex++)
 					{
 						if (index < numIndices)
 						{
 							int texCoordsIndex = useIndex ? layerUV->GetIndexArray().GetAt(index) : index;
+							int vertexIndex = fbxMesh->GetPolygonVertex(polyIndex, polyVertexIndex);
 							AxVector2 texCoords = this->FbxToAxVector2(layerUV->GetDirectArray().GetAt(texCoordsIndex));
 
-							deviceMesh->SetVertexTexCoords(fbxMesh->GetPolygonVertex(polyIndex, polyVertexIndex), texCoords);
+							deviceMesh->SetVertexTexCoords(vertexIndex, texCoords);
+
+							texChannels->AddFaceVertexTexCoords(vertexIndex, texCoords);
 
 							index++;
 						}
@@ -807,6 +816,8 @@ void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMe
 			}
 		}
 	}
+
+	AxPlatformUtils::ShowMessage(AxString(AxString("F:") + AxString(texChannels->faces.count) + ", V:" + AxString(texChannels->vertexTexCoordChannels.count) + " / " +AxString(texChannels->vertexIndices.count)).contents);
 }
 
 bool AxFbxScene::LoadMesh_Animation(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh)
@@ -973,10 +984,80 @@ AxSmoothingGroups* AxFbxScene::LoadMesh_CreateSmoothGrouping(FbxMesh *fbxMesh)
 	return smoothGrouping;
 }
 
+
+void ConvertMapping(FbxLayerElementUV* pUVs, FbxMesh* pMesh)
+{
+	if (pUVs->GetMappingMode() == FbxLayerElement::eByPolygonVertex)
+	{
+		if (pUVs->GetReferenceMode() == FbxLayerElement::eIndexToDirect)
+		{
+			FbxArray<int> lNewIndexToDirect;
+			FbxArray<FbxVector2> lNewUVs;
+
+			// keep track of the processed control points
+			//FbxSet lProcessedCP(pMesh->GetControlPointsCount());
+			AxDictionary<int, bool> processedCP;
+			for (int i = 0; i < pMesh->GetControlPointsCount(); i++)
+			{
+				processedCP.Add(i, false);
+				//lProcessedCP.Add((FbxHandle)i, (FbxHandle)false);
+			}
+
+			// visit each polygon and polygon vertex
+			int countDoubles = 0;
+			int countSingles = 0;
+			for (int p = 0; p < pMesh->GetPolygonCount(); p++)
+			{
+				for (int pv = 0; pv < pMesh->GetPolygonSize(p); pv++)
+				{
+					int lCP = pMesh->GetPolygonVertex(p, pv);
+
+					// check if we already processed this control point
+					bool isProcessed;
+					processedCP.GetValue(lCP, isProcessed);
+					if (!isProcessed)
+					{
+						FbxVector2 uv = pUVs->GetDirectArray().GetAt(lCP);
+						lNewUVs.Add(uv);
+						lNewIndexToDirect.Add(lCP);
+						processedCP.Set(lCP, true);
+						countSingles++;
+					}
+					else
+						countDoubles++;
+				}
+			}
+
+			//AxPlatformUtils::ShowMessage(AxString(AxString(countSingles) + ", " + AxString(countDoubles)).contents);
+
+			// change the content of the index array and its mapping
+			pUVs->SetMappingMode(FbxLayerElement::eByControlPoint);
+			pUVs->GetIndexArray().Clear();
+			pUVs->GetIndexArray().Resize(lNewIndexToDirect.GetCount());
+			int* lIndexArray = (int*)pUVs->GetIndexArray().GetLocked();
+			for (int i = 0; i < lNewIndexToDirect.GetCount(); i++)
+				lIndexArray[i] = lNewIndexToDirect.GetAt(i);
+			pUVs->GetIndexArray().Release((void**)&lIndexArray);
+
+			// and the content of the direct array
+			pUVs->GetDirectArray().Clear();
+			pUVs->GetDirectArray().Resize(lNewUVs.GetCount());
+			FbxVector2* lDirectArray = (FbxVector2*)pUVs->GetDirectArray().GetLocked();
+			for (int j = 0; j < lNewUVs.GetCount(); j++)
+				lDirectArray[j] = lNewUVs.GetAt(j);
+			pUVs->GetDirectArray().Release((void**)&lDirectArray);
+		}
+	}
+}
+
 void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &geometryTransform)
 {
 	AxDeviceIndependentMesh *vertexDataMesh= new AxDeviceIndependentMesh();
 
+	//FbxLayerElementUV *fbxMeshUVLayer = fbxMesh->GetLayer(0)->GetUVs();
+	//if (fbxMeshUVLayer != 0)
+	//	ConvertMapping(fbxMeshUVLayer, fbxMesh);
+		
 	// Load vertices' position. Faces will be load at the end, as they might have more than 3 vertices
 	this->LoadMesh_Vertices(vertexDataMesh, fbxMesh, geometryTransform);
 	
@@ -1108,10 +1189,107 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 					mesh->deviceMesh->UpdateVertices(0, mesh->deviceMesh->GetVertexCount());
 					mesh->deviceMesh->UpdateIndices(0, mesh->deviceMesh->GetIndexCount());
 
+
+					//>>ANIMATION
+					// Fill blending channels data
+					int shapeDeformerCount = fbxMesh->GetDeformerCount(FbxDeformer::eBlendShape);
+					int shapeDeformerIndex = 0;
+					FbxBlendShape *blendShape = (FbxBlendShape*)fbxMesh->GetDeformer(shapeDeformerIndex, FbxDeformer::eBlendShape);
+					if (blendShape != 0)
+					{
+						int blendShapeChannelsCount = blendShape->GetBlendShapeChannelCount();
+						
+						mesh->SetBlendChannelsCount(blendShapeChannelsCount);
+
+						// Get original vertices and fill them in the mesh's blendOrigin member variable
+						FbxVector4 *originalVerticesFbx = blendShape->GetGeometry()->GetControlPoints();
+						int vertexCount = mesh->deviceMesh->GetVertexCount();
+						for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+						{
+							int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+
+							mesh->blendOrigin[vertexIndex].Set(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
+						}
+
+
+						// Process the blending geometry
+						for (int blendShapeChannelIndex = 0; blendShapeChannelIndex < blendShapeChannelsCount; blendShapeChannelIndex++)
+						{
+							FbxBlendShapeChannel *blendShapeChannel = blendShape->GetBlendShapeChannel(blendShapeChannelIndex);
+							//float deformPercentDefault = blendShapeChannel->DeformPercent.Get();
+							int targetShapesCount = blendShapeChannel->GetTargetShapeCount();
+							int targetShapeIndex = 0;
+							FbxShape *targetShape = blendShapeChannel->GetTargetShape(targetShapeIndex);
+
+							FbxVector4 *verticesFbx = targetShape->GetControlPoints(); 
+		
+							for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+							{
+								int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+								
+								AxVector3 morphPosition(this->FbxToAxVector3(verticesFbx[originalVertexIndex]));
+								AxVector3 originalPosition(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
+								AxVector3::Subtract(mesh->blendChannels[blendShapeChannelIndex * vertexCount + vertexIndex], morphPosition, originalPosition);
+							}
+						}
+
+						// Process the blending values animation
+						int numAnimations = this->fbxScene->GetSrcObjectCount(FbxAnimStack::ClassId);
+						if (numAnimations > 0)
+						{
+							int animationIndex = 0;
+							FbxAnimStack *animStack = (FbxAnimStack*)this->fbxScene->GetSrcObject(FbxAnimStack::ClassId, animationIndex);
+							//AxString animationName = animStack->GetName();
+
+							FbxAnimEvaluator *animEvaluator = this->fbxScene->GetAnimationEvaluator();
+							//animEvaluator->SetContext(animStack);
+
+							int numLayers = animStack->GetMemberCount();
+							int animationLayerIndex = 0;
+							FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(animationLayerIndex);
+							AxString layerName = animLayer->GetName();
+
+							int numShapes = fbxMesh->GetShapeCount();
+							if (numShapes > 0)
+							{
+								AxLinearMechanism *linearMechanism = (AxLinearMechanism*)this->context->AddResource(new AxLinearMechanism(0.0f, 1.0f, 1.0f, false, true, false));
+								linearMechanism->name = this->context->AcquireResourceName(AxString("Frame"), AxResourceType_Mechanism);
+								entitySet->references.Add(linearMechanism);
+
+								int shapeIndex = 0;
+								for (int blendShapeChannelIndex = 0; blendShapeChannelIndex < blendShapeChannelsCount; blendShapeChannelIndex++)
+								{
+									FbxAnimCurve *animCurve = fbxMesh->GetShapeChannel(shapeIndex, blendShapeChannelIndex, animLayer, true);
+									if(animCurve)
+									{
+										AxTimelineAnimationMechanism *animationMechanism = (AxTimelineAnimationMechanism*)this->context->AddResource(new AxTimelineAnimationMechanism());
+										animationMechanism->name = this->context->AcquireResourceName(AxString("Blend"), AxResourceType_Mechanism);
+										animationMechanism->properties[AxTimelineAnimationMechanism::propertyIndex_Frame]->SetValue(linearMechanism, AxParameterType_ReferenceMechanism);
+
+										mesh->GetProperty(AxString("Blend ") + AxString(blendShapeChannelIndex))->SetValue(animationMechanism, AxParameterType_ReferenceMechanism);
+
+										entitySet->references.Add(animationMechanism);
+
+										int keysCount = animCurve->KeyGetCount();
+										for(int keyIndex = 0; keyIndex < keysCount; keyIndex++)
+										{
+											float keyValue = animCurve->KeyGetValue(keyIndex) / 100.0f;
+											FbxTime curveKeyTime = animCurve->KeyGetTime(keyIndex);
+											float keyTime = (float)curveKeyTime.GetSecondDouble();
+
+											animationMechanism->keys.Add(AxTimelineAnimationKey(keyTime, keyValue));
+										}
+									}
+								}
+							}
+						}
+					}
+					//<<ANIMATION
+
 					break;
 				}
 				
-				// Each polygon has some material
+				// Each polygon has some material assigned
 				case FbxLayerElement::EMappingMode::eByPolygon:
 				{
 					// Will hold the mapping of each sub material with its respective polygon indices
@@ -1228,6 +1406,108 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 
 						mesh->deviceMesh->UpdateVertices(0, mesh->deviceMesh->GetVertexCount());
 						mesh->deviceMesh->UpdateIndices(0, mesh->deviceMesh->GetIndexCount());
+
+
+
+					//>>ANIMATION
+					// Fill blending channels data
+					int shapeDeformerCount = fbxMesh->GetDeformerCount(FbxDeformer::eBlendShape);
+					int shapeDeformerIndex = 0;
+					FbxBlendShape *blendShape = (FbxBlendShape*)fbxMesh->GetDeformer(shapeDeformerIndex, FbxDeformer::eBlendShape);
+					if (blendShape != 0)
+					{
+						int blendShapeChannelsCount = blendShape->GetBlendShapeChannelCount();
+						
+						mesh->SetBlendChannelsCount(blendShapeChannelsCount);
+
+						// Get original vertices and fill them in the mesh's blendOrigin member variable
+						FbxVector4 *originalVerticesFbx = blendShape->GetGeometry()->GetControlPoints();
+						int vertexCount = mesh->deviceMesh->GetVertexCount();
+						for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+						{
+							int originalVertexIndex = subMesh.vertexIndices[vertexIndex];
+							originalVertexIndex = smoothGrouping->vertexIndices[originalVertexIndex].index;
+
+							mesh->blendOrigin[vertexIndex].Set(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
+						}
+
+
+						// Process the blending geometry
+						for (int blendShapeChannelIndex = 0; blendShapeChannelIndex < blendShapeChannelsCount; blendShapeChannelIndex++)
+						{
+							FbxBlendShapeChannel *blendShapeChannel = blendShape->GetBlendShapeChannel(blendShapeChannelIndex);
+							//float deformPercentDefault = blendShapeChannel->DeformPercent.Get();
+							int targetShapesCount = blendShapeChannel->GetTargetShapeCount();
+							int targetShapeIndex = 0;
+							FbxShape *targetShape = blendShapeChannel->GetTargetShape(targetShapeIndex);
+
+							FbxVector4 *verticesFbx = targetShape->GetControlPoints(); 
+		
+							for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+							{
+								int originalVertexIndex = subMesh.vertexIndices[vertexIndex];
+								originalVertexIndex = smoothGrouping->vertexIndices[originalVertexIndex].index;
+								
+								AxVector3 morphPosition(this->FbxToAxVector3(verticesFbx[originalVertexIndex]));
+								AxVector3 originalPosition(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
+								AxVector3::Subtract(mesh->blendChannels[blendShapeChannelIndex * vertexCount + vertexIndex], morphPosition, originalPosition);
+							}
+						}
+
+						// Process the blending values animation
+						int numAnimations = this->fbxScene->GetSrcObjectCount(FbxAnimStack::ClassId);
+						if (numAnimations > 0)
+						{
+							int animationIndex = 0;
+							FbxAnimStack *animStack = (FbxAnimStack*)this->fbxScene->GetSrcObject(FbxAnimStack::ClassId, animationIndex);
+							//AxString animationName = animStack->GetName();
+
+							FbxAnimEvaluator *animEvaluator = this->fbxScene->GetAnimationEvaluator();
+							//animEvaluator->SetContext(animStack);
+
+							int numLayers = animStack->GetMemberCount();
+							int animationLayerIndex = 0;
+							FbxAnimLayer *animLayer = (FbxAnimLayer*)animStack->GetMember(animationLayerIndex);
+							AxString layerName = animLayer->GetName();
+
+							int numShapes = fbxMesh->GetShapeCount();
+							if (numShapes > 0)
+							{
+								AxLinearMechanism *linearMechanism = (AxLinearMechanism*)this->context->AddResource(new AxLinearMechanism(0.0f, 1.0f, 1.0f, false, true, false));
+								linearMechanism->name = this->context->AcquireResourceName(AxString("Frame"), AxResourceType_Mechanism);
+								entitySet->references.Add(linearMechanism);
+
+								int shapeIndex = 0;
+								for (int blendShapeChannelIndex = 0; blendShapeChannelIndex < blendShapeChannelsCount; blendShapeChannelIndex++)
+								{
+									FbxAnimCurve *animCurve = fbxMesh->GetShapeChannel(shapeIndex, blendShapeChannelIndex, animLayer, true);
+									if(animCurve)
+									{
+										AxTimelineAnimationMechanism *animationMechanism = (AxTimelineAnimationMechanism*)this->context->AddResource(new AxTimelineAnimationMechanism());
+										animationMechanism->name = this->context->AcquireResourceName(AxString("Blend"), AxResourceType_Mechanism);
+										animationMechanism->properties[AxTimelineAnimationMechanism::propertyIndex_Frame]->SetValue(linearMechanism, AxParameterType_ReferenceMechanism);
+
+										mesh->GetProperty(AxString("Blend ") + AxString(blendShapeChannelIndex))->SetValue(animationMechanism, AxParameterType_ReferenceMechanism);
+
+										entitySet->references.Add(animationMechanism);
+
+										int keysCount = animCurve->KeyGetCount();
+										for(int keyIndex = 0; keyIndex < keysCount; keyIndex++)
+										{
+											float keyValue = animCurve->KeyGetValue(keyIndex) / 100.0f;
+											FbxTime curveKeyTime = animCurve->KeyGetTime(keyIndex);
+											float keyTime = (float)curveKeyTime.GetSecondDouble();
+
+											animationMechanism->keys.Add(AxTimelineAnimationKey(keyTime, keyValue));
+										}
+									}
+								}
+							}
+						}
+					}
+					//<<ANIMATION
+
+
 
 						// Reset the submesh to make it ready for another go
 						subMesh.Reset();

@@ -28,6 +28,7 @@ public:
 	AxVector3 Invert();
 	float DistanceTo(AxVector3 &v);
 	AxVector3 Lerp(AxVector3 &v, float factor);
+	AxVector3 LerpAngles(AxVector3 &v, float factor);
 	AxVector3 Subtract(AxVector3 &v);
 	AxVector3 Add(AxVector3 &v);
 	float Dot(AxVector3 &v);
@@ -39,7 +40,7 @@ public:
 	AxVector3 Transform(AxMatrix &transformation);
 	AxVector3 CartesianToSpherical();
 	AxVector3 SphericalToCartesian();
-	AxVector3 LerpSherical(AxVector3 &s, float factor);
+	AxVector3 LerpSpherical(AxVector3 &s, float factor);
 	
 	static void Copy(AxVector3 &result, AxVector3 &source);
 	static void SetLength(AxVector3 &result, AxVector3 &v, float length);
@@ -62,6 +63,7 @@ public:
 	static void CartesianToSpherical(AxVector3 &result, AxVector3 &cartesian);
 	static void SphericalToCartesian(AxVector3 &result, float azimuth, float elevation, float radius);
 	static void SphericalToCartesian(AxVector3 &result, AxVector3 &spherical);
-	static void LerpSherical(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, float factor);
+	static void LerpSpherical(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, float factor);
+	static void LerpAngles(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, float factor);
 };
 

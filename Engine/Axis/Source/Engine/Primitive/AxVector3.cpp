@@ -127,6 +127,13 @@ AxVector3 AxVector3::Lerp(AxVector3 &v, float factor)
 	return result;
 }
 
+AxVector3 AxVector3::LerpAngles(AxVector3 &v, float factor)
+{
+	AxVector3 result;
+	AxVector3::LerpAngles(result, *this, v, factor);
+	return result;
+}
+
 AxVector3 AxVector3::Subtract(AxVector3 &v)
 {
 	AxVector3 result;
@@ -202,10 +209,10 @@ AxVector3 AxVector3::SphericalToCartesian()
 	return result;
 }
 
-AxVector3 AxVector3::LerpSherical(AxVector3 &s, float factor)
+AxVector3 AxVector3::LerpSpherical(AxVector3 &s, float factor)
 {
 	AxVector3 result;
-	AxVector3::LerpSherical(result, *this, s, factor);
+	AxVector3::LerpSpherical(result, *this, s, factor);
 	return result;
 }
 
@@ -401,7 +408,7 @@ void AxVector3::SphericalToCartesian(AxVector3 &result, AxVector3 &spherical)
     AxVector3::SphericalToCartesian(result, spherical.x, spherical.y, spherical.z);
 }
     
-void AxVector3::LerpSherical(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, float factor)
+void AxVector3::LerpSpherical(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, float factor)
 {
     float delta = v2.x - v1.x;
 	if (AxMath::Abs(delta) < AxMath::Pi)
@@ -417,7 +424,7 @@ void AxVector3::LerpSherical(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, fl
         }
         else
         {
-            delta += AxMath::Pi * 2;
+            delta += AxMath::Pi2;
             result.x = v1.x + delta * factor;
             if (result.x > AxMath::Pi2)
                 result.x -= AxMath::Pi2;
@@ -447,3 +454,69 @@ void AxVector3::LerpSherical(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, fl
 
     result.z = v1.z + (v2.z - v1.z) * factor;
 } 
+
+void AxVector3::LerpAngles(AxVector3 &result, AxVector3 &v1, AxVector3 &v2, float factor)
+{
+    float delta = v2.x - v1.x;
+	if (AxMath::Abs(delta) < AxMath::Pi)
+        result.x = v1.x + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath::Pi2;
+            result.x = v1.x + delta * factor;
+            if (result.x < 0)
+                result.x += AxMath::Pi2;
+        }
+        else
+        {
+            delta += AxMath::Pi2;
+            result.x = v1.x + delta * factor;
+            if (result.x > AxMath::Pi2)
+                result.x -= AxMath::Pi2;
+        }
+    }
+
+    delta = v2.y - v1.y;
+	if (AxMath::Abs(delta) < AxMath::Pi)
+        result.y = v1.y + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath::Pi2;
+            result.y = v1.y + delta * factor;
+            if (result.y < 0)
+				result.y += AxMath::Pi2;
+        }
+        else
+        {
+			delta += AxMath::Pi2;
+            result.y = v1.y + delta * factor;
+            if (result.y > AxMath::Pi2)
+                result.y -= AxMath::Pi2;
+        }
+    }
+
+    delta = v2.z - v1.z;
+	if (AxMath::Abs(delta) < AxMath::Pi)
+        result.z = v1.z + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath::Pi2;
+            result.z = v1.z + delta * factor;
+            if (result.z < 0)
+				result.z += AxMath::Pi2;
+        }
+        else
+        {
+			delta += AxMath::Pi2;
+            result.z = v1.z + delta * factor;
+            if (result.z > AxMath::Pi2)
+                result.z -= AxMath::Pi2;
+        }
+    }
+}

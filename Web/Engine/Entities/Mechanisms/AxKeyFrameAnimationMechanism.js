@@ -56,7 +56,7 @@ AxKeyframeAnimationMechanism.prototype.Process = function(deltaTime)
     this.keyFramesTracks.Get(0).GetTransform(transform.transform, time);
 
     var m = new AxMatrix();
-    for (var i = 0; i < this.keyFramesTracks.count; i++)
+    for (var i = 1; i < this.keyFramesTracks.count; i++)
     {
         this.keyFramesTracks.Get(i).GetTransform(m, time);
         AxMatrix.Multiply(transform.transform, transform.transform, m);

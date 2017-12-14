@@ -92,9 +92,7 @@ function Axis(windowHandle)
     
     this.fileSystem = null;
     if (this.fileSystemDispatchers.count > 0)
-    {
         this.fileSystem = this.fileSystemDispatchers.Get(0).CreateObject();
-    }
     
     this.resources = new AxList();
     this.root = null;
@@ -121,9 +119,10 @@ Axis.SerializationId_ResourceSerialization = 0x21100000;
  * Imports a scene from a stream
  * The scene can be in any of the registered scene media formats
  * @param {AxStream} stream The stream, which contains the scene serialized data
+ * @param {*} callback Callback method, called when importing the scene has finished
  * @returns {Boolean} True if the scene was imported successfully
  */
-Axis.prototype.ImportScene_1 = function(stream)
+Axis.prototype.ImportScene_1 = function(stream, callback)
 {
     var streamPos = stream.position;
 
@@ -141,6 +140,10 @@ Axis.prototype.ImportScene_1 = function(stream)
     }
 
     this.timer.Tick();
+    
+    if (!AxUtils.IsUndefinedOrNull(callback))
+        callback(this, "", success);
+    
 
     return success;
 };
@@ -185,7 +188,7 @@ Axis.prototype.ImportScene_2 = function(fileName, callback)
 Axis.prototype.ImportScene = function(source, callback)
 {
     if (AxUtils.IsInstanceOf(source, AxStream))
-        this.ImportScene_1(source);
+        this.ImportScene_1(source, callback);
     else
         this.ImportScene_2(source, callback);
 };

@@ -27,6 +27,7 @@ public:
 	bool IsIdentity();
 
 	static void Copy(AxMatrix &result, AxMatrix &source);
+	static void Copy3x3(AxMatrix &result, AxMatrix &source);
 	static void CreateIdentity(AxMatrix &result);
 	static void CreateRotationX(AxMatrix &result, float phi);
 	static void CreateRotationY(AxMatrix &result, float phi);

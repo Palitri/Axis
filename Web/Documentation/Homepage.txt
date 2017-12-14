@@ -26,7 +26,7 @@ This is useful when deploying the final version of your project.
 </ul>
 </p>
 <p>
-For more info, see the <a href="http://localhost:50547/resources/axis/general/versions/">versions</a> page or the <a href="http://localhost:50547/axis/download/">downloads</a> page.
+For more info, see the <a href="http://palitri.com/resources/axis/general/versions/">versions</a> page or the <a href="http://palitri.com/axis/download/">downloads</a> page.
 </p>
 <p>
 This documentation references the source code files from the project included in the SDK.

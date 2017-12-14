@@ -34,6 +34,7 @@
 #include "Entities\Mechanisms\Texture\AxPlasmaFractalTextureMechanism.h"
 #include "Entities\Mechanisms\Texture\AxNormalMapTextureMechanism.h"
 #include "Entities\Mechanisms\Texture\AxBlurTextureMechanism.h"
+#include "Entities\Mechanisms\AxTimelineAnimationMechanism.h"
 #include "Entities\Mechanisms\Texture\AxCheckerTextureMechanism.h"
 #include "Entities\Mesh\AxMesh.h"
 #include "Entities\EntitySet\AxEntitySet.h"
@@ -134,6 +135,11 @@ AxEntity *AxStandardEntityDispatcher::CreateEntity(Axis *context, int typeId)
 			return new AxPivotalMechanism();
 		}
 
+
+		case AxTimelineAnimationMechanism::classId:
+		{
+			return new AxTimelineAnimationMechanism();
+		}
 
 		case AxTimeRateMechanism::classId:
 		{

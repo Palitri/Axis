@@ -50,7 +50,7 @@ AxPolynomialMechanism.prototype.Process = function(deltaTime)
     var variable =  this.properties.Get(AxPolynomialMechanism.propertyIndex_X).GetEffectiveParameter().value;
     var result = 0.0;
 
-    for (var i = 0; i <= AxPolynomialMechanism.degree; i++)
+    for (var i = 0; i <= this.degree; i++)
         result += this.properties.Get(AxPolynomialMechanism.GetDegreePropertyIndex(i)).GetEffectiveValue() * AxMath.Power(variable, i);
 
     this.parameter.value = result;

@@ -942,6 +942,15 @@
     <ClInclude Include="Source\Engine\Input\AxInputControls.h">
       <Filter>Source\Engine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxParticleSpreadMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.h">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.h">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Graphics\Soras\Engine\Soras.cpp">
@@ -1582,6 +1591,15 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Input\AxInputControls.cpp">
       <Filter>Source\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxParticleSpreadMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.cpp">
+      <Filter>Source\Engine\Entities\Mechanisms</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.cpp">
+      <Filter>Source\Engine\Utilities\TexCoords</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

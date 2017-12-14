@@ -100,6 +100,7 @@ EditorUtils::Initialization::Initialization(void)
     EditorUtils::transformOperationNames.Add(AxTransformOperation_ScaleAbsolute, "ScaleAbsolute");
     EditorUtils::transformOperationNames.Add(AxTransformOperation_Reflect, "Reflect");
     EditorUtils::transformOperationNames.Add(AxTransformOperation_Skybox, "Skybox");
+    EditorUtils::transformOperationNames.Add(AxTransformOperation_Billboard, "Billboard");
 
     EditorUtils::parameterTypeNames.Add(AxParameterType_None, "None");
     EditorUtils::parameterTypeNames.Add(AxParameterType_Int, "Int");

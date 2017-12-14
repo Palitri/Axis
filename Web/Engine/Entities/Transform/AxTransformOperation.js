@@ -15,5 +15,6 @@ var AxTransformOperation = Object.freeze(
     RotateAbsoluteZ : 8,
     ScaleAbsolute : 9,
     Reflect : 10,
-    Skybox : 11
+    Skybox : 11,
+    Billboard : 12
 });

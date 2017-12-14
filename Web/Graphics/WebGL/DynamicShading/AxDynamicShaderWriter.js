@@ -110,7 +110,7 @@ AxDynamicShaderWriter.prototype.AddShadingLayer = function(shadingOp, colorOp)
             this.vsCode.ProvideDefinition('', '\tsio_color = vec4(intensity, intensity, intensity, 1.0);\r\n');
 
             this.psCode.ProvideDefinition('', '\tresult.color = sio_color;\r\n');
-            //this.ProvideColorOperationCode(shadingOp, colorOp, '', this.psCode, '\t', 'result.color', 'sio_color', colorOp);
+            //this.ProvideColorOperationCode(shadingOp, colorOp, "basicShadingAmount", this.psCode, "\t", "result.color", 'sio_color');
             break;
         }
 
@@ -366,8 +366,9 @@ AxDynamicShaderWriter.prototype.AddShadingLayer = function(shadingOp, colorOp)
             this.psCode.ProvideDefinition('sio2_texCoords', '\tvec2 sio2_texCoords = sio_texCoords;');
             this.psCode.ProvideDefinition('sio2_normal', '\tvec3 sio2_normal;');
             this.psCode.ProvideDefinition("",  
-                '\tvec3 mapNormal = (' + AxDynamicShaderWriter.TextureSampling(pNormalMap, 'sio2_texCoords') + '.xyz * 2.0 - 1.0) * ' + pNormalMapFactor + ';\r\n' +
-                "\tsio2_normal = mapNormal.x * sio_tangent + mapNormal.y * sio_biTangent + mapNormal.z * sio_normal;\r\n");
+                '\tvec3 mapNormal = (' + AxDynamicShaderWriter.TextureSampling(pNormalMap, 'sio2_texCoords') + '.xyz * 2.0 - 1.0);\r\n' +
+                "\tmapNormal = mapNormal.x * sio_tangent + mapNormal.y * sio_biTangent + mapNormal.z * sio_normal;\r\n" +
+                "\tsio2_normal = mix(sio_normal, mapNormal, " + pNormalMapFactor + ");\r\n");
 
             break;
         }
@@ -664,7 +665,7 @@ AxDynamicShaderWriter.prototype.GetPSSourceCode = function()
         this.psCode.GetCode().GetContents() + 
             '\r\n' +
             '\tgl_FragColor = result.color;\r\n' +
-            '\tgl_FragColor.w = 1.0;\r\n}';
+            '\tgl_FragColor.w = 0.85;\r\n}';
 };
 
 

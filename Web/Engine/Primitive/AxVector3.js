@@ -188,6 +188,19 @@ AxVector3.prototype.Lerp = function(v, factor)
 };
 
 /**
+ * Interpolates between the components of the original vector and the given one, treating them as angles, thus performing the interpolation between the angular smallest interval
+ * @param {AxVector3} v The vector towards which to interpolate
+ * @param {Number} factor The interpolation value
+ * @returns {Number} The interpolation result
+ */
+AxVector3.prototype.LerpAngles = function(v, factor)
+{
+    var result = new AxVector3();
+    AxVector3.LerpAngles(result, this, v, factor);
+    return result;
+};
+
+/**
  * Returns a vetor which is the difference between the original vector and the given one
  * @param {AxVector3} v The vector, which is to be subtracted from the original one
  * @returns {AxVector3} The difference between the original vector and the given one
@@ -324,10 +337,10 @@ AxVector3.prototype.SphericalToCartesian = function()
  * @param {Number} factor The interpolation (or extrapolation) value. Values between 0 and 1 result in interpolation, while values outside of this range result in extrapolation.
  * @returns {AxVector3} A linearly interpolated (or extrapolated) vector in spherical coordinates, given the original vector and the provided one are also in spherical coordinates
  */
-AxVector3.prototype.LerpSherical = function(s, factor)
+AxVector3.prototype.LerpSpherical = function(s, factor)
 {
     var result = new AxVector3();
-    AxVector3.LerpSherical(result, this, s, factor);
+    AxVector3.LerpSpherical(result, this, s, factor);
     return result;
 };
 
@@ -576,6 +589,28 @@ AxVector3.TransformNormal = function(result, v, transformation)
 
 /**
  * Converts Cartesian coordinates into spherical coordinates
+ * Accepts 2 sets of input parameters:
+ * A result vector and an input vector
+ * A result vector and the three coordinates of the input vector
+ * The result coordinates are as follow:
+ * result.x - azimuth: range 0 to 2Pi, initial direction is negative Z (east), increasing towards full revolution around positive Y
+ * result.y - elevation: range -Pi/2 to Pi/2, initial direction is negative Y (down), increasing towards positive Y (up)
+ * result.z - distance
+ * @param {AxVector3} result The resulting vector containing the spherical coordinates.
+ * @param {Number|AxVector3} x The X cartesian coordinate or a whole vector containing the three cartesian coordinates
+ * @param {!Number} y The Y cartesian coordinate
+ * @param {!Number} z The Z cartesian coordinate
+ */
+AxVector3.CartesianToSpherical = function(result, x, y, z)
+{
+    if (AxUtils.IsUndefinedOrNull(y))
+        AxVector3.CartesianToSpherical_2(result, x);
+    else
+        AxVector3.CartesianToSpherical_1(result, x, y, z);
+};
+
+/**
+ * Converts Cartesian coordinates into spherical coordinates
  * The result coordinates are as follow:
  * result.x - azimuth: range 0 to 2Pi, initial direction is negative Z (east), increasing towards full revolution around positive Y
  * result.y - elevation: range -Pi/2 to Pi/2, initial direction is negative Y (down), increasing towards positive Y (up)
@@ -585,7 +620,7 @@ AxVector3.TransformNormal = function(result, v, transformation)
  * @param {Number} y The Y cartesian coordinate
  * @param {Number} z The Z cartesian coordinate
  */
-AxVector3.CartesianToSpherical = function(result, x, y, z)
+AxVector3.CartesianToSpherical_1 = function(result, x, y, z)
 {
     result.z = AxMath.Sqrt(x * x + y * y + z * z);
     if (result.z === 0.0)
@@ -602,7 +637,7 @@ AxVector3.CartesianToSpherical = function(result, x, y, z)
         result.x = AxMath.ArcTan(z / x);
 
     if (x < 0)
-	result.x += AxMath.Pi;
+        result.x += AxMath.Pi;
 
     if (result.x < 0)
         result.x += AxMath.Pi * 2.0;
@@ -619,9 +654,26 @@ AxVector3.CartesianToSpherical = function(result, x, y, z)
  */
 AxVector3.CartesianToSpherical_2 = function(result, cartesian)
 {
-    AxVector3.CartesianToSpherical(result, cartesian.x, cartesian.y, cartesian.z);
+    AxVector3.CartesianToSpherical_1(result, cartesian.x, cartesian.y, cartesian.z);
 };
 
+/**
+ * Converts spherical coordinates into Cartesian coordinates
+ * Accepts 2 sets of input parameters:
+ * A result vector and a 
+ * The spherical coordinates are as follow:
+ * @param {AxVector3} result The resulting vector containing the spherical coordinates.
+ * @param {Number|AxVector3} arg1 A vector containing spherical coordinates or the azimuth component, in range 0 to 2Pi, initial direction being negative Z (east), increasing towards full revolution around positive Y
+ * @param {Number} arg2 The elevation component. Range -Pi/2 to Pi/2, initial direction is negative Y (down), increasing towards positive Y (up)
+ * @param {Number} arg3 The radial distance component
+ */
+AxVector3.SphericalToCartesian = function(result, arg1, arg2, arg3)
+{
+    if (AxUtils.IsUndefinedOrNull(arg2))
+        AxVector3.SphericalToCartesian_2(result, arg1);
+    else
+        AxVector3.SphericalToCartesian_1(result, arg1, arg2, arg3);
+};
 /**
  * Converts spherical coordinates into Cartesian coordinates
  * The spherical coordinates are as follow:
@@ -630,7 +682,7 @@ AxVector3.CartesianToSpherical_2 = function(result, cartesian)
  * @param {Number} elevation The elevation component. Range -Pi/2 to Pi/2, initial direction is negative Y (down), increasing towards positive Y (up)
  * @param {Number} radius The radial distance component
  */
-AxVector3.SphericalToCartesian = function(result, azimuth, elevation, radius)
+AxVector3.SphericalToCartesian_1 = function(result, azimuth, elevation, radius)
 {
     var eCos = AxMath.Cos(elevation) * radius;
     result.x = AxMath.Cos(azimuth) * eCos;
@@ -663,7 +715,7 @@ AxVector3.SphericalToCartesian_2 = function(result, spherical)
  * @param {AxVector3} v2 The second vector of spherical coordinates
  * @param {Number} factor The factor by which to interpolate
  */
-AxVector3.LerpSherical = function(result, v1, v2, factor)
+AxVector3.LerpSpherical = function(result, v1, v2, factor)
 {
     var delta = v2.x - v1.x;
     if (AxMath.Abs(delta) < AxMath.Pi)
@@ -708,4 +760,77 @@ AxVector3.LerpSherical = function(result, v1, v2, factor)
     }
 
     result.z = v1.z + (v2.z - v1.z) * factor;
+};
+
+/**
+ * Interpolates between the components of the vector, treating them as angles, thus performing the interpolation between the angular smallest interval
+ * @param {AxVector3} result The resulting vector
+ * @param {AxVector3} v1 The first vector of angular components
+ * @param {AxVector3} v2 The second vector of angular comonents
+ * @param {Number} factor The factor by which to interpolate
+ */
+AxVector3.LerpAngles = function(result, v1, v2, factor)
+{
+    var delta = v2.x - v1.x;
+    if (AxMath.Abs(delta) < AxMath.Pi)
+        result.x = v1.x + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath.Pi2;
+            result.x = v1.x + delta * factor;
+            if (result.x < 0)
+                result.x += AxMath.Pi2;
+        }
+        else
+        {
+            delta += AxMath.Pi * 2;
+            result.x = v1.x + delta * factor;
+            if (result.x > AxMath.Pi2)
+                result.x -= AxMath.Pi2;
+        }
+    }
+
+    delta = v2.y - v1.y;
+    if (AxMath.Abs(delta) < AxMath.Pi)
+        result.y = v1.y + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath.Pi2;
+            result.y = v1.y + delta * factor;
+            if (result.y < 0)
+                result.y += AxMath.Pi2;
+        }
+        else
+        {
+            delta += AxMath.Pi2;
+            result.y = v1.y + delta * factor;
+            if (result.y > AxMath.Pi2)
+                result.y -= AxMath.Pi2;
+        }
+    }
+
+    delta = v2.z - v1.z;
+    if (AxMath.Abs(delta) < AxMath.Pi)
+        result.z = v1.z + delta * factor;
+    else
+    {
+        if (delta > 0)
+        {
+            delta -= AxMath.Pi2;
+            result.z = v1.z + delta * factor;
+            if (result.z < 0)
+                result.z += AxMath.Pi2;
+        }
+        else
+        {
+            delta += AxMath.Pi2;
+            result.z = v1.z + delta * factor;
+            if (result.z > AxMath.Pi2)
+                result.z -= AxMath.Pi2;
+        }
+    }
 };

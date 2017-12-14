@@ -77,6 +77,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.h" />
+    <ClInclude Include="Source\Engine\Entities\Mechanisms\AxParticleSpreadMechanism.h" />
     <ClInclude Include="Source\Engine\Input\AxInputControls.h" />
     <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.h" />
     <ClInclude Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.h" />
@@ -323,6 +326,9 @@
     <ClInclude Include="Source\Tools\Threading\AxThreadsPoolThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.cpp" />
+    <ClCompile Include="Source\Engine\Entities\Mechanisms\AxParticleSpreadMechanism.cpp" />
     <ClCompile Include="Source\Engine\Input\AxInputControls.cpp" />
     <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDeviceDispatcher.cpp" />
     <ClCompile Include="Source\Input\WindowsForms\AxWindowsFormsInputDevice.cpp" />

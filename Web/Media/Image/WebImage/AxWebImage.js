@@ -45,32 +45,59 @@ AxWebImage.prototype.Load = function(source, callbackContext, callback)
         
         var byteBuffer = new Uint8Array(arrayBuffer);
 
-        var webImage = document.createElement('img'); //new Image();
+        //var webImage = document.createElement('img'); //new Image();
+        var webImage = new Image();
         var sourceData = 'data:image;base64,' + AxWebImage.EncodeBase64(byteBuffer);
         
         webImage.callbackSender = this;
         webImage.onload = function()
         {
-            var sender = this.callbackSender;
-            
-            var webCanvas = document.createElement('canvas');//new Canvas();
-            webCanvas.width = webImage.width;
-            webCanvas.height = webImage.height;
-            webCanvas.getContext('2d').drawImage(webImage, 0, 0, webImage.width, webImage.height);
-
-            var imageData = webCanvas.getContext('2d').getImageData(0, 0, webCanvas.width, webCanvas.height).data;
-            sender.SetPixelFormat(new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha));
-            sender.SetSize(webCanvas.width, webCanvas.height, 1);
-            var lineSize = webCanvas.width * 4;
-            for (var lineIndex = 0; lineIndex < webCanvas.height; lineIndex++)
+            try
             {
-                var lineOffset = (webCanvas.height - 1 - lineIndex) * lineSize;
-                var lineData = imageData.slice(lineOffset, lineOffset + lineSize);
-                sender.pixelData.set(lineData, lineIndex * lineSize);
+                var sender = this.callbackSender;
+
+                var webCanvas = document.createElement('canvas');//new Canvas();
+                webCanvas.width = webImage.width;
+                webCanvas.height = webImage.height;
+
+                var subArrayFunction = Uint8Array.prototype.subarray || Uint8Array.prototype.slice;
+                if (AxUtils.IsUndefinedOrNull(subArrayFunction))
+                {
+                    sender.SetPixelFormat(new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha));
+                    sender.width = webImage.width;
+                    sender.height = webImage.height;
+                    sender.pixelData = webImage;
+
+                    if (!AxUtils.IsUndefinedOrNull(callback))
+                        callback(sender, callbackContext, true);
+                    
+                    return;
+                }
+
+                var context = webCanvas.getContext('2d');
+                context.drawImage(webImage, 0, 0, webImage.width, webImage.height);
+
+                var image = context.getImageData(0, 0, webCanvas.width, webCanvas.height);
+                var imageData = new Uint8Array(image.data);
+
+                sender.SetPixelFormat(new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha));
+                sender.SetSize(webCanvas.width, webCanvas.height, 1);
+                var lineSize = webCanvas.width * 4;
+                for (var lineIndex = 0; lineIndex < webCanvas.height; lineIndex++)
+                {
+                    var lineOffset = (webCanvas.height - 1 - lineIndex) * lineSize;
+                    var lineData = subArrayFunction.call(imageData, lineOffset, lineOffset + lineSize);
+                    sender.pixelData.set(lineData, lineIndex * lineSize);
+                }
+
+                if (!AxUtils.IsUndefinedOrNull(callback))
+                    callback(sender, callbackContext, true);
             }
-            
-            if (!AxUtils.IsUndefinedOrNull(callback))
-                callback(sender, callbackContext, true);
+            catch (x)
+            {
+                if (!AxUtils.IsUndefinedOrNull(callback))
+                    callback(sender, callbackContext, false);
+            }
         };
 
         webImage.src = sourceData;

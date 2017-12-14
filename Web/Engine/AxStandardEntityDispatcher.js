@@ -82,6 +82,11 @@ AxStandardEntityDispatcher.prototype.CreateEntity = function(context, typeId)
             return new AxKeyframeAnimationMechanism(context);
         }
 
+        case AxTimelineAnimationMechanism.classId:
+        {
+            return new AxTimelineAnimationMechanism();
+        }
+
         case AxTimeRateMechanism.classId:
         {
             return new AxTimeRateMechanism(context);

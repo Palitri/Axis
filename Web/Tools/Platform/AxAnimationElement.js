@@ -11,9 +11,10 @@
  * @param {AxAnimationElementRender} onRenderEvent The method which to perform rendering of a frame
  * @param {!Boolean} startRendering Denotes whether to start rendering immediately. If omitted, assumes a default value of false
  * @param {!Boolean} enableContextMenu Denotes whether to enable the default context menu on the canvas element. If omitted, assumes a default value of false
+ * @param {!Boolean} touchScrollingEnabled Denotes whether to enable scrolling the page when touching the canvas in a touchscreen device
  * @constructor
  */
-function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableContextMenu)
+function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableContextMenu, touchScrollingEnabled)
 {
     if (AxUtils.IsUndefinedOrNull(startRendering))
         startRendering = false;
@@ -21,9 +22,13 @@ function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableConte
     if (AxUtils.IsUndefinedOrNull(enableContextMenu))
         enableContextMenu = false;
 
+    if (AxUtils.IsUndefinedOrNull(touchScrollingEnabled))
+        touchScrollingEnabled = false;
+
     
     this.renderingEnabled = false;
     this.contextMenuEnabled = enableContextMenu;
+    this.touchScrollingEnabled = touchScrollingEnabled;
     
     this.OnRender = null;
     
@@ -80,6 +85,11 @@ AxAnimationElement.prototype.Initialize = function(canvasId)
         this.canvas.addEventListener('mousedown', AxAnimationElement.CanvasMouseButtonEvent, false);
         this.canvas.addEventListener('mouseup', AxAnimationElement.CanvasMouseButtonEvent, false);
         this.canvas.addEventListener('mouseleave', AxAnimationElement.CanvasMouseLeaveEvent, false);
+        
+        this.canvas.addEventListener('touchmove', AxAnimationElement.CanvasTouchMoveEvent, false);
+        this.canvas.addEventListener('touchstart', AxAnimationElement.CanvasTouchStartEvent, false);
+        this.canvas.addEventListener('touchend', AxAnimationElement.CanvasTouchEndEvent, false);
+        
         // Document context passed for keyboar events
         document.axWebRendering = this;
         document.addEventListener('keydown', AxAnimationElement.CanvasKeyDownEvent, false);
@@ -217,6 +227,74 @@ AxAnimationElement.CanvasMouseLeaveEvent = function(args)
     instance.mouse.forward = false;
 
     instance.mouseButtons = buttons;
+};
+
+AxAnimationElement.CanvasTouchMoveEvent = function(args) 
+{
+    if (args.touches)
+    {
+        if (args.touches.length === 1)
+        {
+            var instance = this.axWebRendering;
+
+            var touch = args.touches[0];
+            var x = touch.pageX - touch.target.offsetLeft;
+            var y = touch.pageY - touch.target.offsetTop;
+
+            instance.mouse.x = x / instance.context.viewportWidth;
+            instance.mouse.y = -y / instance.context.viewportHeight;
+            
+            if (!instance.touchScrollingEnabled)
+                args.preventDefault();
+        }
+    }
+};
+
+AxAnimationElement.CanvasTouchStartEvent = function(args) 
+{
+    if (args.touches)
+    {
+        if (args.touches.length === 1)
+        {
+            var instance = this.axWebRendering;
+            
+            var touch = args.touches[0];
+            var x = touch.pageX - touch.target.offsetLeft;
+            var y = touch.pageY - touch.target.offsetTop;
+
+            instance.mouse.x = x;
+            instance.mouse.y = -y;
+            instance.mouse.lastX = instance.mouse.x;
+            instance.mouse.lastY = instance.mouse.y;
+
+            instance.OnMouseDown(x, y, AxAnimationElement.MouseButtonLeft);
+
+            instance.mouse.left = true;
+
+            if (!instance.touchScrollingEnabled)
+                args.preventDefault();
+            
+        }
+    }
+};
+
+AxAnimationElement.CanvasTouchEndEvent = function(args) 
+{
+    var instance = this.axWebRendering;
+
+    if (args.touches)
+    {
+        if (args.touches.length === 1)
+        {
+            var touch = args.touches[0];
+            var x = touch.pageX - touch.target.offsetLeft;
+            var y = touch.pageY - touch.target.offsetTop;
+        
+            instance.OnMouseUp(x, y, AxAnimationElement.MouseButtonLeft);
+        }
+    }
+
+    instance.mouse.left = false;
 };
 
 AxAnimationElement.CanvasContextMenuEvent = function(args) 

@@ -29,6 +29,7 @@
 #include "Engine\Entities\Mechanisms\AxPolynomialMechanism.h"
 #include "Engine\Entities\Mechanisms\AxPivotalMechanism.h"
 #include "Engine\Entities\Mechanisms\AxSineMechanism.h"
+#include "Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.h"
 #include "Engine\Entities\Mechanisms\AxTimeRateMechanism.h"
 
 #include "Engine\Entities\Mechanisms\Geometry\AxPlaneGeometryMechanism.h"
@@ -124,6 +125,7 @@
 #include "Engine\Utilities\TexCoords\AxTransformTexCoords.h"
 #include "Engine\Utilities\TexCoords\AxPlanarTexCoords.h"
 #include "Engine\Utilities\TexCoords\AxSphericalTexCoords.h"
+#include "Engine\Utilities\TexCoords\AxTexCoordChannels.h"
 
 #include "Engine\Utilities\SmoothingGroups\AxSmoothingGroups.h"
 #include "Engine\Utilities\SmoothingGroups\AxSmoothingGroupsPrimitiveTypes.h"

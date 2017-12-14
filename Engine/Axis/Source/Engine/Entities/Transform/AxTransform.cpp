@@ -105,6 +105,10 @@ void AxTransform::InsertTransformLayer(AxTransformOperation operation, int index
 		case AxTransformOperation_Skybox:
 			this->properties.Insert(propertyIndex++, new AxProperty("Camera", 0, AxParameterType_ReferenceTransform));
             break;
+
+		case AxTransformOperation_Billboard:
+			this->properties.Insert(propertyIndex++, new AxProperty("Billboard target", 0, AxParameterType_ReferenceTransform));
+            break;
     }
 
     int numNewProperties = this->properties.count - numProperties;
@@ -157,6 +161,7 @@ void AxTransform::Process(AxTransform *parent)
 	
 	AxTransform *cameraTransform = 0;
 	AxTransform *reflectionTransform = 0;
+	AxTransform *billboardTarget = 0;
 	int transformsCount = this->transformLayers.count;
     if (transformsCount != 0)
     {
@@ -281,6 +286,13 @@ void AxTransform::Process(AxTransform *parent)
                     propertyIndex += 1;
 					break;
 				}
+
+				case AxTransformOperation_Billboard:
+				{
+					billboardTarget = (AxTransform*)(this->properties[propertyIndex]->GetEffectiveParameter()->value);
+                    propertyIndex += 1;
+					break;
+				}
             }
 		}
     }
@@ -308,6 +320,14 @@ void AxTransform::Process(AxTransform *parent)
 		AxMatrix::GetTranslation(location, cameraTransform->worldMatrix);
 		AxMatrix::SetTranslation(this->pivotedWorldMatrix, location);
 		AxMatrix::SetScaling(this->pivotedWorldMatrix, AxVector3(100.0f));
+	}
+
+	if (billboardTarget != 0)
+	{
+		float distance = this->GetPositionExtrinsic().DistanceTo(billboardTarget->GetPositionExtrinsic());
+		AxMatrix::Multiply3x3(this->pivotedWorldMatrix, this->localMatrix, billboardTarget->pivotedWorldMatrix);
+		
+		AxMatrix::SetScaling(this->pivotedWorldMatrix, this->GetScalingIntrinsic().Scale(distance / 10.0f));
 	}
 
 }

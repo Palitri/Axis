@@ -40,6 +40,16 @@ AxHtmlCanvasInputDevice.prototype.SetContext = function(context)
     this.canvas.addEventListener('mouseup', AxHtmlCanvasInputDevice.CanvasMouseButtonEvent, false);
     this.canvas.addEventListener('mouseleave', AxHtmlCanvasInputDevice.CanvasMouseLeaveEvent, false);
     this.canvas.addEventListener('wheel', AxHtmlCanvasInputDevice.CanvasMouseWheelEvent, false);
+    
+    this.canvas.addEventListener('touchmove', AxHtmlCanvasInputDevice.CanvasTouchMoveEvent, false);
+    this.canvas.addEventListener('touchstart', AxHtmlCanvasInputDevice.CanvasTouchStartEvent, false);
+    this.canvas.addEventListener('touchend', AxHtmlCanvasInputDevice.CanvasTouchEndEvent, false);
+
+//    this.canvas.onmousemove = AxHtmlCanvasInputDevice.CanvasMouseMoveEvent;
+//    this.canvas.onmousedown = AxHtmlCanvasInputDevice.CanvasMouseButtonEvent;
+//    this.canvas.onmouseup = AxHtmlCanvasInputDevice.CanvasMouseButtonEvent;
+//    this.canvas.onmouseleave = AxHtmlCanvasInputDevice.CanvasMouseLeaveEvent;
+//    this.canvas.onwheel = AxHtmlCanvasInputDevice.CanvasMouseWheelEvent;
     // Document context passed for keyboar events
     document.axHtmlCanvasInputDevice = this;
     document.addEventListener('keydown', AxHtmlCanvasInputDevice.CanvasKeyDownEvent, false);
@@ -282,6 +292,53 @@ AxHtmlCanvasInputDevice.CanvasMouseWheelEvent = function(args)
     
     instance.mouse.wheel += delta;
     instance.mouse.wheelHorizontal += deltaH;
+};
+
+AxHtmlCanvasInputDevice.CanvasTouchMoveEvent = function(args) 
+{
+    if (args.touches)
+    {
+        if (args.touches.length === 1)
+        {
+            var instance = this.axHtmlCanvasInputDevice;
+
+            var touch = args.touches[0];
+            var x = touch.pageX - touch.target.offsetLeft;
+            var y = touch.pageY - touch.target.offsetTop;
+
+            instance.mouse.x = x / instance.context.viewportWidth;
+            instance.mouse.y = -y / instance.context.viewportHeight;
+        }
+    }
+};
+
+AxHtmlCanvasInputDevice.CanvasTouchStartEvent = function(args) 
+{
+    if (args.touches)
+    {
+        if (args.touches.length === 1)
+        {
+            var instance = this.axHtmlCanvasInputDevice;
+            
+            var touch = args.touches[0];
+            var x = touch.pageX - touch.target.offsetLeft;
+            var y = touch.pageY - touch.target.offsetTop;
+
+            instance.mouse.x = x / instance.context.viewportWidth;
+            instance.mouse.y = -y / instance.context.viewportHeight;
+            instance.mouse.lastX = instance.mouse.x;
+            instance.mouse.lastY = instance.mouse.y;
+
+            instance.mouseLeft.SetBool(true);
+        }
+    }
+};
+
+AxHtmlCanvasInputDevice.CanvasTouchEndEvent = function(args) 
+{
+    var instance = this.axHtmlCanvasInputDevice;
+
+    instance.mouseLeft.SetBool(false);
 };
 
 AxHtmlCanvasInputDevice.CanvasKeyDownEvent = function(args) 

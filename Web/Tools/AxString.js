@@ -432,3 +432,13 @@ AxString.GetUTF8AsStringLength = function(utfData, utfDataOffset, utfDataLength)
 
     return charIndex;
 };
+
+AxString.ToBase64 = function(data, dataSize)
+{
+    
+};
+
+AxString.FromBase64 = function(base64String, data, dataSize)
+{
+    
+};

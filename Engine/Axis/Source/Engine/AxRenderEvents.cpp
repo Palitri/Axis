@@ -47,6 +47,8 @@ void AxRenderEvents::OnMesh(AxTraceParameters &parameters)
 	if (!parameters.materialRef->successfullyCompiled)
 		return;
 
+	parameters.meshRef->ApplyBlendChannels();
+
 	AxMatrix transform;
 	AxMatrix::Multiply(transform, parameters.transformRef->pivotedWorldMatrix, parameters.cameraRef->viewProjection);
 	if (parameters.meshRef->properties[AxMesh::propertyIndex_Cull]->GetBool())
@@ -79,7 +81,7 @@ void AxRenderEvents::OnMesh(AxTraceParameters &parameters)
     
 void AxRenderEvents::OnMechanism(AxTraceParameters &parameters)
 {
-    if (parameters.mechanismRef->_updateState != this->updateState)
+    //if (parameters.mechanismRef->_updateState != this->updateState)
     {
         parameters.mechanismRef->Process(this->context->timer->time);
         parameters.mechanismRef->_updateState = this->updateState;
@@ -88,7 +90,7 @@ void AxRenderEvents::OnMechanism(AxTraceParameters &parameters)
 
 void AxRenderEvents::OnTransform(AxTraceParameters &parameters)
 {
-	if (parameters.transformRef->_updateState != this->updateState)
+	//if (parameters.transformRef->_updateState != this->updateState)
     {
 		parameters.transformRef->Process(parameters.parentTransformRef);
         parameters.transformRef->_updateState = this->updateState;

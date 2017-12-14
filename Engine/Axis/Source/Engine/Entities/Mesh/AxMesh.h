@@ -24,6 +24,8 @@ private:
 	static const unsigned int SerializationId_TexCoords	= 0x21113004;
 	static const unsigned int SerializationId_Triangles	= 0x21114004;
 	static const unsigned int SerializationId_Bones		= 0x21115004;
+	
+	static const unsigned int SerializationId_BlendVertices	= 0x21111104;
 
 public:
 	static const int classId = (AxResourceType_Mesh << 16) | 0;
@@ -35,7 +37,12 @@ public:
 
 	AxDeviceMesh *deviceMesh;
 
+	int blendChannelsCount;
+	AxVector3 *blendChannels, *blendOrigin, *blendBuffer;
+
 	AxBoundingVolume bounds;
+
+	int propertyIndex_Blend;
 
 	bool serializeVertices, serializeNormals, serializeTexCoords, serializeBones, serializeTangents;
 
@@ -50,6 +57,9 @@ public:
     bool Intersection(AxVector3 &rayPoint, AxVector3 &rayDir, AxIntersectionInfo &intersectionInfo);
 
 	void CopyFrom(AxMesh &source);
+
+	void SetBlendChannelsCount(int numberOfChannels);
+	void ApplyBlendChannels();
 
 	virtual bool Deserialize(AxStream &source);
 

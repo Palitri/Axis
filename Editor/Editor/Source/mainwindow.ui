@@ -724,6 +724,7 @@
     </property>
     <addaction name="actionNormal_map_generator"/>
     <addaction name="actionSave_selected_texture"/>
+    <addaction name="actionCompute_selected_mesh_normals"/>
     <addaction name="separator"/>
     <addaction name="actionRegister_file_types"/>
    </widget>
@@ -2119,6 +2120,11 @@
    </property>
    <property name="text">
     <string>Checker pattern</string>
+   </property>
+  </action>
+  <action name="actionCompute_selected_mesh_normals">
+   <property name="text">
+    <string>Compute selected mesh normals</string>
    </property>
   </action>
  </widget>

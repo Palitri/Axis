@@ -22,6 +22,11 @@ function AxMesh(context)
     this.serializeBones = true;
     this.serializeNormals = false;
     this.serializeTangents = false;
+    
+	this.blendChannelsCount = 0;
+	this.blendChannels = null;
+    this.blendOrigin = null;
+    this.blendBuffer = null;
 }
 
 AxMesh.prototype = Object.create(AxResource.prototype);
@@ -32,16 +37,19 @@ AxMesh.classId = (AxResourceType.Mesh << 16) | 0;
 
 AxMesh.propertyIndex_Cull = AxResource.propertyIndex_ChildPropertiesIndex + 0;
 
-AxMesh.SerializationId_Vertices 	= 0x21111004;
+AxMesh.SerializationId_Vertices         = 0x21111004;
 AxMesh.SerializationId_Normals          = 0x21112004;
-AxMesh.SerializationId_TexCoords	= 0x21113004;
-AxMesh.SerializationId_Triangles	= 0x21114004;
-AxMesh.SerializationId_Bones		= 0x21115004;
+AxMesh.SerializationId_TexCoords        = 0x21113004;
+AxMesh.SerializationId_Triangles        = 0x21114004;
+AxMesh.SerializationId_Bones            = 0x21115004;
+AxMesh.SerializationId_BlendVertices    = 0x21111104;
 
 
 
 AxMesh.prototype.Dispose = function()
 {
+	this.SetBlendChannelsCount(0);
+
     //this.deviceMesh.Dispose();
 };
 
@@ -183,6 +191,98 @@ AxMesh.prototype.CopyFrom = function(source)
 };
 
 /**
+ * Sets the number of blend channels, preparing the mesh for blending
+ * Blend channels are versions of the mesh, but with different deformations. These versions are used to blend in different amount witht he original to morph it and to create animations.
+ * Blend channels correspond to the "Morph" modificator in 3DS Max the and "Blending" in Maya
+ * @param {type} numberOfChannels The number of blend channels to set for use
+ */
+AxMesh.prototype.SetBlendChannelsCount = function(numberOfChannels)
+{
+	if (this.blendChannels !== null)
+	{
+		this.blendChannelsCount = 0;
+		this.blendChannels = null;
+		this.blendOrigin = null;
+		this.blendBuffer = null;
+	}
+
+	if (numberOfChannels > 0)
+	{
+		for (var i = 0; i < numberOfChannels; i++)
+		{
+			var propName = new AxString("Blend " + i.toString());
+			var prop = this.GetProperty(propName);
+			if (prop === null)
+				prop = this.properties.Add(new AxProperty(propName, 0.0));
+		}
+		this.propertyIndex_Blend = this.properties.IndexOf(this.GetProperty("Blend 0"));
+
+		var vertexCount = this.deviceMesh.GetVertexCount();
+
+		this.blendChannelsCount = numberOfChannels;
+		this.blendChannels = [];
+        this.blendOrigin = [];
+		this.blendBuffer = [];
+        
+		for (var i = 0; i < numberOfChannels * vertexCount; i++)
+            this.blendChannels.push(new AxVector3());
+
+		for (var i = 0; i < vertexCount; i++)
+        {
+            this.blendOrigin.push(new AxVector3());
+        	this.blendBuffer.push(new AxVector3());
+			this.deviceMesh.GetVertexPosition(i, this.blendOrigin[i]);
+        }
+	}
+};
+
+/**
+ * Applies blending channels and changes the mesh geometry
+ */
+AxMesh.prototype.ApplyBlendChannels = function()
+{
+    if (this.blendChannelsCount === 0)
+		return;
+
+	var vertexCount = this.deviceMesh.GetVertexCount();
+
+	//this.blendBuffer = this.blendOrigin.slice(0);
+    for (var i = 0; i < vertexCount; i++)
+    {
+        this.blendBuffer[i].x = this.blendOrigin[i].x;
+        this.blendBuffer[i].y = this.blendOrigin[i].y;
+        this.blendBuffer[i].z = this.blendOrigin[i].z;
+    }
+
+    for (var channelIndex = 0; channelIndex < this.blendChannelsCount; channelIndex++)
+	{
+		var blendFactor = this.properties.Get(this.propertyIndex_Blend + channelIndex).GetFloat();
+
+		if (AxMath.Abs(blendFactor) < 0.01)
+			continue;
+
+		for (var vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+		{
+			var blendVector = this.blendChannels[channelIndex * vertexCount + vertexIndex];
+			var blendSum = this.blendBuffer[vertexIndex];
+
+			blendSum.x += blendVector.x * blendFactor;
+			blendSum.y += blendVector.y * blendFactor;
+			blendSum.z += blendVector.z * blendFactor;
+		}
+	}
+
+	for (var vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
+    {
+		this.deviceMesh.SetVertexPosition(vertexIndex, this.blendBuffer[vertexIndex]);
+    }
+
+    this.deviceMesh.context.gl.bindBuffer(this.deviceMesh.context.gl.ARRAY_BUFFER, this.deviceMesh.verticesPositionsBuffer);
+    this.deviceMesh.context.gl.bufferData(this.deviceMesh.context.gl.ARRAY_BUFFER, this.deviceMesh.verticesPositions, this.deviceMesh.context.gl.STATIC_DRAW);
+	//this.deviceMesh.UpdateVertices(0, vertexCount);
+};
+
+/**
  * Deserializes the mesh from a given stream
  * @param {AxStream} source The stream holding the serialized data
  * @return {Boolean} True if the deserialization was successfull
@@ -233,11 +333,19 @@ AxMesh.prototype.SerializeChunks = function(writer)
     {
         writer.BeginChunk(AxMesh.SerializationId_Vertices);
         writer.stream.WriteInt32(numVertices);
-        for (var i = 0; i < numVertices; i++)
-        {
-            this.deviceMesh.GetVertexPosition(i, v3);
-            AxSerializationUtils.SerializeVector3(writer.stream, v3);
-        }
+		if (this.blendOrigin === null)
+		{
+			for (var i = 0; i < numVertices; i++)
+			{
+				this.deviceMesh.GetVertexPosition(i, v3);
+				AxSerializationUtils.SerializeVector3(writer.stream, v3);
+			}
+		}
+		else
+		{
+			for (var i = 0; i < numVertices; i++)
+				AxSerializationUtils.SerializeVector3(writer.stream, this.blendOrigin[i]);
+		}
         writer.EndChunk();
     }
 
@@ -283,11 +391,27 @@ AxMesh.prototype.SerializeChunks = function(writer)
         for (var i = 0; i < numVertices; i++)
         {
             this.deviceMesh.GetVertexBones(i, v41, v42);
-            AxSerializationUtils.Serializeector4(writer.stream, v41);
-            AxSerializationUtils.Serializeector4(writer.stream, v42);
+            AxSerializationUtils.SerializeVector4(writer.stream, v41);
+            AxSerializationUtils.SerializeVector4(writer.stream, v42);
         }
         writer.EndChunk();
     }
+    
+	if (this.blendChannelsCount > 0)
+	{
+		writer.BeginChunk(AxMesh.SerializationId_BlendVertices);
+		writer.stream.WriteInt32(this.blendChannelsCount);
+		writer.stream.WriteInt32(numVertices);
+		for (var blendChannelIndex = 0; blendChannelIndex < this.blendChannelsCount; blendChannelIndex++)
+		{
+			for (var i = 0; i < numVertices; i++)
+			{
+				AxSerializationUtils.SerializeVector3(writer.stream, this.blendChannels[blendChannelIndex * numVertices + i]);
+			}
+		}
+		writer.EndChunk();
+	}
+    
 };
 
 /**
@@ -376,6 +500,24 @@ AxMesh.prototype.DeserializeChunk = function(reader)
 
             break;
         }
+
+		case AxMesh.SerializationId_BlendVertices:
+		{
+			var numBlendChannels = reader.stream.ReadInt32();
+			var numVertices = reader.stream.ReadInt32();
+
+			this.SetBlendChannelsCount(numBlendChannels);
+
+			for (var blendChannelIndex = 0; blendChannelIndex < numBlendChannels; blendChannelIndex++)
+			{
+				for (var i = 0; i < numVertices; i++)
+				{
+					this.blendChannels[blendChannelIndex * numVertices + i] = AxSerializationUtils.DeserializeVector3(reader.stream);
+				}
+			}
+
+			break;
+		}
 
         default:
         {

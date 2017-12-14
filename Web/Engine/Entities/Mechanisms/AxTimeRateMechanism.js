@@ -13,6 +13,8 @@ function AxTimeRateMechanism(context)
     this.typeId = AxTimeRateMechanism.classId;
 
     this.parameter.SetFloat(this.context.timer.speed);
+    
+    this.keys = new AxList();
 }
 
 AxTimeRateMechanism.prototype = Object.create(AxMechanism.prototype);

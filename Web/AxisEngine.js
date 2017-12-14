@@ -97,6 +97,7 @@ var scriptFiles =
     'Engine/Entities/Mechanisms/AxSineMechanism.js',
     'Engine/Entities/Mechanisms/AxLinearInterpolationMechanism.js',
     'Engine/Entities/Mechanisms/AxKeyFrameAnimationMechanism.js',
+    'Engine/Entities/Mechanisms/AxTimelineAnimationMechanism.js',
     'Engine/Entities/Mechanisms/AxTimeRateMechanism.js',
 
     'Engine/Entities/Mechanisms/Geometry/AxPlaneGeometryMechanism.js',

@@ -37,7 +37,7 @@ bool AxPolynomialMechanism::Process(float deltaTime)
 	float variable =  *(float*)this->properties[AxPolynomialMechanism::propertyIndex_X]->GetEffectiveParameter()->value;
 	float result = 0.0f;
 
-	for (int i = 0; i <= AxPolynomialMechanism::degree; i++)
+	for (int i = 0; i <= this->degree; i++)
 		result += (*(float*)this->properties.Get(AxPolynomialMechanism::GetDegreePropertyIndex(i))->GetEffectiveValue()) * AxMath::Power(variable, (float)i);
 
 	*(float*)this->parameter.value = result;
