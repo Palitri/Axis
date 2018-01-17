@@ -41,7 +41,7 @@ function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableConte
         this.buttons[i] = false;
     
     this.mouseButtons = 0;
-    this.mouse = { x: 0, y: 0, lastX: 0, lastY: 0, deltaX: 0, deltaY: 0, left: false, right: false, middle: false, back: false, forward: false }; 
+    this.mouse = { x: 0, y: 0, lastX: 0, lastY: 0, deltaX: 0, deltaY: 0, originalX: 0, originalY: 0, left: false, right: false, middle: false, back: false, forward: false }; 
     
     this.OnMouseMove = function(x, y) { };
     this.OnMouseDown = function(x, y, button) { };
@@ -196,7 +196,11 @@ AxAnimationElement.CanvasMouseButtonEvent = function(args)
     var buttonsUp = (instance.mouseButtons ^ args.buttons) & (~args.buttons);
 
     if (buttonsDown !== 0)
+    {
         instance.OnMouseDown(x, y, buttonsDown);
+        instance.mouse.originalX = instance.mouse.x;
+        instance.mouse.originalY = instance.mouse.y;
+    }
     if (buttonsUp !== 0)
         instance.OnMouseUp(x, y, buttonsUp);
 
@@ -266,6 +270,8 @@ AxAnimationElement.CanvasTouchStartEvent = function(args)
             instance.mouse.y = -y;
             instance.mouse.lastX = instance.mouse.x;
             instance.mouse.lastY = instance.mouse.y;
+            instance.mouse.originalX = instance.mouse.x;
+            instance.mouse.originalY = instance.mouse.y;
 
             instance.OnMouseDown(x, y, AxAnimationElement.MouseButtonLeft);
 

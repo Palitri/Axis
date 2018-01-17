@@ -37,6 +37,9 @@ public:
 
     void BuildMatrix(AxMatrix &transform);
 
+	AxVector2 GetScreenSpaceCoords(AxVector3 &worldPos);
+	AxVector2 GetPixelSpaceCoords(AxVector3 &worldPos);
+
 	AxVector3 CastVector(AxVector2 &screenCoords);
 	AxVector3 ProjectVector(AxVector3 vector);
 };

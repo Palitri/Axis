@@ -10,6 +10,8 @@
 
 #include "..\..\Axis.h"
 
+#include "..\..\Utilities\AxMaths.h"
+
 AxCamera::AxCamera(Axis *context)
 	: AxResource()
 {
@@ -82,33 +84,32 @@ void AxCamera::BuildMatrix(AxMatrix &transform)
     AxMatrix::Multiply(this->viewProjection, this->view, this->projection);
 }
 
+AxVector2 AxCamera::GetScreenSpaceCoords(AxVector3 &worldPos)
+{
+	AxVector2 result;
+	AxMaths::VolumetricToScreenSpace(result, worldPos, this->viewProjection);
+	return result;
+}
+
+AxVector2 AxCamera::GetPixelSpaceCoords(AxVector3 &worldPos)
+{
+	AxVector2 result = this->GetScreenSpaceCoords(worldPos);
+	AxMaths::ScreenToPixelSpace(result, result, this->context->viewportWidth, this->context->viewportHeight);
+	return result;
+}
+
+
 AxVector3 AxCamera::CastVector(AxVector2 &screenCoords)
 {
-	AxMatrix inverseVP;
-	AxMatrix::Invert(inverseVP, this->viewProjection);
-
-    AxVector4 result4;
-	AxVector4::Transform(result4, AxVector3(screenCoords, 1.0f), inverseVP);
-
-    AxVector3 result;
-	result.x = result4.x / result4.w;
-    result.y = result4.y / result4.w;
-    result.z = result4.z / result4.w;
-	AxVector3::Subtract(result, result, this->position);
-    AxVector3::Normalize(result, result);
-
-	return result;
+    AxVector3 origin;
+    AxVector3 orientation;
+    AxMaths::ScreenSpaceToVolumetricRay(origin, orientation, screenCoords, this->viewProjection);
+    return orientation;
 }
 
 AxVector3 AxCamera::ProjectVector(AxVector3 vector)
 {
-	AxVector4 result4;
-	AxVector4::Transform(result4, vector, this->viewProjection);
-
     AxVector3 result;
-	result.x = result4.x / result4.w;
-    result.y = result4.y / result4.w;
-    result.z = result4.z / result4.w;
-
-	return result;
+    AxMaths::VolumetricToScreenSpace(result, vector, this->viewProjection);
+    return result;
 }

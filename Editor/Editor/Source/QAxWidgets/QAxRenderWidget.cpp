@@ -74,7 +74,7 @@ void QAxRenderWidget::mouseMoveEvent(QMouseEvent * event)
 {
     QWidget::mouseMoveEvent(event);
 
-    this->mousePos = this->editor->GetAxis()->ScreenCoordsPixelToUnit(AxVector2(event->pos().x(), event->pos().y()));
+    this->mousePos = this->editor->GetAxis()->PixelToScreenSpace(AxVector2(event->pos().x(), event->pos().y()));
 }
 
 void QAxRenderWidget::mouseReleaseEvent(QMouseEvent * event)
@@ -506,7 +506,7 @@ void QAxRenderWidget::dragMoveEvent(QDragMoveEvent *event)
 
     AxIntersectionInfo mouseOverIntersectionInfo;
     AxTraceParameters mouseOverEntityInfo;
-    this->editor->GetAxis()->PickByScreenCoordsPixel(AxVector2(event->pos().x(), event->pos().y()), mouseOverIntersectionInfo, mouseOverEntityInfo);
+    this->editor->GetAxis()->PickByPixelSpaceCoords(AxVector2(event->pos().x(), event->pos().y()), mouseOverIntersectionInfo, mouseOverEntityInfo);
 
     bool accept = false;
 
@@ -559,7 +559,7 @@ void QAxRenderWidget::dropEvent(QDropEvent *event)
 
     AxIntersectionInfo mouseOverIntersectionInfo;
     AxTraceParameters mouseOverEntityInfo;
-    this->editor->GetAxis()->PickByScreenCoordsPixel(AxVector2(event->pos().x(), event->pos().y()), mouseOverIntersectionInfo, mouseOverEntityInfo);
+    this->editor->GetAxis()->PickByPixelSpaceCoords(AxVector2(event->pos().x(), event->pos().y()), mouseOverIntersectionInfo, mouseOverEntityInfo);
 
     if (this->mode == QAxRenderWidget::mode_Link)
     {
@@ -613,7 +613,7 @@ bool QAxRenderWidget::SelectVisualControls(AxVector2 mousePosition, bool autoSet
 
 bool QAxRenderWidget::PickScreenObject(AxVector2 mousePosition)
 {
-    return this->editor->GetAxis()->PickByScreenCoordsUnit(mousePosition, this->mouseDownIntersectionInfo, this->mouseDownTraceParameters);
+    return this->editor->GetAxis()->PickByScreenSpaceCoords(mousePosition, this->mouseDownIntersectionInfo, this->mouseDownTraceParameters);
 }
 
 bool QAxRenderWidget::SelectPickedObject()

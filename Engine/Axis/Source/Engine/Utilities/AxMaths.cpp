@@ -362,7 +362,8 @@ void AxMaths::GetTangents(AxVector3 &tangent, AxVector3 &biTangent, AxVector3 &v
 
 float AxMaths::VectorAngle(AxVector3 &v1, AxVector3 &v2)
 {
-	return AxMath::ArcCos(AxVector3::Dot(v1, v2) / (v1.GetLength() * v2.GetLength()));
+	float l = v1.GetLength() * v2.GetLength();
+	return l == 0.0f ? 0.0f : AxMath::ArcCos(AxVector3::Dot(v1, v2) / l);
 }
 
 int AxMaths::GetPowerOf2(int value)
@@ -460,5 +461,63 @@ void AxMaths::GetIndexBlending(int fromIndex, int toIndex, float factor, int &in
 	index1 = AxMath::Min((int)AxMath::Floor(realIndex), toIndex);
 	index2 = AxMath::Min(index1 + 1, toIndex);
 	blend = realIndex - index1;
+};
+
+
+void AxMaths::VolumetricToScreenSpace(AxVector3 &result, AxVector3 &volumetricCoords, AxMatrix &transform)
+{
+    AxVector4 screenSpace;
+    AxVector4::Transform(screenSpace, volumetricCoords, transform);
+
+    result.x = screenSpace.x / screenSpace.w;
+	result.y = screenSpace.y / screenSpace.w;
+	result.z = screenSpace.z / screenSpace.w;
+};
+
+void AxMaths::VolumetricToScreenSpace(AxVector2 &result, AxVector3 &volumetricCoords, AxMatrix &transform)
+{
+	AxVector3 result3;
+	AxMaths::VolumetricToScreenSpace(result3, volumetricCoords, transform);
+	result.x = result3.x;
+	result.y = result3.y;
+}
+
+void AxMaths::ScreenSpaceToVolumetricRay(AxVector3 &resultRayOrigin, AxVector3 &resultRayOrientation, AxVector3 &screenCoords, AxMatrix &transform)
+{
+    AxMatrix inverseTransform;
+    AxMatrix::Invert(inverseTransform, transform);
+
+    AxVector4 origin4;
+    AxVector4::Transform(origin4, screenCoords, inverseTransform);
+    resultRayOrigin.x = origin4.x / origin4.w; 
+    resultRayOrigin.y = origin4.y / origin4.w; 
+    resultRayOrigin.z = origin4.z / origin4.w;
+
+    AxVector4 direction4;
+    AxVector4::Transform(direction4, AxVector3(screenCoords.x, screenCoords.y, 1.0), inverseTransform);
+    resultRayOrientation.x = direction4.x / direction4.w;
+    resultRayOrientation.y = direction4.y / direction4.w;
+    resultRayOrientation.z = direction4.z / direction4.w;
+
+    AxVector3::Subtract(resultRayOrientation, resultRayOrientation, resultRayOrigin);
+    AxVector3::Normalize(resultRayOrientation, resultRayOrientation);
+};
+
+void AxMaths::ScreenSpaceToVolumetricRay(AxVector3 &resultRayOrigin, AxVector3 &resultRayOrientation, AxVector2 &screenCoords, AxMatrix &transform)
+{
+	AxVector3 screenCoords3(screenCoords, 0.0f);
+	AxMaths::ScreenSpaceToVolumetricRay(resultRayOrigin, resultRayOrientation, screenCoords3, transform);
+}
+
+void AxMaths::ScreenToPixelSpace(AxVector2 &result, AxVector2 &screenCoords, float screenWidth, float screenHeight)
+{
+    result.x = screenWidth * (screenCoords.x + 1.0f) / 2.0f;
+	result.y = screenHeight * (1.0f - screenCoords.y) / 2.0f;
+};
+
+void AxMaths::PixelToScreenSpace(AxVector2 &result, AxVector2 pixelCoords, float screenWidth, float screenHeight)
+{
+    result.x = 2.0f * pixelCoords.x / screenWidth - 1.0f;
+	result.y = 1.0f - 2.0f * pixelCoords.y / screenHeight;
 };
 

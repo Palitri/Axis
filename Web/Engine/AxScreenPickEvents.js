@@ -7,8 +7,7 @@ function AxScreenPickEvents(context)
 {
     AxTraceEvents.call(this, context);
 
-    this.rayPoint1 = new AxVector3();
-    this.rayPoint2 = new AxVector3();
+    this.screenCoords = new AxVector3();
 
     this.entityInfo = new AxTraceParameters();
     this.intersectionInfo = new AxIntersectionInfo();
@@ -29,46 +28,31 @@ AxScreenPickEvents.prototype.Dispose = function()
  */
 AxScreenPickEvents.prototype.SetupScreenPick = function(screenCoords)
 {
-    this.rayPoint1 = new AxVector3(screenCoords, -1.0);
-    this.rayPoint2 = new AxVector3(screenCoords, 1.0);
+    this.screenCoords.Set(screenCoords, 0.0);
     this.intersectionInfo.hasIntersected = false;
     this.intersectionInfo.distance = AxMath.FloatMax;
 };
 	
 AxScreenPickEvents.prototype.OnMesh = function(parameters)
 {
-    var transform = new AxMatrix();
-    var invertTransform = new AxMatrix();
-    var origin4 = new AxVector4();
-    var direction4 = new AxVector4();
-    var origin = new AxVector3();
-    var direction = new AxVector3();
-    var intersectionInfo = new AxIntersectionInfo();
-
     if ((parameters.cameraRef === null) || (parameters.transformRef === null))
         return;
 
+    var transform = new AxMatrix();
     AxMatrix.Multiply(transform, parameters.transformRef.pivotedWorldMatrix, parameters.cameraRef.viewProjection);
-
     if (!parameters.meshRef.bounds.InsideViewFrustum(transform))
         return;
 
-    AxMatrix.Invert(invertTransform, transform);
-    AxVector4.Transform(origin4, this.rayPoint1, invertTransform);
-    AxVector4.Transform(direction4, this.rayPoint2, invertTransform);
-    origin.x = origin4.x / origin4.w; 
-    origin.y = origin4.y / origin4.w; 
-    origin.z = origin4.z / origin4.w;
-    direction.x = direction4.x / direction4.w;
-    direction.y = direction4.y / direction4.w;
-    direction.z = direction4.z / direction4.w;
-    AxVector3.Subtract(direction, direction, origin);
-    AxVector3.Normalize(direction, direction);
+    var origin = new AxVector3();
+    var direction = new AxVector3();
+    AxMaths.ScreenSpaceToVolumetricRay(origin, direction, this.screenCoords, transform);
+
+    var intersectionInfo = new AxIntersectionInfo();
     if (parameters.meshRef.Intersection(origin, direction, intersectionInfo))
     {
-        var cameraSpacePosition = new AxVector3();
-        AxVector3.Transform(cameraSpacePosition, intersectionInfo.point.position, transform);
-        intersectionInfo.distance = AxVector3.Distance(this.rayPoint1, cameraSpacePosition);
+        var screenSpacePosition = new AxVector3();
+        AxVector3.Transform(screenSpacePosition, intersectionInfo.point.position, transform);
+        intersectionInfo.distance = AxVector3.Distance(this.screenCoords, screenSpacePosition);
 
         if (intersectionInfo.distance < this.intersectionInfo.distance)
         {

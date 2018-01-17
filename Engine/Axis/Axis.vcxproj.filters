@@ -951,6 +951,8 @@
     <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.h">
       <Filter>Source\Engine\Utilities\TexCoords</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h" />
+    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Graphics\Soras\Engine\Soras.cpp">
@@ -1601,5 +1603,7 @@
     <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.cpp">
       <Filter>Source\Engine\Utilities\TexCoords</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSScene.cpp" />
+    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.cpp" />
   </ItemGroup>
 </Project>

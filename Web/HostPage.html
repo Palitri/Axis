@@ -8,11 +8,14 @@
     <script type="text/javascript">
         function Initialize()
         {
+            // Create the animation object associated with the canvas element and use it to create an instance of Axis
             var animation = new AxAnimationElement("viewport");
             var axis = new Axis(animation.canvas);
 
+            // Setup the animation element's OnRender method to do the actual rendering
             animation.OnRender = function() { axis.RenderScene(); };
             
+            // Import a scene and when done, in the callback method, setup an input controls model and start rendering
             axis.ImportScene("../Resources/Terrain/Terrain.axs", 
                 function() 
                 { 

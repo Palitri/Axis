@@ -74,3 +74,19 @@ bool AxPlatformUtils::GetWindowClientSize(windowHandle)
     return result;
 }
 */
+
+/**
+ * Decodes a native string containing data encoded in base64 format and returns an ArrayBuffer containing the data itself
+ * @param {String} base64String The native string containing the data, encoded in base64 format
+ * @returns {ArrayBuffer} An array buffer containing the decoded data
+ */
+AxPlatformUtils.Base64ToArrayBuffer = function(base64String)
+{
+    var dataString = window.atob(base64String);
+    var dataLength = dataString.length;
+    var data = new Uint8Array(dataLength);
+    for (var i = 0; i < dataLength; i++)
+        data[i] = dataString.charCodeAt(i);
+
+    return data.buffer;
+};

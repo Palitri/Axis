@@ -10,7 +10,8 @@ function AxHtmlCanvasInputDevice()
     this.context = null;
     this.canvas = null;
     
-    this.mouse = { x: 0, y: 0, lastX: 0, lastY: 0, wheel: 0, wheelHorizontal: 0 }; 
+    this.mouseWheel = 0;
+    this.mouseWheelHorizontal = 0; 
 }
 
 AxHtmlCanvasInputDevice.prototype = Object.create(AxInputDevice.prototype);
@@ -22,6 +23,9 @@ AxHtmlCanvasInputDevice.MouseButtonRight     = 2;
 AxHtmlCanvasInputDevice.MouseButtonMiddle    = 4;
 AxHtmlCanvasInputDevice.MouseButtonBack      = 8;
 AxHtmlCanvasInputDevice.MouseButtonForward   = 16;
+
+AxHtmlCanvasInputDevice.maxTouchPoints = 4;
+
 
 /**
  * Sets the context for the input device
@@ -50,7 +54,8 @@ AxHtmlCanvasInputDevice.prototype.SetContext = function(context)
 //    this.canvas.onmouseup = AxHtmlCanvasInputDevice.CanvasMouseButtonEvent;
 //    this.canvas.onmouseleave = AxHtmlCanvasInputDevice.CanvasMouseLeaveEvent;
 //    this.canvas.onwheel = AxHtmlCanvasInputDevice.CanvasMouseWheelEvent;
-    // Document context passed for keyboar events
+
+    // Document context passed for keyboard events
     document.axHtmlCanvasInputDevice = this;
     document.addEventListener('keydown', AxHtmlCanvasInputDevice.CanvasKeyDownEvent, false);
     document.addEventListener('keyup', AxHtmlCanvasInputDevice.CanvasKeyUpEvent, false);
@@ -165,19 +170,80 @@ AxHtmlCanvasInputDevice.prototype.SetContext = function(context)
     this.keyRCtrl				= this.context.input.properties.Add(new AxProperty(new AxString("Key Control right"), false));
     this.keyLAlt				= this.context.input.properties.Add(new AxProperty(new AxString("Key Alt left"), false));
     this.keyRAlt				= this.context.input.properties.Add(new AxProperty(new AxString("Key Alt right"), false));
-    this.keyStateNumLock                        = this.context.input.properties.Add(new AxProperty(new AxString("Key state Num lock"), false));
-    this.keyStateCapsLock               	= this.context.input.properties.Add(new AxProperty(new AxString("Key state Caps lock"), false));
-    this.keyStateScrollLock                     = this.context.input.properties.Add(new AxProperty(new AxString("Key state Scroll lock"), false));
+    this.keyStateNumLock        = this.context.input.properties.Add(new AxProperty(new AxString("Key state Num lock"), false));
+    this.keyStateCapsLock       = this.context.input.properties.Add(new AxProperty(new AxString("Key state Caps lock"), false));
+    this.keyStateScrollLock     = this.context.input.properties.Add(new AxProperty(new AxString("Key state Scroll lock"), false));
 
-    this.mouseLeft	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Left"), false));
     this.mouseRight	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Right"), false));
     this.mouseMiddle	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Middle"), false));
     this.mouseScroll	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Scroll"), 0));
     this.mouseHScroll	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Scroll horizontal"), 0));
-    this.mouseX		= this.context.input.properties.Add(new AxProperty(new AxString("Mouse X"), 0.0));
-    this.mouseY		= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Y"), 0.0));
-    this.mouseXPos	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse X pos"), 0.0));
-    this.mouseYPos	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Y pos"), 0.0));    
+    
+    this.mousePointer = new AxHtmlCanvasInputDevicePointer();
+    this.mousePointer.X		= this.context.input.properties.Add(new AxProperty(new AxString("Mouse X"), 0.0));
+    this.mousePointer.Y		= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Y"), 0.0));
+    this.mousePointer.XPos	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse X pos"), 0.0));
+    this.mousePointer.YPos	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Y pos"), 0.0));    
+    this.mousePointer.pressed	= this.context.input.properties.Add(new AxProperty(new AxString("Mouse Left"), false));
+
+    // General pointer properties, updated by any relevant pointing device (mouse, touch, etc.) To be used as a reliable generic pointing device
+    this.pointer = new AxHtmlCanvasInputDevicePointer();
+    this.pointer.X	= this.context.input.properties.Add(new AxProperty(new AxString("Pointer X"), 0.0));
+    this.pointer.Y	= this.context.input.properties.Add(new AxProperty(new AxString("Pointer Y"), 0.0));
+    this.pointer.XPos	= this.context.input.properties.Add(new AxProperty(new AxString("Pointer X pos"), 0.0));
+    this.pointer.YPos	= this.context.input.properties.Add(new AxProperty(new AxString("Pointer Y pos"), 0.0));    
+    this.pointer.pressed    = this.context.input.properties.Add(new AxProperty(new AxString("Pointer Pressed"), false));
+    // "Pointer Tracking"? for mouse wheel, touch scaling, etc.
+    
+    // Per touch point properties
+    this.touchPoints = [];
+    for (var touchPointIndex = 0; touchPointIndex < AxHtmlCanvasInputDevice.maxTouchPoints; touchPointIndex++)
+    {
+        var stringIndex = (touchPointIndex + 1).toString();
+        var touchPoint = new AxHtmlCanvasInputDevicePointer();
+        touchPoint.X = this.context.input.properties.Add(new AxProperty(new AxString("Touch point " + stringIndex + " X"), 0.0));
+        touchPoint.Y = this.context.input.properties.Add(new AxProperty(new AxString("Touch point " + stringIndex + " Y"), 0.0));
+        touchPoint.XPos = this.context.input.properties.Add(new AxProperty(new AxString("Touch point " + stringIndex + " X pos"), 0.0));
+        touchPoint.YPos = this.context.input.properties.Add(new AxProperty(new AxString("Touch point " + stringIndex + " Y pos"), 0.0));
+        touchPoint.pressed = this.context.input.properties.Add(new AxProperty(new AxString("Touch point " + stringIndex + " Pressed"), false));
+
+        this.touchPoints.push(touchPoint);
+    }
+    
+    // General touch properties providing a mean touch point info in any case of touch points count
+    this.touch = new AxHtmlCanvasInputDevicePointer();
+    this.touch.X	= this.context.input.properties.Add(new AxProperty(new AxString("Touch X"), 0.0));
+    this.touch.Y	= this.context.input.properties.Add(new AxProperty(new AxString("Touch Y"), 0.0));
+    this.touch.XPos	= this.context.input.properties.Add(new AxProperty(new AxString("Touch X pos"), 0.0));
+    this.touch.YPos	= this.context.input.properties.Add(new AxProperty(new AxString("Touch Y pos"), 0.0));
+    this.touch.pressed	= this.context.input.properties.Add(new AxProperty(new AxString("Touch Pressed"), false));
+    this.touch.rotation	= this.context.input.properties.Add(new AxProperty(new AxString("Touch Rotation"), 0.0));
+    this.touch.scaling	= this.context.input.properties.Add(new AxProperty(new AxString("Touch Scaling"), 1.0));
+
+    // Helper variables
+    this.touch.pointsCount = 0;
+    this.touch.lastPointsCount = 0;
+    this.touch.distanceValue = 0.0;
+    this.touch.lastDistanceValue = 0.0;
+    this.touch.rotationValue = 0.0;
+    this.touch.lastRotationValue = 0.0;
+
+    // Per number of touch points properties providing a mean touch point info
+    this.touches = [];
+    for (var touchIndex = 0; touchIndex < AxHtmlCanvasInputDevice.maxTouchPoints; touchIndex++)
+    {
+        var stringIndex = (touchIndex + 1).toString();
+        var touch = new AxHtmlCanvasInputDevicePointer();
+        touch.X = this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " X"), 0.0));
+        touch.Y = this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " Y"), 0.0));
+        touch.XPos = this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " X pos"), 0.0));
+        touch.YPos = this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " Y pos"), 0.0));
+        touch.pressed	= this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " Pressed"), false));
+        touch.rotation	= this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " Rotation"), 0.0));
+        touch.scaling	= this.context.input.properties.Add(new AxProperty(new AxString("Touch " + stringIndex + " Scaling"), 1.0));
+        
+        this.touches.push(touch);
+    }
 };
 
 /**
@@ -186,20 +252,98 @@ AxHtmlCanvasInputDevice.prototype.SetContext = function(context)
  */
 AxHtmlCanvasInputDevice.prototype.Update = function() 
 {
-    this.mouseX.SetFloat(this.mouse.x - this.mouse.lastX);
-    this.mouseY.SetFloat(this.mouse.y - this.mouse.lastY);
-    this.mouseXPos.SetFloat(this.mouse.x);
-    this.mouseYPos.SetFloat(this.mouse.y);
+    this.mousePointer.Update();
 
-    this.mouse.lastX = this.mouse.x;
-    this.mouse.lastY = this.mouse.y;
-    
-    
-    this.mouseScroll.SetFloat(this.mouse.wheel);
-    this.mouseHScroll.SetFloat(this.mouse.wheelHorizontal);
+    for (var touchPointIndex = 0; touchPointIndex < AxHtmlCanvasInputDevice.maxTouchPoints; touchPointIndex++)
+        this.touchPoints[touchPointIndex].Update();
 
-    this.mouse.wheel = 0;
-    this.mouse.wheelHorizontal = 0;
+    this.touch.eventX = 0.0;
+    this.touch.eventY = 0.0;
+    if (this.touch.pointsCount > 0)
+    {
+        // Calculate center
+        for (var touchPointIndex = 0; touchPointIndex < this.touch.pointsCount; touchPointIndex++)
+        {
+            this.touch.eventX += this.touchPoints[touchPointIndex].eventX;
+            this.touch.eventY += this.touchPoints[touchPointIndex].eventY;
+        }
+        this.touch.eventX /= this.touch.pointsCount;
+        this.touch.eventY /= this.touch.pointsCount;
+
+        // Calculate mean distance and rotation
+        this.touch.distanceValue = 0.0;
+        this.touch.rotationValue = 0.0;
+        for (var touchPointIndex = 0; touchPointIndex < this.touch.pointsCount; touchPointIndex++)
+        {
+            this.touch.distanceValue += AxVector2.Distance(new AxVector2(this.touch.eventX, this.touch.eventY), new AxVector2(this.touchPoints[touchPointIndex].eventX, this.touchPoints[touchPointIndex].eventY));
+            this.touch.rotationValue += AxMath.ArcTan2(this.touchPoints[touchPointIndex].eventX - this.touch.eventX, this.touchPoints[touchPointIndex].eventY - this.touch.eventY);
+        }
+        this.touch.distanceValue = this.touch.distanceValue * 2.0 / this.touch.pointsCount;
+        this.touch.rotationValue = this.touch.rotationValue / this.touch.pointsCount;
+        
+        //var v = new AxVector3(this.touchPoints[1].eventX - this.touch.eventX, this.touchPoints[1].eventY - this.touch.eventY, 0.0);
+        //v = v.Normalize();
+        //touchRotationValue = AxMaths.VectorAngle(angleZeroVector, v);
+        //document.getElementById("appTitle").innerHTML = touchRotationValue.toString();
+        //document.getElementById("appTitle").innerHTML = "X: " + this.touch.eventX.toString() + ", Y: " + this.touch.eventY.toString();
+//        document.getElementById("appTitle").innerHTML = "X: " + (this.touch.eventX).toFixed(3) + 
+//            "<br/>Y: " + (this.touch.eventY).toFixed(3) +
+//            "<br/>X: " + (this.touchPoints[1].eventX).toFixed(3) + 
+//            "<br/>Y: " + (this.touchPoints[1].eventY).toFixed(3) +
+//            "<br/>X: " + (this.touchPoints[1].eventX - this.touch.eventX).toFixed(3) + 
+//            "<br/>Y: " + (this.touchPoints[1].eventY - this.touch.eventY).toFixed(3) +
+//            "<br/>X: " + (v.x).toFixed(3) + 
+//            "<br/>Y: " + (v.y).toFixed(3) +
+//            "<br/>R: " + (180.0 * touchRotationValue / AxMath.Pi).toFixed(0) +
+//            "<br/>" + s;
+            
+    }
+    
+    if (this.touch.pointsCount !== this.touch.lastPointsCount)
+    {
+        this.touch.eventLastX = this.touch.eventX;
+        this.touch.eventLastY = this.touch.eventY;
+        this.touch.lastDistanceValue = this.touch.distanceValue;
+        this.touch.lastRotationValue = this.touch.rotationValue;
+    }
+    this.touch.Update();
+    this.touch.pressed.SetBool(this.touch.pointsCount > 0);
+    this.touch.scaling.SetFloat(this.touch.lastDistanceValue === 0.0 ? 1.0 : this.touch.distanceValue / this.touch.lastDistanceValue);
+    this.touch.rotation.SetFloat(this.touch.rotationValue - this.touch.lastRotationValue);
+    this.touch.lastDistanceValue = this.touch.distanceValue;
+    this.touch.lastRotationValue = this.touch.rotationValue;
+    
+    for (var touchIndex = 0; touchIndex < AxHtmlCanvasInputDevice.maxTouchPoints; touchIndex++)
+    {
+        var touch = this.touches[touchIndex];
+        if (touchIndex === (this.touch.pointsCount - 1))
+        {
+            touch.Copy(this.touch);
+            touch.rotation.SetFloat(this.touch.rotation.GetFloat());
+            touch.scaling.SetFloat(this.touch.scaling.GetFloat());
+        }
+        else
+        {
+            touch.X.SetFloat(0.0);
+            touch.Y.SetFloat(0.0);
+            touch.rotation.SetFloat(0.0);
+            touch.scaling.SetFloat(1.0);
+            touch.pressed.SetBool(false);
+        }
+    }
+    
+    if (this.touch.pointsCount > 0)
+        this.pointer.Copy(this.touch);
+    else
+        this.pointer.Copy(this.mousePointer);
+    
+    this.touch.lastPointsCount = this.touch.pointsCount;
+
+
+    this.mouseScroll.SetFloat(this.mouseWheel);
+    this.mouseHScroll.SetFloat(this.mouseWheelHorizontal);
+    this.mouseWheel = 0;
+    this.mouseWheelHorizontal = 0;
 };
 
 
@@ -261,15 +405,15 @@ AxHtmlCanvasInputDevice.CanvasMouseMoveEvent = function(args)
     var x = args.clientX - rect.left;
     var y = args.clientY - rect.top;
     
-    instance.mouse.x = x / instance.context.viewportWidth;
-    instance.mouse.y = -y / instance.context.viewportHeight;
+    instance.mousePointer.eventX = x / instance.context.viewportWidth;
+    instance.mousePointer.eventY = -y / instance.context.viewportHeight;
 };
 
 AxHtmlCanvasInputDevice.CanvasMouseButtonEvent = function(args) 
 {
     var instance = this.axHtmlCanvasInputDevice;
 
-    instance.mouseLeft.SetBool((args.buttons & AxHtmlCanvasInputDevice.MouseButtonLeft) !== 0);
+    instance.mousePointer.pressed.SetBool((args.buttons & AxHtmlCanvasInputDevice.MouseButtonLeft) !== 0);
     instance.mouseRight.SetBool((args.buttons & AxHtmlCanvasInputDevice.MouseButtonRight) !== 0);
     instance.mouseMiddle.SetBool((args.buttons & AxHtmlCanvasInputDevice.MouseButtonMiddle) !== 0);
 };
@@ -278,7 +422,7 @@ AxHtmlCanvasInputDevice.CanvasMouseLeaveEvent = function(args)
 {
     var instance = this.axHtmlCanvasInputDevice;
     
-    instance.mouseLeft.SetBool(false);
+    instance.mousePointer.pressed.SetBool(false);
     instance.mouseRight.SetBool(false);
     instance.mouseMiddle.SetBool(false);
 };
@@ -290,24 +434,25 @@ AxHtmlCanvasInputDevice.CanvasMouseWheelEvent = function(args)
     var delta = AxMath.Sign(-args.deltaY);
     var deltaH = AxMath.Sign(-args.deltaX);
     
-    instance.mouse.wheel += delta;
-    instance.mouse.wheelHorizontal += deltaH;
+    instance.mouseWheel += delta;
+    instance.mouseWheelHorizontal += deltaH;
 };
 
 AxHtmlCanvasInputDevice.CanvasTouchMoveEvent = function(args) 
 {
     if (args.touches)
     {
-        if (args.touches.length === 1)
-        {
-            var instance = this.axHtmlCanvasInputDevice;
+        var instance = this.axHtmlCanvasInputDevice;
 
-            var touch = args.touches[0];
+        instance.touch.pointsCount = AxMath.Min(args.touches.length, AxHtmlCanvasInputDevice.maxTouchPoints);
+        for (var touchIndex = 0; touchIndex < instance.touch.pointsCount; touchIndex++)
+        {
+            var touch = args.touches[touchIndex];
             var x = touch.pageX - touch.target.offsetLeft;
             var y = touch.pageY - touch.target.offsetTop;
 
-            instance.mouse.x = x / instance.context.viewportWidth;
-            instance.mouse.y = -y / instance.context.viewportHeight;
+            instance.touchPoints[touchIndex].eventX = x / instance.context.viewportWidth;
+            instance.touchPoints[touchIndex].eventY = -y / instance.context.viewportHeight;
         }
     }
 };
@@ -316,20 +461,20 @@ AxHtmlCanvasInputDevice.CanvasTouchStartEvent = function(args)
 {
     if (args.touches)
     {
-        if (args.touches.length === 1)
+        var instance = this.axHtmlCanvasInputDevice;
+        
+        instance.touch.pointsCount = AxMath.Min(args.touches.length, AxHtmlCanvasInputDevice.maxTouchPoints);
+        for (var touchIndex = 0; touchIndex < instance.touch.pointsCount; touchIndex++)
         {
-            var instance = this.axHtmlCanvasInputDevice;
-            
-            var touch = args.touches[0];
+            var touch = args.touches[touchIndex];
             var x = touch.pageX - touch.target.offsetLeft;
             var y = touch.pageY - touch.target.offsetTop;
 
-            instance.mouse.x = x / instance.context.viewportWidth;
-            instance.mouse.y = -y / instance.context.viewportHeight;
-            instance.mouse.lastX = instance.mouse.x;
-            instance.mouse.lastY = instance.mouse.y;
-
-            instance.mouseLeft.SetBool(true);
+            instance.touchPoints[touchIndex].pressed.SetBool(true);
+            instance.touchPoints[touchIndex].eventX = x / instance.context.viewportWidth;
+            instance.touchPoints[touchIndex].eventY = -y / instance.context.viewportHeight;
+            instance.touchPoints[touchIndex].eventLastX = instance.touchPoints[touchIndex].eventX;
+            instance.touchPoints[touchIndex].eventLastY = instance.touchPoints[touchIndex].eventY;
         }
     }
 };
@@ -338,7 +483,9 @@ AxHtmlCanvasInputDevice.CanvasTouchEndEvent = function(args)
 {
     var instance = this.axHtmlCanvasInputDevice;
 
-    instance.mouseLeft.SetBool(false);
+    instance.touch.pointsCount = AxMath.Min(args.touches.length, AxHtmlCanvasInputDevice.maxTouchPoints);
+    for (var touchIndex = 0; touchIndex < AxHtmlCanvasInputDevice.maxTouchPoints; touchIndex++)
+        instance.touchPoints[touchIndex].pressed.SetBool(touchIndex < instance.touch.pointsCount);
 };
 
 AxHtmlCanvasInputDevice.CanvasKeyDownEvent = function(args) 
@@ -367,4 +514,48 @@ AxHtmlCanvasInputDevice.CanvasKeyUpEvent = function(args)
         keyProp.value.SetBool(false);
     
     instance.SetSpecialKeyState(key, args, false);
+};
+
+
+/*
+ * Helper class for AxHtmlCanvasInputDevice
+ * Used to hold data on pointers such as mouse and touch points.
+ * When the input event occurs on the device, data is written in this class, 
+ * instead of directly into the corresponding input property (AxProperty), 
+ * because an input event may occur multiple times during a single frame.
+ * Input data is usually processed once every frame, so acumulated data
+ * such as delta position must also be calculated once per frame
+ */
+function AxHtmlCanvasInputDevicePointer()
+{
+    this.X = null;
+    this.Y = null;
+    this.XPos = null;
+    this.YPos = null;
+    this.pressed = null;
+    
+    this.eventX = 0.0;
+    this.eventY = 0.0;
+    this.eventLastX = 0.0;
+    this.eventLastY = 0.0;
+}
+
+AxHtmlCanvasInputDevicePointer.prototype.Update = function()
+{
+    this.X.SetFloat(this.eventX - this.eventLastX);
+    this.Y.SetFloat(this.eventY - this.eventLastY);
+    this.XPos.SetFloat(this.eventX);
+    this.YPos.SetFloat(this.eventY);
+    
+    this.eventLastX = this.eventX;
+    this.eventLastY = this.eventY;
+};
+
+AxHtmlCanvasInputDevicePointer.prototype.Copy = function(source)
+{
+    this.X.SetFloat(source.X.GetFloat());
+    this.Y.SetFloat(source.Y.GetFloat());
+    this.XPos.SetFloat(source.XPos.GetFloat());
+    this.YPos.SetFloat(source.YPos.GetFloat());
+    this.pressed.SetBool(source.pressed.GetBool());
 };

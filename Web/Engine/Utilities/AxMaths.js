@@ -622,6 +622,15 @@ AxMaths.LerpAngle = function(a1, a2, factor)
     return result;
 };
 
+/**
+ * Interpolates between indices based on a floating point factor, producing the two corresponding indices between which the factor is located and the blanding value between them
+ * For example, having indices from 0 to 10 with a factor 7.3 will produce indices 7 and 8 and blending value 0.3
+ * This is useful when having to smoothly blend between a discreet number of states, so that at each time blendig between two of these sets can be performed with the produced blendig value
+ * @param {type} fromIndex First index of the blending
+ * @param {type} toIndex Last index of the blending
+ * @param {type} factor A floating point factor in the range [0,1] representing the blending stage. Having the factor outside the [0, 1] range will result in extrapolating.
+ * @returns {AxMaths.GetIndexBlending.result} An object of three values: "index1" holding the first index, "index2" holding the second index and "blend" holding a floating point blending value for the transition between the two indices
+ */
 AxMaths.GetIndexBlending = function(fromIndex, toIndex, factor)
 {
     var result = { index1: 0, index2: 0, blend: 0.0 };
@@ -633,3 +642,84 @@ AxMaths.GetIndexBlending = function(fromIndex, toIndex, factor)
     
     return result;
 };
+
+/**
+ * Calculates the 2D screen projection coordinates of 3D volumetric coordinates.
+ * The returned screen coordinates are in the range [-1, 1]
+ * For transforming from world space to screen space coordinates, this would be a view projection matrix
+ * @param {AxVector2|AxVector2} result The resulting screen coordinates. Can be an AxVector2 or an AxVector3. In case of the latter, the depth value is also returned in the same [-1, 1] interval
+ * @param {AxVector3} volumetricCoords The 3D coordinates for which to get screen projection.
+ * @param {AxMatrix} transform The projection transformation for the 3D coordinates.
+ */
+AxMaths.VolumetricToScreenSpace = function(result, volumetricCoords, transform)
+{
+    var screenSpace = new AxVector4();
+    AxVector4.Transform(screenSpace, volumetricCoords, transform);
+    
+    result.x = screenSpace.x / screenSpace.w;
+    result.y = screenSpace.y / screenSpace.w;
+    if (!AxUtils.IsUndefinedOrNull(result.z))
+        result.z = screenSpace.z / screenSpace.w;
+};
+
+/**
+ * Calculates the volumetric 3D ray, which projects from a given point of the screen and through a given transform
+ * @param {AxVector3} resultRayOrigin The origin of the resulting ray
+ * @param {AxVector3} resultRayOrientation The orientation of the resulting ray
+ * @param {AxVector3|AxVector2} screenCoords The coordinates fo the point to project. Can be either an AxVector2 or an AxVector3. In the first case, the screen point's depth value is assumed to be 0.0 in screen space
+ * @param {AxMatrix} transfrom The projection transformation 
+ */
+AxMaths.ScreenSpaceToVolumetricRay = function(resultRayOrigin, resultRayOrientation, screenCoords, transfrom)
+{
+    var inverseTransform = new AxMatrix();
+    AxMatrix.Invert(inverseTransform, transfrom);
+
+    var origin4 = new AxVector4();
+    if (AxUtils.IsUndefinedOrNull(screenCoords.z))
+        AxVector4.Transform(origin4, new AxVector3(screenCoords, 0.0), inverseTransform);
+    else
+        AxVector4.Transform(origin4, screenCoords, inverseTransform);
+    resultRayOrigin.x = origin4.x / origin4.w; 
+    resultRayOrigin.y = origin4.y / origin4.w; 
+    resultRayOrigin.z = origin4.z / origin4.w;
+
+    var direction4 = new AxVector4();
+    AxVector4.Transform(direction4, new AxVector3(screenCoords.x, screenCoords.y, 1.0), inverseTransform);
+    resultRayOrientation.x = direction4.x / direction4.w;
+    resultRayOrientation.y = direction4.y / direction4.w;
+    resultRayOrientation.z = direction4.z / direction4.w;
+
+    AxVector3.Subtract(resultRayOrientation, resultRayOrientation, resultRayOrigin);
+    AxVector3.Normalize(resultRayOrientation, resultRayOrientation);
+};
+
+/**
+ * Converts the given set of screen space coordinates to coordinates in pixel space
+ * The input unit coordinates are in the range [-1, 1] horizontally from left to right and [-1, 1] vertically from bottom to top
+ * The returned pixel coordinates are in the range [0, width - 1] horizontally from left to right and [height - 1, 0] vertically from bottom to top.
+ * @param {AxVector2} result The resulting coordinates in pixel space
+ * @param {AxVector2} screenCoords The unit coordinates, which are to be converted to pixel size
+ * @param {Number} screenWidth The width in pixels of the screen
+ * @param {Number} screenHeight The height in pixels of the screen
+ */
+AxMaths.ScreenToPixelSpace = function(result, screenCoords, screenWidth, screenHeight)
+{
+    result.x = screenWidth * (screenCoords.x + 1.0) / 2.0;
+    result.y = screenHeight * (1.0 - screenCoords.y) / 2.0;
+};
+
+/**
+ * Converts the given set of pixel coordinates to coordinates in screen space
+ * The input pixel coordinates are in the range [0, width - 1] horizontally from left to right and [height - 1, 0] vertically from bottom to top.
+ * The returned unit coordinates are in the range [-1, 1] horizontally from left to right and [-1, 1] vertically from bottom to top
+ * @param {AxVector2} result The resulting coordinates in screen space
+ * @param {AxVector2} pixelCoords The pixel coordinates, which are to be converted to unit size
+ * @param {Number} screenWidth The width in pixels of the screen
+ * @param {Number} screenHeight The height in pixels of the screen
+ */
+AxMaths.PixelToScreenSpace = function(result, pixelCoords, screenWidth, screenHeight)
+{
+    result.x = 2.0 * pixelCoords.x / screenWidth - 1.0;
+    result.y = 1.0 - 2.0 * pixelCoords.y / screenHeight;
+};
+

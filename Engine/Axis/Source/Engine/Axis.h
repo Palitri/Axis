@@ -156,7 +156,7 @@ public:
 
 	virtual bool ImportScene(AxStream &stream);
 	virtual bool ImportScene(AxString fileName);
-	virtual bool ExportScene(AxStream &stream);
+	virtual bool ExportScene(AxStream &stream, AxString fileName);
 	virtual bool ExportScene(AxString fileName);
 
 	virtual void SetViewport(int width, int height);
@@ -168,10 +168,10 @@ public:
 
 	virtual void PresentOnScreen();
 
-	virtual AxVector2 ScreenCoordsPixelToUnit(AxVector2 &pixelCoords, AxVector2 &screenPixelSize);
-	virtual AxVector2 ScreenCoordsPixelToUnit(AxVector2 &pixelCoords);
-	virtual AxVector2 ScreenCoordsUnitToPixel(AxVector2 &unitCoords, AxVector2 &screenPixelSize);
-	virtual AxVector2 ScreenCoordsUnitToPixel(AxVector2 &unitCoords);
+	virtual AxVector2 PixelToScreenSpace(AxVector2 &pixelCoords, AxVector2 &screenPixelSize);
+	virtual AxVector2 PixelToScreenSpace(AxVector2 &pixelCoords);
+	virtual AxVector2 ScreenToPixelSpace(AxVector2 &screenCoords, AxVector2 &screenPixelSize);
+	virtual AxVector2 ScreenToPixelSpace(AxVector2 &screenCoords);
     
 	// Picks a scene object, which is the first to intersect a ray defined by an initial point and an orientation
     virtual bool PickByRayPointAndOrientation(AxVector3 &rayInitialPoint, AxVector3 &rayOrientation, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
@@ -179,13 +179,13 @@ public:
     virtual bool PickByRayTwoPoints(AxVector3 &rayInitialPoint, AxVector3 &raySecondPoint, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
 	// Picks a scene object, which is located at the given 2D coordinates on the screen.
 	// The coordinates are of unit size, ranging in the interval [-1, 1], where the X coordinate ranges from left to right and the Y coordinate ranges from bottom to top
-	virtual bool PickByScreenCoordsUnit(AxVector2 &screenUnitCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
+	virtual bool PickByScreenSpaceCoords(AxVector2 &screenUnitCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
 	// Picks a scene object, which is located at the given 2D coordinates on the screen.
 	// The coordinates are in screen pixels, the X coordinate ranging in the interval [0, viewportWidth] from left to right and the Y coordinate ranging in the interval [0, viewportHeight] from top to bottom
-    virtual bool PickByScreenCoordsPixel(AxVector2 &screenPixelCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
+    virtual bool PickByPixelSpaceCoords(AxVector2 &screenPixelCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
 	// Picks a scene object, which is located at the given 2D coordinates on a screen of given size.
 	// The coordinates are in screen pixels, the X coordinate ranging in the interval [0, screenWidth] from left to right and the Y coordinate ranging in the interval [0, screenHeight] from top to bottom
-    virtual bool PickByScreenCoordsPixel(AxVector2 &screenPixelCoords, AxVector2 screenPixelSize, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo);
+    virtual bool PickByPixelSpaceCoords(AxVector2 &screenPixelCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo, AxVector2 &screenPixelSize);
 
 	virtual void CalculateNearestActiveLights(int maxCount, AxVector3 &position);
 

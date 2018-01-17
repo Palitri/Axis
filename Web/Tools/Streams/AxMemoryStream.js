@@ -12,17 +12,22 @@ var StreamWriteMode = Object.freeze(
  * Creates a memory stream object
  * @constructor
  */
-function AxMemoryStream()
+function AxMemoryStream(arg1, arg2)
 {
     AxStream.call(this);
 
     this.capacity = 0;
     this.data = null;
+    
+    if (AxUtils.IsInteger(arg1))
+        this.AxMemoryStream_1(arg1);
+    else if (AxUtils.IsInteger(arg2))
+        this.AxMemoryStream_2(arg1, arg2);
 }
 
 AxMemoryStream.prototype = Object.create(AxStream.prototype);
 
-AxMemoryStream.prototype.AxMemoryStream = function(initialCapacity)
+AxMemoryStream.prototype.AxMemoryStream_1 = function(initialCapacity)
 {
     this.SetWriteMode(StreamWriteMode.Overwrite);
     

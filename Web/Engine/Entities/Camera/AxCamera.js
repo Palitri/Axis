@@ -96,6 +96,31 @@ AxCamera.prototype.BuildMatrix = function(transform)
     AxMatrix.Multiply(this.viewProjection, this.view, this.projection);
 };
 
+/**
+ * Calculates the projected 2D coordinates on screen for a 3D point in space.
+ * Coordinates are in pixel space
+ * @param {AxVector3} worldPos
+ * @returns {AxVector2}
+ */
+AxCamera.prototype.GetScreenSpaceCoords = function(worldPos)
+{
+	var result = new AxVector2();
+	AxMaths.VolumetricToScreenSpace(result, worldPos, this.viewProjection);
+	return result;
+};
+
+/**
+ * Calculates the projected 2D coordinates on screen for a 3D point in space.
+ * Coordinates are in screen space, in the interval [-1, 1]
+ * @param {AxVector3} worldPos
+ * @returns {AxVector2}
+ */
+AxCamera.prototype.GetPixelSpaceCoords = function(worldPos)
+{
+	var result = this.GetScreenSpaceCoords(worldPos);
+	AxMaths.ScreenToPixelSpace(result, result, this.context.viewportWidth, this.context.viewportHeight);
+	return result;
+};
 
 /**
  * Returns a vector which projects from given coordinates on the camera screen into scene space.
@@ -106,20 +131,10 @@ AxCamera.prototype.BuildMatrix = function(transform)
  */
 AxCamera.prototype.CastVector = function(screenCoords)
 {
-    var inverseVP = new AxMatrix();
-    AxMatrix.Invert(inverseVP, this.viewProjection);
-
-    var result4 = new AxVector4();
-    AxVector4.Transform(result4, new AxVector3(screenCoords, 1.0), inverseVP);
-
-    var result = new AxVector3();
-    result.x = result4.x / result4.w; 
-    result.y = result4.y / result4.w; 
-    result.z = result4.z / result4.w;
-    AxVector3.Subtract(result, result, this.position);
-    AxVector3.Normalize(result, result);
-
-    return result;
+    var origin = new AxVector3();
+    var orientation = new AxVector3();
+    AxMaths.ScreenSpaceToVolumetricRay(origin, orientation, screenCoords, this.viewProjection);
+    return orientation;
 };
 
 /**
@@ -130,13 +145,7 @@ AxCamera.prototype.CastVector = function(screenCoords)
  */
 AxCamera.prototype.ProjectVector = function(vector)
 {
-    var result4 = new AxVector4();
-    AxVector4.Transform(result4, vector, this.viewProjection);
-
     var result = new AxVector3();
-    result.x = result4.x / result4.w;
-    result.y = result4.y / result4.w;
-    result.z = result4.z / result4.w;
-
+    AxMaths.VolumetricToScreenSpace(result, vector, this.viewProjection);
     return result;
 };

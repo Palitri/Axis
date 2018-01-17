@@ -9,7 +9,7 @@ class AXDLLCLASS AxScreenPickEvents :
 	public AxTraceEvents
 {
 private:
-	AxVector3 rayPoint1, rayPoint2;
+	AxVector3 screenCoords;
 
 public:
     AxIntersectionInfo intersectionInfo;

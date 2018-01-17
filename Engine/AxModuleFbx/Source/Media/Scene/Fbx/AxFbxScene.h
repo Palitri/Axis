@@ -37,9 +37,9 @@ private:
 
 
 	void LoadMesh_Vertices(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh, AxMatrix &geometryTransform);
-	void LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh);
+	AxTexCoordChannels *LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh);
 	bool LoadMesh_Animation(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh);
-	AxSmoothingGroups* LoadMesh_CreateSmoothGrouping(FbxMesh *fbxMesh);
+	AxSmoothingGroups* LoadMesh_CreateSmoothGrouping(FbxMesh *fbxMesh, AxTexCoordChannels *texCoordChannels);
 	void LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &geometryTransform);
 
 	void LoadNode(AxEntitySet *entitySet, FbxNode* fbxNode, FbxNodeAttribute::EType loadType);

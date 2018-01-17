@@ -1,0 +1,18 @@
+Engine:
+Build Release
+Build Debug
+
+Editor:
+Update Headers/Source/VersionInfo.h
+Rebuild Release
+Deploy
+
+Web:
+Deploy
+Build API documentation
+
+
+Commit
+Push
+Create and upload ZIP
+Upload API documentation

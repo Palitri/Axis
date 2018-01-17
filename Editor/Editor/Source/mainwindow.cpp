@@ -194,7 +194,7 @@ void MainWindow::OpenScene(QString fileName)
 
 void MainWindow::SaveScene(QString fileName)
 {
-    this->engine->ExportScene(AxFileSystem::CreateFileNameWithExtension(EditorUtils::QToAxString(fileName), AxString(AxNativeScene::formatName)));
+    this->engine->ExportScene(EditorUtils::QToAxString(fileName));
 
     // Make a backup copy of the file
     //AxFileStream(AxFileSystem::CreateFileNameWithExtension(EditorUtils::QToAxString(fileName), AxString("axsbu")), FileStreamAccessMode_Write).WriteStreamData(AxFileStream(AxFileSystem::CreateFileNameWithExtension(EditorUtils::QToAxString(fileName).Replace("/", "\\"), AxString(AxNativeScene::formatName)), FileStreamAccessMode_Read));
@@ -1215,6 +1215,9 @@ void MainWindow::on_actionCompute_selected_mesh_normals_triggered()
         return;
 
     AxMesh* selectedMesh = (AxMesh*)selectedResource;
+    selectedMesh->serializeBones = false;
+    selectedMesh->serializeTangents = false;
+    selectedMesh->serializeNormals = false;
 
     selectedMesh->ComputeNormals();
 

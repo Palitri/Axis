@@ -125,6 +125,7 @@ var scriptFiles =
     'Engine/Input/Models/AxOrbitInputModel.js',
     'Engine/Input/Models/AxRotationInputModel.js',
     'Engine/Input/Models/AxWalkInputModel.js',
+    'Engine/Input/Models/AxPropertyLinkInputModel.js',
 
     'FileSystem/AxFileInfo.js',
     'FileSystem/AxFileSystem.js',

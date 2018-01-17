@@ -43,6 +43,11 @@ public:
 	static float LensToFOV(float lens, float filmSize = 36.0f);
 	static float FOVToLens(float fov, float filmSize = 36.0f);
 	static float LerpAngle(float a1, float a2, float factor);
-	static void AxMaths::GetIndexBlending(int fromIndex, int toIndex, float factor, int &index1, int &index2, float &blend);
+	static void GetIndexBlending(int fromIndex, int toIndex, float factor, int &index1, int &index2, float &blend);
+	static void VolumetricToScreenSpace(AxVector3 &result, AxVector3 &volumetricCoords, AxMatrix &transform);
+	static void VolumetricToScreenSpace(AxVector2 &result, AxVector3 &volumetricCoords, AxMatrix &transform);
+	static void ScreenSpaceToVolumetricRay(AxVector3 &resultRayOrigin, AxVector3 &resultRayOrientation, AxVector3 &screenCoords, AxMatrix &transform);
+	static void ScreenSpaceToVolumetricRay(AxVector3 &resultRayOrigin, AxVector3 &resultRayOrientation, AxVector2 &screenCoords, AxMatrix &transform);
+	static void ScreenToPixelSpace(AxVector2 &result, AxVector2 &screenCoords, float screenWidth, float screenHeight);
+	static void PixelToScreenSpace(AxVector2 &result, AxVector2 pixelCoords, float screenWidth, float screenHeight);
 };
-

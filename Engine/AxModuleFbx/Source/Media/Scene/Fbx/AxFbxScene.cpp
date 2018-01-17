@@ -575,7 +575,7 @@ bool AxFbxScene::GetMaterialPropertyTextureName(const FbxProperty &fbxProperty, 
 			if (texture != 0)
 			{
 				//char *textureName = (char*)texture->GetUserDataPtr();
-				fileName = texture->GetFileName();
+				fileName = AxPhysicalFileSystem::ToOriginalPathFormat(AxString(texture->GetFileName()));
 				return true;
 			}
 		}
@@ -592,7 +592,7 @@ bool AxFbxScene::GetMaterialPropertyTextureName(const FbxProperty &fbxProperty, 
 			if (texture != 0)
 			{
 				//char *textureName = (char*)texture->GetUserDataPtr();
-				fileName = texture->GetFileName();
+				fileName = AxPhysicalFileSystem::ToOriginalPathFormat(AxString(texture->GetFileName()));
 				return true;
 			}
 		}
@@ -754,7 +754,7 @@ void AxFbxScene::LoadMesh_Vertices(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh, A
 	}
 }
 
-void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh)
+AxTexCoordChannels *AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh)
 {
 	AxTexCoordChannels *texChannels = new AxTexCoordChannels();
 
@@ -774,6 +774,8 @@ void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMe
 
 			if (mappingMode == FbxGeometryElement::eByControlPoint )
 			{
+				texChannels->AddFace();
+
 				int numVertices = fbxMesh->GetControlPointsCount();
 				for (int vertexIndex = 0; vertexIndex < numVertices; vertexIndex++)
 				{
@@ -782,7 +784,7 @@ void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMe
 					
 					deviceMesh->SetVertexTexCoords(vertexIndex, texCoords);
 
-					//texChannels->AddFaceVertexTexCoords(vertexIndex, texCoords);
+					texChannels->AddFaceVertexTexCoords(vertexIndex, texCoords);
 				}
 			}
 
@@ -817,7 +819,9 @@ void AxFbxScene::LoadMesh_TextureCoords(AxDeviceMesh *deviceMesh, FbxMesh *fbxMe
 		}
 	}
 
-	AxPlatformUtils::ShowMessage(AxString(AxString("F:") + AxString(texChannels->faces.count) + ", V:" + AxString(texChannels->vertexTexCoordChannels.count) + " / " +AxString(texChannels->vertexIndices.count)).contents);
+	return texChannels;
+
+	//AxPlatformUtils::ShowMessage(AxString(AxString("F:") + AxString(texChannels->faces.count) + ", V:" + AxString(texChannels->vertexTexCoordChannels.count) + " / " +AxString(texChannels->vertexIndices.count) + " Split:" + AxString(texChannels->multiChannelVerticesCount)).contents);
 }
 
 bool AxFbxScene::LoadMesh_Animation(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh)
@@ -913,7 +917,7 @@ bool AxFbxScene::LoadMesh_Animation(AxDeviceMesh *deviceMesh, FbxMesh *fbxMesh)
 	return result;
 }
 
-AxSmoothingGroups* AxFbxScene::LoadMesh_CreateSmoothGrouping(FbxMesh *fbxMesh)
+AxSmoothingGroups* AxFbxScene::LoadMesh_CreateSmoothGrouping(FbxMesh *fbxMesh, AxTexCoordChannels *texCoordChannels)
 {
 	// If no smoothing information is present, use fbx to generate it - first, compute soft/hard edge info from mesh normals, then convert the soft/hard edge info to smoothing group info
 	FbxGeometryElementSmoothing *smoothing = fbxMesh->GetElementSmoothing();
@@ -1062,13 +1066,14 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 	this->LoadMesh_Vertices(vertexDataMesh, fbxMesh, geometryTransform);
 	
 	// Load vertices' texture coordinates
-	this->LoadMesh_TextureCoords(vertexDataMesh, fbxMesh);
+	AxTexCoordChannels *texCoordChannels = this->LoadMesh_TextureCoords(vertexDataMesh, fbxMesh);
+	//delete texCoordChannels;
 
 	// Load vertices bone indices and weights, if any, and setup the transforms of the skeleton. The transforms of the skeleton must be already loaded
 	bool isAnimated = this->LoadMesh_Animation(vertexDataMesh, fbxMesh);
 
 	// Load the smoothing groups data
-	AxSmoothingGroups *smoothGrouping = this->LoadMesh_CreateSmoothGrouping(fbxMesh);
+	AxSmoothingGroups *smoothGrouping = this->LoadMesh_CreateSmoothGrouping(fbxMesh, texCoordChannels);
 
 	// Create a temporary mesh, whith geometry affected by the smoothing groups and calculate its normals.
 	// This mesh will later be used to get vertex information for the final meshes, which will additionally be affected by sub materials
@@ -1077,10 +1082,11 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 	AxVector2 v2;
 	AxVector3 v3;
 	AxVector4 v41, v42;
-	smoothGroupedMesh.CreateVertexBuffer(smoothGrouping->vertexIndices.count);
-	for (int vertexIndex = 0; vertexIndex < smoothGrouping->vertexIndices.count; vertexIndex++)
+
+	smoothGroupedMesh.CreateVertexBuffer(texCoordChannels->vertexIndices.count);
+	for (int vertexIndex = 0; vertexIndex < texCoordChannels->vertexIndices.count; vertexIndex++)
 	{
-		int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+		int originalVertexIndex = texCoordChannels->vertexIndices[vertexIndex];
 						
 		vertexDataMesh->GetVertexPosition(originalVertexIndex, v3);
 		smoothGroupedMesh.SetVertexPosition(vertexIndex, v3);
@@ -1088,32 +1094,72 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 		vertexDataMesh->GetVertexNormal(originalVertexIndex, v3);
 		smoothGroupedMesh.SetVertexNormal(vertexIndex, v3);
 
-		vertexDataMesh->GetVertexTexCoords(originalVertexIndex, v2);
-		smoothGroupedMesh.SetVertexTexCoords(vertexIndex, v2);
+		//vertexDataMesh->GetVertexTexCoords(originalVertexIndex, v2);
+		//smoothGroupedMesh.SetVertexTexCoords(vertexIndex, v2);
+		smoothGroupedMesh.SetVertexTexCoords(vertexIndex, texCoordChannels->vertexTexCoords[vertexIndex]);
 
 		vertexDataMesh->GetVertexBones(originalVertexIndex, v41, v42);
 		smoothGroupedMesh.SetVertexBones(vertexIndex, v41, v42);
 	}
 	int numTriangles = 0;
-	for (int faceIndex = 0; faceIndex < smoothGrouping->faces.count; faceIndex++)
-		numTriangles += smoothGrouping->faces[faceIndex].indices.count - 2;
+	for (int faceIndex = 0; faceIndex < texCoordChannels->faces.count; faceIndex++)
+		numTriangles += texCoordChannels->faces[faceIndex]->indices.count - 2;
 	// Now fill the triangles
 	smoothGroupedMesh.CreateIndexBuffer(numTriangles * 3);
 	int index = 0;
-	for (int faceIndex = 0; faceIndex < smoothGrouping->faces.count; faceIndex++)
+	for (int faceIndex = 0; faceIndex < texCoordChannels->faces.count; faceIndex++)
 	{
-		int numFaceVertices = smoothGrouping->faces[faceIndex].indices.count;
+		int numFaceVertices = texCoordChannels->faces[faceIndex]->indices.count;
 
 		// As in the native obj scene
 		// In case of polygons with any number of sides, use the first vertex to form a triangle fan with the rest vertices
-		int zeroVertexIndex = smoothGrouping->faces[faceIndex].indices[0];
+		int zeroVertexIndex = texCoordChannels->faces[faceIndex]->indices[0];
 		for (int polyVertexIndex = 2; polyVertexIndex < numFaceVertices; polyVertexIndex++)
 		{
 			smoothGroupedMesh.SetIndex(index++, zeroVertexIndex);
-			smoothGroupedMesh.SetIndex(index++, smoothGrouping->faces[faceIndex].indices[polyVertexIndex]);
-			smoothGroupedMesh.SetIndex(index++, smoothGrouping->faces[faceIndex].indices[polyVertexIndex - 1]);
+			smoothGroupedMesh.SetIndex(index++, texCoordChannels->faces[faceIndex]->indices[polyVertexIndex]);
+			smoothGroupedMesh.SetIndex(index++, texCoordChannels->faces[faceIndex]->indices[polyVertexIndex - 1]);
 		}
 	}
+
+	//smoothGroupedMesh.CreateVertexBuffer(smoothGrouping->vertexIndices.count);
+	//for (int vertexIndex = 0; vertexIndex < smoothGrouping->vertexIndices.count; vertexIndex++)
+	//{
+	//	int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+	//					
+	//	vertexDataMesh->GetVertexPosition(originalVertexIndex, v3);
+	//	smoothGroupedMesh.SetVertexPosition(vertexIndex, v3);
+
+	//	vertexDataMesh->GetVertexNormal(originalVertexIndex, v3);
+	//	smoothGroupedMesh.SetVertexNormal(vertexIndex, v3);
+
+	//	vertexDataMesh->GetVertexTexCoords(originalVertexIndex, v2);
+	//	smoothGroupedMesh.SetVertexTexCoords(vertexIndex, v2);
+
+	//	vertexDataMesh->GetVertexBones(originalVertexIndex, v41, v42);
+	//	smoothGroupedMesh.SetVertexBones(vertexIndex, v41, v42);
+	//}
+	//int numTriangles = 0;
+	//for (int faceIndex = 0; faceIndex < smoothGrouping->faces.count; faceIndex++)
+	//	numTriangles += smoothGrouping->faces[faceIndex].indices.count - 2;
+	//// Now fill the triangles
+	//smoothGroupedMesh.CreateIndexBuffer(numTriangles * 3);
+	//int index = 0;
+	//for (int faceIndex = 0; faceIndex < smoothGrouping->faces.count; faceIndex++)
+	//{
+	//	int numFaceVertices = smoothGrouping->faces[faceIndex].indices.count;
+
+	//	// As in the native obj scene
+	//	// In case of polygons with any number of sides, use the first vertex to form a triangle fan with the rest vertices
+	//	int zeroVertexIndex = smoothGrouping->faces[faceIndex].indices[0];
+	//	for (int polyVertexIndex = 2; polyVertexIndex < numFaceVertices; polyVertexIndex++)
+	//	{
+	//		smoothGroupedMesh.SetIndex(index++, zeroVertexIndex);
+	//		smoothGroupedMesh.SetIndex(index++, smoothGrouping->faces[faceIndex].indices[polyVertexIndex]);
+	//		smoothGroupedMesh.SetIndex(index++, smoothGrouping->faces[faceIndex].indices[polyVertexIndex - 1]);
+	//	}
+	//}
+
 	AxNormalsGenerator(*(AxDeviceMesh*)(&smoothGroupedMesh));
 	delete vertexDataMesh;
 
@@ -1206,7 +1252,8 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 						int vertexCount = mesh->deviceMesh->GetVertexCount();
 						for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
 						{
-							int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+							//int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+							int originalVertexIndex = texCoordChannels->vertexIndices[vertexIndex];
 
 							mesh->blendOrigin[vertexIndex].Set(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
 						}
@@ -1225,7 +1272,8 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 		
 							for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
 							{
-								int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+								//int originalVertexIndex = smoothGrouping->vertexIndices[vertexIndex].index;
+								int originalVertexIndex = texCoordChannels->vertexIndices[vertexIndex];
 								
 								AxVector3 morphPosition(this->FbxToAxVector3(verticesFbx[originalVertexIndex]));
 								AxVector3 originalPosition(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
@@ -1320,7 +1368,8 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 
 
 					// Create the submeshes and free the materialPolygons dictionary
-					AxSubMesh subMesh(smoothGrouping->vertexIndices.count);
+					//AxSubMesh subMesh(smoothGrouping->vertexIndices.count);
+					AxSubMesh subMesh(texCoordChannels->vertexIndices.count);
 					void* node = subMaterialsPolygonsMapping.GetNodeNext(0);
 					while (node != 0)
 					{
@@ -1351,11 +1400,13 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 							int polygonIndex = subMaterialPolygons->Get(subMaterialPolygonIndex);
 
 							subMesh.AddFace();
-							const int numPolygonVertices = smoothGrouping->faces[polygonIndex].indices.count;
+							//const int numPolygonVertices = smoothGrouping->faces[polygonIndex].indices.count;
+							const int numPolygonVertices = texCoordChannels->faces[polygonIndex]->indices.count;
 							for (int polyVertexIndex = 0; polyVertexIndex < numPolygonVertices; polyVertexIndex++)
 							{
 								// As a vace vertex index of the sub mesh, add in index to a vertex of the smooth grouping
-								int vertexIndex = smoothGrouping->faces[polygonIndex].indices[polyVertexIndex];
+								//int vertexIndex = smoothGrouping->faces[polygonIndex].indices[polyVertexIndex];
+								int vertexIndex = texCoordChannels->faces[polygonIndex]->indices[polyVertexIndex];
 								subMesh.AddFaceVertex(subMaterialPolygonIndex, vertexIndex);
 							}
 							numSubMaterialTriangles += numPolygonVertices - 2;
@@ -1426,7 +1477,8 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 						for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
 						{
 							int originalVertexIndex = subMesh.vertexIndices[vertexIndex];
-							originalVertexIndex = smoothGrouping->vertexIndices[originalVertexIndex].index;
+							//originalVertexIndex = smoothGrouping->vertexIndices[originalVertexIndex].index;
+							originalVertexIndex = texCoordChannels->vertexIndices[originalVertexIndex];
 
 							mesh->blendOrigin[vertexIndex].Set(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
 						}
@@ -1446,7 +1498,8 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 							for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
 							{
 								int originalVertexIndex = subMesh.vertexIndices[vertexIndex];
-								originalVertexIndex = smoothGrouping->vertexIndices[originalVertexIndex].index;
+								//originalVertexIndex = smoothGrouping->vertexIndices[originalVertexIndex].index;
+								originalVertexIndex = texCoordChannels->vertexIndices[originalVertexIndex];
 								
 								AxVector3 morphPosition(this->FbxToAxVector3(verticesFbx[originalVertexIndex]));
 								AxVector3 originalPosition(this->FbxToAxVector3(originalVerticesFbx[originalVertexIndex]));
@@ -1524,6 +1577,9 @@ void AxFbxScene::LoadMesh(AxEntitySet *entitySet, FbxMesh *fbxMesh, AxMatrix &ge
 
 	if (smoothGrouping != 0)
 		delete smoothGrouping;
+
+	if (texCoordChannels != 0)
+		delete texCoordChannels;
 }
 
 

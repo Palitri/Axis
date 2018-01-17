@@ -8,10 +8,11 @@ class AXDLLCLASS AxPhysicalFileSystem :
 	public AxFileSystem
 {
 private:
-	AxString ToNativePathFormat(AxString &originalPath);
-	AxString ToOriginalPathFormat(AxString &nativePath);
 
 public:
+	static AxString ToNativePathFormat(AxString &originalPath);
+	static AxString ToOriginalPathFormat(AxString &nativePath);
+
 	AxPhysicalFileSystem(void);
 	~AxPhysicalFileSystem(void);
 

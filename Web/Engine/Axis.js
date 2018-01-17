@@ -418,28 +418,36 @@ Axis.prototype.PresentOnScreen = function()
  * @param {!AxVector2} screenPixelSize The size of the screen in pixels. If omitted, the size of the viewport is assumed.
  * @returns {AxVector2} The coordinates in unit size
  */
-Axis.prototype.ScreenCoordsPixelToUnit = function(pixelCoords, screenPixelSize)
+Axis.prototype.PixelToScreenSpace = function(pixelCoords, screenPixelSize)
 {
+    var result = new AxVector2();
+    
     if (AxUtils.IsUndefinedOrNull(screenPixelSize))
-        screenPixelSize = new AxVector2(this.viewportWidth, this.viewportHeight);
-
-    return new AxVector2(2.0 * pixelCoords.x / screenPixelSize.x - 1.0, 1.0 - 2.0 * pixelCoords.y / screenPixelSize.y);
+        AxMaths.PixelToScreenSpace(result, pixelCoords, this.viewportWidth, this.viewportHeight)
+    else
+        AxMaths.PixelToScreenSpace(result, pixelCoords, screenPixelSize.x, screenPixelSize.y);
+    
+    return result;
 };
 
 /**
  * Returns a set of 2D coordinates of pixel size for the given coordinates of a pixel on the screen
  * The input unit coordinates are in the range [-1, 1] horizontally from left to right and [-1, 1] vertically from bottom to top
  * The returned pixel coordinates are in the range [0, width - 1] horizontally from left to right and [height - 1, 0] vertically from bottom to top.
- * @param {AxVector2} unitCoords The unit coordinates, which are to be converted to pixel size
+ * @param {AxVector2} screenCoords The unit coordinates, which are to be converted to pixel size
  * @param {!AxVector2} screenPixelSize The size of the screen in pixels. If omitted, the size of the viewport is assumed.
  * @returns {AxVector2} The coordinates in unit size
  */
-Axis.prototype.ScreenCoordsUnitToPixel = function(unitCoords, screenPixelSize)
+Axis.prototype.ScreenToPixelSpace = function(screenCoords, screenPixelSize)
 {
+    var result = new AxVecto2();
+    
     if (AxUtils.IsUndefinedOrNull(screenPixelSize))
-        screenPixelSize = new AxVector2(this.viewportWidth, this.viewportHeight);
-
-    return AxVector2(screenPixelSize.x * (unitCoords.x + 1.0) / 2.0, screenPixelSize.y * (1.0 - unitCoords.x) / 2.0);
+        AxMaths.ScreenToPixelSpace(result, screenCoords, this.viewportWidth, this.viewportHeight);
+    else
+        AxMaths.ScreenToPixelSpace(result, unitCoords, screenPixelSize.x, screenPixelSize.y);
+    
+    return result;
 };
 
 
@@ -494,7 +502,7 @@ Axis.prototype.PickByRayTwoPoints = function(rayInitialPoint, raySecondPoint, in
  * @param {AxTraceParameters} entityInfo After the picking is performed, provides information about the intersected object. Must be a valid AxTraceParameters object
  * @return {Boolean} True if an object was picked
  */
-Axis.prototype.PickByScreenCoordsUnit = function(screenUnitCoords, intersectionInfo, entityInfo)
+Axis.prototype.PickByScreenSpaceCoords = function(screenUnitCoords, intersectionInfo, entityInfo)
 {
     this.screenPickEvents.SetupScreenPick(screenUnitCoords);
     this.ProcessScene(this.screenPickEvents);
@@ -510,11 +518,14 @@ Axis.prototype.PickByScreenCoordsUnit = function(screenUnitCoords, intersectionI
  * @param {AxVector2} screenPixelCoords The coordinates, in pixels, of the picking point on the screen
  * @param {AxIntersectionInfo} intersectionInfo After the picking is performed, provides information about the intersection. Must be a valid AxIntersectionInfo object
  * @param {AxTraceParameters} entityInfo After the picking is performed, provides information about the intersected object. Must be a valid AxTraceParameters object
+ * @param {!AxVector2} screenPixelSize The size in pixels of the screen. If omitted, the current viewport size is assumed
  * @return {Boolean} True if an object was picked
  */
-Axis.prototype.PickByScreenCoordsPixel = function(screenPixelCoords, intersectionInfo, entityInfo)
+Axis.prototype.PickByPixelSpaceCoords = function(screenPixelCoords, intersectionInfo, entityInfo, screenPixelSize)
 {
-    return this.PickByScreenCoordsUnit(this.ScreenCoordsPixelToUnit(screenPixelCoords, new AxVector2(this.viewportWidth, this.viewportHeight)), intersectionInfo, entityInfo);
+    if (AxUtils.IsUndefinedOrNull(screenPixelSize))
+        screenPixelSize = new AxVector2(this.viewportWidth, this.viewportHeight);
+    return this.PickByScreenSpaceCoords(this.PixelToScreenSpace(screenPixelCoords, screenPixelSize), intersectionInfo, entityInfo);
 };
 
 

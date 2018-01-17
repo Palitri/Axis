@@ -1224,49 +1224,146 @@ AxString AxString::FromBase64()
 
 AxString AxString::ToBase64(const void *data, unsigned int dataSize)
 {
-	int actualLength = ((dataSize * 8) + 5) / 6;
-	int fullLength = ((actualLength + 3) / 4) * 4;
+	int dataTrail = dataSize % 3;
+	int b64DataTrail = (dataTrail * 8 + 5) / 6;
+	int b64FillerTrail = (4 - b64DataTrail) % 4;
+    int fullGroupsCount = dataSize / 3;
+	int b64ActualLength = ((dataSize + 2) / 3) * 4;
+	int b64FullLength = ((dataSize + 2) / 3) * 4;
 	
+	unsigned char *dataBytes = (unsigned char*)data;
+
 	AxString result;
-	result.SetLength(fullLength);
+	result.SetLength(b64FullLength);
 
-	int charIndex = 0;	
-	for (int i = 0; i < actualLength; i++)
-	{
-		AxMem::CopyBits(data, i * 6, &charIndex, 2, 6);
-		result[i] = base64Map[charIndex];
-	}
+	int b64Index = 0;
+	int dataByteIndex = 0;
+	for (int i = 0; i < fullGroupsCount; i++)
+    {
+        int groupBits = dataBytes[dataByteIndex++] << 16;
+		groupBits |= dataBytes[dataByteIndex++] << 8;
+		groupBits |= dataBytes[dataByteIndex++];
 
-	for (int i = actualLength; i < fullLength; i++)
-		result[i] = L'=';
-	
-	return AxString(result);
+		result[b64Index++] = base64Map[groupBits >> 18];
+        result[b64Index++] = base64Map[groupBits >> 12 & 0x3F];
+        result[b64Index++] = base64Map[groupBits >> 6 & 0x3F];
+        result[b64Index++] = base64Map[groupBits & 0x3F];
+    }
+
+    if (dataTrail > 0)
+    {
+		int groupBits = 0;
+		for (int i = 0; i < dataTrail; i++)
+			groupBits |= dataBytes[dataByteIndex++] << (16 - i * 8);
+
+        for (int i = 0; i < b64DataTrail; i++)
+			result[b64Index++] = base64Map[(groupBits >> 18 - (i * 6)) & 0x3F];
+    }
+
+	for (int i = 0; i < b64FillerTrail; i++)
+		result[b64Index++] = '=';
+
+    return AxString(result);
 }
 
-bool AxString::FromBase64(AxString &base64String, void **data, unsigned int &dataSize)
+//AxString AxString::ToBase64(const void *data, unsigned int dataSize)
+//{
+//	int actualLength = ((dataSize * 8) + 5) / 6;
+//	int fullLength = ((actualLength + 3) / 4) * 4;
+//	
+//	AxString result;
+//	result.SetLength(fullLength);
+//
+//	int charIndex = 0;	
+//	for (int i = 0; i < actualLength; i++)
+//	{
+//		AxMem::CopyBits(data, i * 6, &charIndex, 2, 6);
+//		result[i] = base64Map[charIndex];
+//	}
+//
+//	for (int i = actualLength; i < fullLength; i++)
+//		result[i] = L'=';
+//	
+//	return AxString(result);
+//}
+
+bool AxString::FromBase64(AxString &base64String, void **data, unsigned int &dataSize)//const void* data, const size_t len)
 {
-	int actualLength = base64String.length;
-	while ((actualLength >= 0) && ((base64String.contents[actualLength - 1] == L'=')))
-			actualLength--;
+	static const int b64Bits[256] =
+	{ 
+		0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+		0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+		0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 62, 63, 62, 62, 63, 52, 53, 54, 55,
+	   56, 57, 58, 59, 60, 61,  0,  0,  0,  0,  0,  0,  0,  0,  1,  2,  3,  4,  5,  6,
+		7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,  0,
+		0,  0,  0, 63,  0, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+	   41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+	};
 
-	dataSize = (actualLength * 6) / 8;
-	*data = new char[dataSize + 1];
+	const char* b64 = base64String.GetCharContents();
+	int b64Length = base64String.length;
+	while ((b64Length > 0) && (b64[b64Length - 1] == '='))
+		b64Length--;
+	int b64Trail = b64Length % 4;
+	int dataTrail = (b64Trail * 6) / 8;
+	int fullGroupsCount = b64Length / 4;
+    dataSize = fullGroupsCount * 3 + dataTrail;
+	*data = new char[dataSize];
+	
+	unsigned char *decodedBytes = (unsigned char*)*data;
+	AxMem::Zero(decodedBytes, dataSize);
 
-	for (int i = 0; i < actualLength; i++)
-	{
-		int charIndex = base64Map.IndexOf(AxString(base64String.contents[i]));
-		if (charIndex == -1)
-		{
-			delete[] (*data);
-			return false;
-		}
-		AxMem::CopyBits(&charIndex, 2, *data, i * 6, 6);
-	}
+	int b64Index = 0;
+	int decodedByteIndex = 0;
+	for (int i = 0; i < fullGroupsCount; i++)
+    {
+        int groupBits = b64Bits[b64[b64Index++]] << 18;
+		groupBits |= b64Bits[b64[b64Index++]] << 12;
+		groupBits |= b64Bits[b64[b64Index++]] << 6;
+		groupBits |= b64Bits[b64[b64Index++]];
 
-	((char*)(*data))[dataSize] = 0;
+        decodedBytes[decodedByteIndex++] = groupBits >> 16;
+        decodedBytes[decodedByteIndex++] = groupBits >> 8 & 0xFF;
+        decodedBytes[decodedByteIndex++] = groupBits & 0xFF;
+    }
 
-	return true;
+	if (b64Trail > 0)
+    {
+		int groupBits = 0;
+		for (int i = 0; i < b64Trail; i++)
+			groupBits |= b64Bits[b64[b64Index++]] << (18 - i * 6);
+
+		for (int i = 0; i < dataTrail; i++)
+			decodedBytes[decodedByteIndex++] = groupBits >> (16 - i * 8);
+    }
+
+    return true;
 }
+
+//bool AxString::FromBase64(AxString &base64String, void **data, unsigned int &dataSize)
+//{
+//	int actualLength = base64String.length;
+//	while ((actualLength >= 0) && ((base64String.contents[actualLength - 1] == L'=')))
+//			actualLength--;
+//
+//	dataSize = (actualLength * 6) / 8;
+//	*data = new char[dataSize + 1];
+//
+//	for (int i = 0; i < actualLength; i++)
+//	{
+//		int charIndex = base64Map.IndexOf(AxString(base64String.contents[i]));
+//		if (charIndex == -1)
+//		{
+//			delete[] (*data);
+//			return false;
+//		}
+//		AxMem::CopyBits(&charIndex, 2, *data, i * 6, 6);
+//	}
+//
+//	((char*)(*data))[dataSize] = 0;
+//
+//	return true;
+//}
 
 AxString AxString::ToBaseX(const void *data, unsigned int dataSize, AxString alphabet)
 {

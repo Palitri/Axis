@@ -201,6 +201,9 @@
 #include "Media\Scene\Native\AxNativeScene.h"
 #include "Media\Scene\Native\AxNativeSceneDispatcher.h"
 
+#include "Media\Scene\NativeJS\AxNativeJSScene.h"
+#include "Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h"
+
 #include "Media\Scene\3ds\Ax3dsScene.h"
 #include "Media\Scene\3ds\Ax3dsSceneDispatcher.h"
 

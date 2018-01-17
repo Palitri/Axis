@@ -18,6 +18,7 @@
 #include "..\FileSystem\PhysicalFileSystem\AxPhysicalFileSystem.h"
 
 #include "..\Media\Scene\Native\AxNativeSceneDispatcher.h"
+#include "..\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h"
 #include "..\Media\Scene\3ds\Ax3dsSceneDispatcher.h"
 #include "..\Media\Scene\Obj\AxObjSceneDispatcher.h"
 
@@ -47,6 +48,7 @@
 #include "Utilities\Imaging\AxGenerateNormalMapImage.h"
 
 #include "Utilities\AxLogging.h"
+#include "Utilities\AxMaths.h"
 
 #include "Axis.h"
 
@@ -76,6 +78,7 @@ Axis::Axis(void *windowHandle)
 	this->bones.SetSize(64);	
 
 	this->sceneMediaDispatchers.Add(new AxNativeSceneDispatcher());
+	this->sceneMediaDispatchers.Add(new AxNativeJSSceneDispatcher());
 	this->sceneMediaDispatchers.Add(new Ax3dsSceneDispatcher());
 	this->sceneMediaDispatchers.Add(new AxObjSceneDispatcher());
 
@@ -381,7 +384,7 @@ void Axis::SetGraphicsDevice(AxGraphicsDevice *graphicsDevice)
 	AxMemoryStream save;
 	bool saveSceneThumbnail = this->settings->properties[AxSettings::propertyIndex_Thumbnail]->GetBool();
 	this->settings->properties[AxSettings::propertyIndex_Thumbnail]->SetBool(false);
-	this->ExportScene(save);
+	this->ExportScene(save, AxString("SetGDSave.") + AxNativeScene::formatName);
 	this->settings->properties[AxSettings::propertyIndex_Thumbnail]->SetBool(saveSceneThumbnail);
 
 	this->Reset();
@@ -420,7 +423,7 @@ void Axis::SetAudioDevice(AxAudioDevice *audioDevice)
 		return;
 
 	AxMemoryStream save;
-	this->ExportScene(save);
+	this->ExportScene(save, AxString("SetADSave.") + AxNativeScene::formatName);
 
 	this->Reset();
 	
@@ -515,12 +518,35 @@ bool Axis::ImportScene(AxString fileName)
 	return success;
 }
 
-bool Axis::ExportScene(AxStream &stream)
+bool Axis::ExportScene(AxStream &stream, AxString fileName)
 {
-	AxNativeScene scene;
-	scene.SetContext(this);
+	long long streamInitialPos = stream.position;
 
-	return scene.Save(stream, 0);
+	AxString formatExtension = AxFileSystem::GetFileExtension(fileName);
+
+	for (int i = 0; i < this->sceneMediaDispatchers.count; i++)
+	{
+		if (this->sceneMediaDispatchers[i]->IsFeatureSupported(AxModuleDispatcher::infoId_MediaSerializationFormatExtension, formatExtension, true))
+		{
+			AxScene *sceneSaver = (AxScene*)this->sceneMediaDispatchers[i]->CreateObject();
+			sceneSaver->SetContext(this);
+			
+			bool result = sceneSaver->Save(stream, formatExtension.GetCharContents());
+			delete sceneSaver;
+
+			if (result)
+				return true;
+
+			stream.Seek(streamInitialPos);
+		}
+	}
+
+	return false;
+
+	//AxNativeScene scene;
+	//scene.SetContext(this);
+
+	//return scene.Save(stream, 0);
 }
 
 bool Axis::ExportScene(AxString fileName)
@@ -535,7 +561,7 @@ bool Axis::ExportScene(AxString fileName)
 	if (stream == 0)
 		return false;
 
-	bool success = this->ExportScene(*stream);
+	bool success = this->ExportScene(*stream, fileName);
 
 	delete stream;
 
@@ -745,24 +771,32 @@ void Axis::PresentOnScreen()
 }
 
     
-AxVector2 Axis::ScreenCoordsPixelToUnit(AxVector2 &pixelCoords, AxVector2 &screenPixelSize)
+AxVector2 Axis::PixelToScreenSpace(AxVector2 &pixelCoords, AxVector2 &screenPixelSize)
 {
-	return AxVector2(2.0f * pixelCoords.x / screenPixelSize.x - 1.0f, 1.0f - 2.0f * pixelCoords.y / screenPixelSize.y);
+    AxVector2 result;
+    AxMaths::PixelToScreenSpace(result, pixelCoords, screenPixelSize.x, screenPixelSize.y);
+    return result;
 }
 
-AxVector2 Axis::ScreenCoordsPixelToUnit(AxVector2 &pixelCoords)
+AxVector2 Axis::PixelToScreenSpace(AxVector2 &pixelCoords)
 {
-	return this->ScreenCoordsPixelToUnit(pixelCoords, AxVector2((float)this->viewportWidth, (float)this->viewportHeight));
+    AxVector2 result;
+    AxMaths::PixelToScreenSpace(result, pixelCoords, this->viewportWidth, this->viewportHeight);
+    return result;
 }
 
-AxVector2 Axis::ScreenCoordsUnitToPixel(AxVector2 &unitCoords, AxVector2 &screenPixelSize)
+AxVector2 Axis::ScreenToPixelSpace(AxVector2 &screenCoords, AxVector2 &screenPixelSize)
 {
-	return AxVector2(screenPixelSize.x * (unitCoords.x + 1.0f) / 2.0f, screenPixelSize.y * (1.0f - unitCoords.x) / 2.0f);
+    AxVector2 result;
+    AxMaths::ScreenToPixelSpace(result, screenCoords, screenPixelSize.x, screenPixelSize.y);
+    return result;
 }
 
-AxVector2 Axis::ScreenCoordsUnitToPixel(AxVector2 &unitCoords)
+AxVector2 Axis::ScreenToPixelSpace(AxVector2 &screenCoords)
 {
-	return this->ScreenCoordsUnitToPixel(unitCoords, AxVector2((float)this->viewportWidth, (float)this->viewportHeight));
+    AxVector2 result;
+    AxMaths::ScreenToPixelSpace(result, screenCoords, this->viewportWidth, this->viewportHeight);
+    return result;
 }
 
 bool Axis::PickByRayPointAndOrientation(AxVector3 &rayInitialPoint, AxVector3 &rayOrientation, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo)
@@ -788,7 +822,7 @@ bool Axis::PickByRayTwoPoints(AxVector3 &rayInitialPoint, AxVector3 &raySecondPo
 	return this->PickByRayPointAndOrientation(rayInitialPoint, rayOrientation, intersectionInfo, entityInfo);
 }
 
-bool Axis::PickByScreenCoordsUnit(AxVector2 &screenUnitCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo)
+bool Axis::PickByScreenSpaceCoords(AxVector2 &screenUnitCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo)
 {
     this->screenPickEvents->SetupScreenPick(screenUnitCoords);
     this->ProcessScene(this->screenPickEvents);
@@ -798,14 +832,14 @@ bool Axis::PickByScreenCoordsUnit(AxVector2 &screenUnitCoords, AxIntersectionInf
 	return this->screenPickEvents->intersectionInfo.hasIntersected;
 }
 
-bool Axis::PickByScreenCoordsPixel(AxVector2 &screenPixelCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo)
+bool Axis::PickByPixelSpaceCoords(AxVector2 &screenPixelCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo)
 {
-	return this->PickByScreenCoordsPixel(screenPixelCoords, AxVector2((float)this->viewportWidth, (float)this->viewportHeight), intersectionInfo, entityInfo);
+	return this->PickByPixelSpaceCoords(screenPixelCoords, intersectionInfo, entityInfo, AxVector2((float)this->viewportWidth, (float)this->viewportHeight));
 }
 
-bool Axis::PickByScreenCoordsPixel(AxVector2 &screenPixelCoords, AxVector2 screenPixelSize, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo)
+bool Axis::PickByPixelSpaceCoords(AxVector2 &screenPixelCoords, AxIntersectionInfo &intersectionInfo, AxTraceParameters &entityInfo, AxVector2 &screenPixelSize)
 {
-	return this->PickByScreenCoordsUnit(this->ScreenCoordsPixelToUnit(screenPixelCoords, screenPixelSize), intersectionInfo, entityInfo);
+	return this->PickByScreenSpaceCoords(this->PixelToScreenSpace(screenPixelCoords, screenPixelSize), intersectionInfo, entityInfo);
 }
 
     

@@ -77,6 +77,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSScene.h" />
+    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h" />
     <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.h" />
     <ClInclude Include="Source\Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.h" />
     <ClInclude Include="Source\Engine\Entities\Mechanisms\AxParticleSpreadMechanism.h" />
@@ -326,6 +328,8 @@
     <ClInclude Include="Source\Tools\Threading\AxThreadsPoolThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSScene.cpp" />
+    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.cpp" />
     <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.cpp" />
     <ClCompile Include="Source\Engine\Entities\Mechanisms\AxTimelineAnimationMechanism.cpp" />
     <ClCompile Include="Source\Engine\Entities\Mechanisms\AxParticleSpreadMechanism.cpp" />
