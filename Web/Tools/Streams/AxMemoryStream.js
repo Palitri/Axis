@@ -45,6 +45,8 @@ AxMemoryStream.prototype.AxMemoryStream_2 = function(data, size)
 
     this.capacity = size;
     this.data = data;
+    
+    this.dataUInt8 = new Uint8Array(this.data);
 };
 
 /**
@@ -56,7 +58,10 @@ AxMemoryStream.prototype.AxMemoryStream_2 = function(data, size)
 AxMemoryStream.prototype.ReadData = function(destination, size)
 {
     var bytesToCopy = AxMath.Min(this.length - this.position, size);
-    AxMem.Copy(destination, 0, this.data, this.position, bytesToCopy);
+    //AxMem.Copy(destination, 0, this.data, this.position, bytesToCopy);
+    var destBytes = new Uint8Array(destination);
+    for (var i = 0; i < size; i++)
+        destBytes[i] = this.dataUInt8[this.position + i];
     
     this.position += bytesToCopy;
 
@@ -130,6 +135,8 @@ AxMemoryStream.prototype.Resize = function(newCapacity)
 
     this.data = newData;
     this.capacity = newCapacity;
+    
+    this.dataUInt8 = new Uint8Array(this.data);
 };
 
 /**

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-const int jsFilesCount = 144;
+const int jsFilesCount = 145;
 const char *jsFiles[jsFilesCount] = {
     "Supplemental/AxisLicense-full.js",
     "Supplemental/Supplemental.js",
@@ -187,7 +187,10 @@ const char *jsFiles[jsFilesCount] = {
     "Engine/AxRayIntersectionEvents.js",
     "Engine/AxStandardEntityDispatcher.js",
     "Engine/AxSerializationParameters.js",
-	"Engine/Axis.js"};
+	"Engine/Axis.js",
+
+	"Tools/Platform/HTMLAxisViewportElement.js"
+};
 
 char* defaultProjectRootDir = "";
 char* defaultMergedFileName = "AxisEngine-full.js";

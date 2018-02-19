@@ -7,14 +7,14 @@
 /**
  * Utilizes the canvas element which will be used for rendering
  * Provides useful functionality for continuous rendering, mouse and keyboard input
- * @param {*} canvasId The id of the HTML canvas element
+ * @param {String|HTMLCanvasElement} canvas The id of the HTML canvas element or the canvas element object itself.
  * @param {AxAnimationElementRender} onRenderEvent The method which to perform rendering of a frame
  * @param {!Boolean} startRendering Denotes whether to start rendering immediately. If omitted, assumes a default value of false
  * @param {!Boolean} enableContextMenu Denotes whether to enable the default context menu on the canvas element. If omitted, assumes a default value of false
  * @param {!Boolean} touchScrollingEnabled Denotes whether to enable scrolling the page when touching the canvas in a touchscreen device
  * @constructor
  */
-function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableContextMenu, touchScrollingEnabled)
+function AxAnimationElement(canvas, onRenderEvent, startRendering, enableContextMenu, touchScrollingEnabled)
 {
     if (AxUtils.IsUndefinedOrNull(startRendering))
         startRendering = false;
@@ -41,7 +41,7 @@ function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableConte
         this.buttons[i] = false;
     
     this.mouseButtons = 0;
-    this.mouse = { x: 0, y: 0, lastX: 0, lastY: 0, deltaX: 0, deltaY: 0, originalX: 0, originalY: 0, left: false, right: false, middle: false, back: false, forward: false }; 
+    this.mouse = { x: 0, y: 0, lastX: 0, lastY: 0, deltaX: 0, deltaY: 0, originalX: 0, originalY: 0, wheel: 0, wheelHorizontal: 0, left: false, right: false, middle: false, back: false, forward: false }; 
     
     this.OnMouseMove = function(x, y) { };
     this.OnMouseDown = function(x, y, button) { };
@@ -49,8 +49,8 @@ function AxAnimationElement(canvasId, onRenderEvent, startRendering, enableConte
     this.OnKeyDown = function(key) { };
     this.OnKeyUp = function(key) { };
     
-    if (!AxUtils.IsUndefinedOrNull(canvasId))
-        this.Initialize(canvasId);
+    if (!AxUtils.IsUndefinedOrNull(canvas))
+        this.Initialize(canvas);
 
     if (!AxUtils.IsUndefinedOrNull(onRenderEvent))
         this.OnRender = onRenderEvent;
@@ -69,13 +69,16 @@ AxAnimationElement.MouseButtonForward   = 16;
 /**
  * Provides managment for the element which will be used for rendering
  * requestAnimationFrame in a cross browser way.
- * @param {*} canvasId The id of the HTML canvas element
+ * @param {String|HTMLCanvasElement} canvas The id of the HTML canvas element or the canvas element object itself.
  */
-AxAnimationElement.prototype.Initialize = function(canvasId)
+AxAnimationElement.prototype.Initialize = function(canvas)
 {
-    this.canvas = document.getElementById(canvasId);
+    if (AxUtils.IsInstanceOf(canvas, HTMLCanvasElement))
+        this.canvas = canvas;
+    else
+        this.canvas = document.getElementById(canvas);
     if (AxUtils.IsUndefinedOrNull(this.canvas) || (this.canvas.tagName.toLowerCase() !== 'canvas'))
-        throw 'AxWebRendering.Initialize error: Element ' + canvasId + ' is not a valid canvas';
+        throw 'AxWebRendering.Initialize error: Element ' + canvas + ' is not a valid canvas';
     
         // Canvas context passed for mouse events
         this.canvas.axWebRendering = this;
@@ -85,6 +88,7 @@ AxAnimationElement.prototype.Initialize = function(canvasId)
         this.canvas.addEventListener('mousedown', AxAnimationElement.CanvasMouseButtonEvent, false);
         this.canvas.addEventListener('mouseup', AxAnimationElement.CanvasMouseButtonEvent, false);
         this.canvas.addEventListener('mouseleave', AxAnimationElement.CanvasMouseLeaveEvent, false);
+        this.canvas.addEventListener('wheel', AxAnimationElement.CanvasMouseWheelEvent, false);
         
         this.canvas.addEventListener('touchmove', AxAnimationElement.CanvasTouchMoveEvent, false);
         this.canvas.addEventListener('touchstart', AxAnimationElement.CanvasTouchStartEvent, false);
@@ -183,6 +187,9 @@ AxAnimationElement.CanvasMouseMoveEvent = function(args)
 
     instance.mouse.x = x;
     instance.mouse.y = y;
+
+    if (!instance.touchScrollingEnabled)
+        args.preventDefault();
 };
 
 AxAnimationElement.CanvasMouseButtonEvent = function(args) 
@@ -211,6 +218,9 @@ AxAnimationElement.CanvasMouseButtonEvent = function(args)
     instance.mouse.forward = (args.buttons & AxAnimationElement.MouseButtonForward) !== 0;
 
     instance.mouseButtons = args.buttons;
+
+    if (!instance.touchScrollingEnabled)
+        args.preventDefault();
 };
 
 AxAnimationElement.CanvasMouseLeaveEvent = function(args) 
@@ -231,6 +241,23 @@ AxAnimationElement.CanvasMouseLeaveEvent = function(args)
     instance.mouse.forward = false;
 
     instance.mouseButtons = buttons;
+    
+    if (!instance.touchScrollingEnabled)
+        args.preventDefault();
+};
+
+AxAnimationElement.CanvasMouseWheelEvent = function(args) 
+{
+    var instance = this.axWebRendering;
+    
+    var delta = AxMath.Sign(-args.deltaY);
+    var deltaH = AxMath.Sign(-args.deltaX);
+    
+    instance.mouse.wheel += delta;
+    instance.mouse.wheelHorizontal += deltaH;
+
+    if (!instance.touchScrollingEnabled)
+        args.preventDefault();
 };
 
 AxAnimationElement.CanvasTouchMoveEvent = function(args) 

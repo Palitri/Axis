@@ -20,6 +20,16 @@ function AxStream()
 {
     this.position = 0;
     this.length = 0;
+    
+    this.buffer = new ArrayBuffer(8);
+    this.bufferUInt8 = new Uint8Array(this.buffer);
+    this.bufferInt8 = new Int8Array(this.buffer);
+    this.bufferUInt16 = new Uint16Array(this.buffer);
+    this.bufferInt16 = new Int16Array(this.buffer);
+    this.bufferUInt32 = new Uint32Array(this.buffer);
+    this.bufferInt32 = new Int32Array(this.buffer);
+    this.bufferFloat32 = new Float32Array(this.buffer);
+    this.bufferFloat64 = new Float64Array(this.buffer);
 }
 
 /**
@@ -108,9 +118,8 @@ AxStream.prototype.WriteStreamData = function(source, size, maxBufferSize)
  */
 AxStream.prototype.ReadBool = function()
 {
-    var result = new ArrayBuffer(1);
-    this.ReadData(result, 1);
-    return new Uint8Array(result)[0] !== 0;
+    this.ReadData(this.buffer, 1);
+    return this.bufferUInt8[0] !== 0;
 };
 
 /**
@@ -119,10 +128,8 @@ AxStream.prototype.ReadBool = function()
 */
 AxStream.prototype.WriteBool = function(value)
 {
-    var data = new ArrayBuffer(1);
-    var dataArray = new Uint8Buffer(data);
-    dataArray[0] = value ? 1 : 0;
-    this.WriteData(data, 1);
+    this.bufferUInt8[0] = value ? 1 : 0;
+    this.WriteData(this.buffer, 1);
 };
 
 
@@ -132,9 +139,8 @@ AxStream.prototype.WriteBool = function(value)
  */
 AxStream.prototype.ReadInt8 = function()
 {
-    var result = new ArrayBuffer(1);
-    this.ReadData(result, 1);
-    return new Int8Array(result)[0];
+    this.ReadData(this.buffer, 1);
+    return this.bufferInt8[0];
 };
 
 /**
@@ -143,10 +149,8 @@ AxStream.prototype.ReadInt8 = function()
 */
 AxStream.prototype.WriteInt8 = function(value)
 {
-    var data = new ArrayBuffer(1);
-    var dataArray = new Int8Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 1);
+    this.bufferInt8[0] = value;
+    this.WriteData(this.buffer, 1);
 };
 
 /**
@@ -155,9 +159,8 @@ AxStream.prototype.WriteInt8 = function(value)
  */
 AxStream.prototype.ReadInt16 = function()
 {
-    var result = new ArrayBuffer(2);
-    this.ReadData(result, 2);
-    return new Int16Array(result)[0];
+    this.ReadData(this.buffer, 2);
+    return this.bufferInt16[0];
 };
 
 /**
@@ -166,10 +169,8 @@ AxStream.prototype.ReadInt16 = function()
 */
 AxStream.prototype.WriteInt16 = function(value)
 {
-    var data = new ArrayBuffer(2);
-    var dataArray = new Int16Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 2);
+    this.bufferInt16[0] = value;
+    this.WriteData(this.buffer, 2);
 };
 
 /**
@@ -178,9 +179,8 @@ AxStream.prototype.WriteInt16 = function(value)
  */
 AxStream.prototype.ReadInt32 = function()
 {
-    var result = new ArrayBuffer(4);
-    this.ReadData(result, 4);
-    return new Int32Array(result)[0];
+    this.ReadData(this.buffer, 4);
+    return this.bufferInt32[0];
 };
 
 /**
@@ -189,10 +189,8 @@ AxStream.prototype.ReadInt32 = function()
  */
 AxStream.prototype.WriteInt32 = function(value)
 {
-    var data = new ArrayBuffer(4);
-    var dataArray = new Int32Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 4);
+    this.bufferInt32[0] = value;
+    this.WriteData(this.buffer, 4);
 };
 
 /**
@@ -201,10 +199,8 @@ AxStream.prototype.WriteInt32 = function(value)
  */
 AxStream.prototype.ReadInt64 = function()
 {
-    var result = new ArrayBuffer(8);
-    this.ReadData(result, 8);
-    var array = new Int32Array(result);
-    return array[1] << 32 | array[0];
+    this.ReadData(this.buffer, 8);
+    return this.bufferInt32[1] << 32 | this.bufferInt32[0];
 };
 
 /**
@@ -213,11 +209,9 @@ AxStream.prototype.ReadInt64 = function()
  */
 AxStream.prototype.WriteInt64 = function(value)
 {
-    var data = new ArrayBuffer(8);
-    var dataArray = new Int32Array(data);
-    dataArray[0] = value & 0xFFFFFFFF;
-    dataArray[1] = value & 0xFFFFFFFF00000000;
-    this.WriteData(data, 8);
+    this.bufferInt32[0] = value & 0xFFFFFFFF;
+    this.bufferInt32[1] = value & 0xFFFFFFFF00000000;
+    this.WriteData(this.buffer, 8);
 };
 
 
@@ -279,9 +273,8 @@ AxStream.prototype.Write7BitEncodedInt32 = function(value)
  */
 AxStream.prototype.ReadUInt8 = function()
 {
-    var result = new ArrayBuffer(1);
-    this.ReadData(result, 1);
-    return new Uint8Array(result)[0];
+    this.ReadData(this.buffer, 1);
+    return this.bufferUInt8[0];
 };
 
 /**
@@ -290,10 +283,8 @@ AxStream.prototype.ReadUInt8 = function()
  */
 AxStream.prototype.WriteUInt8 = function(value)
 {
-    var data = new ArrayBuffer(1);
-    var dataArray = new Uint8Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 1);
+    this.bufferUInt8[0] = value;
+    this.WriteData(this.buffer, 1);
 };
 
 /**
@@ -302,9 +293,8 @@ AxStream.prototype.WriteUInt8 = function(value)
  */
 AxStream.prototype.ReadUInt16 = function()
 {
-    var result = new ArrayBuffer(2);
-    this.ReadData(result, 2);
-    return new Uint16Array(result)[0];
+    this.ReadData(this.buffer, 2);
+    return this.bufferUInt16[0];
 };
 
 /**
@@ -313,10 +303,8 @@ AxStream.prototype.ReadUInt16 = function()
  */
 AxStream.prototype.WriteUInt16 = function(value)
 {
-    var data = new ArrayBuffer(2);
-    var dataArray = new Uint16Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 2);
+    this.bufferUInt16[0] = value;
+    this.WriteData(this.buffer, 2);
 };
 
 /**
@@ -325,9 +313,8 @@ AxStream.prototype.WriteUInt16 = function(value)
  */
 AxStream.prototype.ReadUInt32 = function()
 {
-    var result = new ArrayBuffer(4);
-    this.ReadData(result, 4);
-    return new Uint32Array(result)[0];
+    this.ReadData(this.buffer, 4);
+    return this.bufferUInt32[0];
 };
 
 /**
@@ -336,10 +323,8 @@ AxStream.prototype.ReadUInt32 = function()
  */
 AxStream.prototype.WriteUInt32 = function(value)
 {
-    var data = new ArrayBuffer(4);
-    var dataArray = new Uint32Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 4);
+    this.bufferUInt32[0] = value;
+    this.WriteData(this.buffer, 4);
 };
 
 /**
@@ -348,10 +333,8 @@ AxStream.prototype.WriteUInt32 = function(value)
  */
 AxStream.prototype.ReadUInt64 = function()
 {
-    var result = new ArrayBuffer(8);
-    this.ReadData(result, 8);
-    var array = new Uint32Array(result);
-    return array[1] << 32 | array[0];
+    this.ReadData(this.buffer, 8);
+    return this.bufferUInt32[1] << 32 | this.bufferUInt32[0];
 };
 
 /**
@@ -360,11 +343,9 @@ AxStream.prototype.ReadUInt64 = function()
  */
 AxStream.prototype.WriteUInt64 = function(value)
 {
-    var data = new ArrayBuffer(8);
-    var dataArray = new Uint32Array(data);
-    dataArray[0] = value & 0xFFFFFFFF;
-    dataArray[1] = value & 0xFFFFFFFF00000000;
-    this.WriteData(data, 8);
+    this.bufferUInt32[0] = value & 0xFFFFFFFF;
+    this.bufferUInt32[1] = value & 0xFFFFFFFF00000000;
+    this.WriteData(this.buffer, 8);
 };
 
 
@@ -374,9 +355,8 @@ AxStream.prototype.WriteUInt64 = function(value)
  */
 AxStream.prototype.ReadFloat32 = function()
 {
-    var result = new ArrayBuffer(4);
-    this.ReadData(result, 4);
-    return new Float32Array(result)[0];
+    this.ReadData(this.buffer, 4);
+    return this.bufferFloat32[0];
 };
 
 /**
@@ -385,10 +365,8 @@ AxStream.prototype.ReadFloat32 = function()
  */
 AxStream.prototype.WriteFloat32 = function(value)
 {
-    var data = new ArrayBuffer(1);
-    var dataArray = new Float32Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 1);
+    this.bufferFloat32[0] = value;
+    this.WriteData(this.buffer, 4);
 };
 
 /**
@@ -397,9 +375,8 @@ AxStream.prototype.WriteFloat32 = function(value)
  */
 AxStream.prototype.ReadFloat64 = function()
 {
-    var result = new ArrayBuffer(8);
-    this.ReadData(result, 8);
-    return new Float64Array(result)[0];
+    this.ReadData(this.buffer, 8);
+    return this.bufferFloat64[0];
 };
 
 /**
@@ -408,10 +385,8 @@ AxStream.prototype.ReadFloat64 = function()
  */
 AxStream.prototype.WriteFloat64 = function(value)
 {
-    var data = new ArrayBuffer(8);
-    var dataArray = new Float64Array(data);
-    dataArray[0] = value;
-    this.WriteData(data, 8);
+    this.bufferFloat64[0] = value;
+    this.WriteData(this.buffer, 8);
 };
 
 

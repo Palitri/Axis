@@ -1,3 +1,8 @@
+/**
+ * Creates a new AxResource object
+ * This is the base class for all axis resources such as meshes, cameras, textures and etc.
+ * @constructor
+ */
 function AxResource()
 {
     AxEntity.call(this);

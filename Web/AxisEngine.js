@@ -180,7 +180,9 @@ var scriptFiles =
     'Engine/AxRayIntersectionEvents.js',
     'Engine/AxStandardEntityDispatcher.js',
     'Engine/AxSerializationParameters.js',
-    'Engine/Axis.js'
+    'Engine/Axis.js',
+
+    'Tools/Platform/HTMLAxisViewportElement.js'
 ];
 
 /**
@@ -260,3 +262,5 @@ function LoadScriptFile(scriptFileUrl, onLoaded)
     var head = document.getElementsByTagName('head')[0];
     head.appendChild(script);
 }
+
+AxisInitialize();

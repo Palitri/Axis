@@ -101,6 +101,27 @@ function Axis(windowHandle)
 Axis.SerializationId_ResourceSerialization = 0x21100000;
 
 
+Axis.prototype.Reset = function()
+{
+	this.activeLights.Clear();
+	this.activeLightsCollecting.Clear();
+	this.nearestActiveLights.Clear();
+
+//	for (var i = 0; i < this.resources.count; i++)
+//		this.resources[i].Dispose();
+	this.resources.Clear();
+	this.resourceID = 0;
+
+    //this.root = this.AddResource(new AxEntitySet());
+	//this.root.name = "Default Root";
+    this.root = null;
+
+	//this.currentCamera = AxTraceParameters();
+
+//	delete this->settings;
+//	this->settings = new AxSettings();
+};
+
 
 /**
  * Gets fired when an object has been loaded

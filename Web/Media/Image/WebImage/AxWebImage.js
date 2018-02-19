@@ -61,7 +61,7 @@ AxWebImage.prototype.Load = function(source, callbackContext, callback)
                 webCanvas.height = webImage.height;
 
                 var subArrayFunction = Uint8Array.prototype.subarray || Uint8Array.prototype.slice;
-                if (AxUtils.IsUndefinedOrNull(subArrayFunction))
+                //if (AxUtils.IsUndefinedOrNull(subArrayFunction))
                 {
                     sender.SetPixelFormat(new AxPixelFormat(4, 4, 8, 8, 8, 8, AxPixelFormat.ChannelIdRed, AxPixelFormat.ChannelIdGreen, AxPixelFormat.ChannelIdBlue, AxPixelFormat.ChannelIdAlpha));
                     sender.width = webImage.width;

@@ -32,30 +32,29 @@ AxWebGLTexture2D.prototype.Dispose = function()
     this.width = 0;
     this.height = 0;
     this.isFrameBuffer = false;
-    return;
     
-    if (this.texture !== null)
-    {
-        this.context.gl.deleteTextures(1, this.texture);
-        this.texture = null;
-    }
-    
-    if (this.depthBuffer !== null)
-    {
-        this.context.gl.deleteRenderBuffers(1, this.depthBuffer);
-        this.depthBuffer = null;
-    }
-    
-    if (this.frameBuffer !== null)
-    {
-        this.context.gl.deleteFrameBuffers(1, this.frameBuffer);
-        this.frameBuffer = null;
-    }
-    
-    this.width = 0;
-    this.height = 0;
-
-    this.isFrameBuffer = false;
+//    if (this.texture !== null)
+//    {
+//        this.context.gl.deleteTextures(1, this.texture);
+//        this.texture = null;
+//    }
+//    
+//    if (this.depthBuffer !== null)
+//    {
+//        this.context.gl.deleteRenderBuffers(1, this.depthBuffer);
+//        this.depthBuffer = null;
+//    }
+//    
+//    if (this.frameBuffer !== null)
+//    {
+//        this.context.gl.deleteFrameBuffers(1, this.frameBuffer);
+//        this.frameBuffer = null;
+//    }
+//    
+//    this.width = 0;
+//    this.height = 0;
+//
+//    this.isFrameBuffer = false;
 };
 
 /**

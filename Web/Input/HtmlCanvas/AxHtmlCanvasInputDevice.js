@@ -24,7 +24,7 @@ AxHtmlCanvasInputDevice.MouseButtonMiddle    = 4;
 AxHtmlCanvasInputDevice.MouseButtonBack      = 8;
 AxHtmlCanvasInputDevice.MouseButtonForward   = 16;
 
-AxHtmlCanvasInputDevice.maxTouchPoints = 4;
+AxHtmlCanvasInputDevice.maxTouchPoints = 5;
 
 
 /**
