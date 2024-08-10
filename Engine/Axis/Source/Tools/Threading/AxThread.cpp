@@ -54,8 +54,6 @@ int AxThread::Initialize(bool start, bool reusable)
 	this->signalEvent = new HANDLE();
 	*(HANDLE*)this->signalEvent = CreateEvent(NULL, TRUE, start ? TRUE : FALSE, NULL);
 
-	this->reusable = reusable;
-
 	this->handle = new HANDLE;
 	this->id = new DWORD;
 		
@@ -149,14 +147,14 @@ void AxThread::Wait()
 //	ResumeThread(*(HANDLE*)this->handle);
 //}
 
-//void AxThread::Terminate()
-//{
-//	if (this->terminated)
-//		return;
-//
-//	TerminateThread(*(HANDLE*)this->handle, -1);
-//	this->terminated = true;
-//}
+void AxThread::Terminate()
+{
+	if (this->terminated)
+		return;
+
+	TerminateThread(*(HANDLE*)this->handle, -1);
+	this->terminated = true;
+}
 
 int AxThread::Execute()
 {

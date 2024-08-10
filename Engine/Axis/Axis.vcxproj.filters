@@ -202,6 +202,18 @@
     <Filter Include="Source\Input\WindowsForms">
       <UniqueIdentifier>{c1ea4c88-98a6-448a-a973-a72573d8993f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Media\Scene\NativeJS">
+      <UniqueIdentifier>{daa8ad54-306b-47e1-8295-6dbdfa637bc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking\Serial">
+      <UniqueIdentifier>{3fdc6959-4c10-4fae-86ce-de95927331c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking\WebSockets">
+      <UniqueIdentifier>{59f13687-c108-4bff-9204-b4004abf0a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools\Networking\Exchange">
+      <UniqueIdentifier>{735eabee-236a-41e9-852a-0ff7317dcbb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Graphics\Soras\Engine\Soras.h">
@@ -951,8 +963,42 @@
     <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.h">
       <Filter>Source\Engine\Utilities\TexCoords</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h" />
-    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSScene.h" />
+    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h">
+      <Filter>Source\Media\Scene\NativeJS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSScene.h">
+      <Filter>Source\Media\Scene\NativeJS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Streams\AxSerialStream.h">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Streams\AxRotaryBufferStream.h">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\Serial\AxSerialPort.h">
+      <Filter>Source\Tools\Networking\Serial</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\Serial\AxSerialTransmission.h">
+      <Filter>Source\Tools\Networking\Serial</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebSockets\AxWebSocketsConnection.h">
+      <Filter>Source\Tools\Networking\WebSockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebSockets\AxWebSocketsServer.h">
+      <Filter>Source\Tools\Networking\WebSockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\WebSockets\AxWebSocketUtils.h">
+      <Filter>Source\Tools\Networking\WebSockets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeChannel.h">
+      <Filter>Source\Tools\Networking\Exchange</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeConnection.h">
+      <Filter>Source\Tools\Networking\Exchange</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeServer.h">
+      <Filter>Source\Tools\Networking\Exchange</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Graphics\Soras\Engine\Soras.cpp">
@@ -1549,9 +1595,6 @@
     <ClCompile Include="Source\Engine\Utilities\Imaging\AxGaussianBlurImage.cpp">
       <Filter>Source\Engine\Utilities\Imaging</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Tools\Platform\AxWindowsRegistry.cpp">
-      <Filter>Source\Tools\Platform</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Entities\Settings\AxSettings.cpp">
       <Filter>Source\Engine\Entities\Settings</Filter>
     </ClCompile>
@@ -1603,7 +1646,44 @@
     <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.cpp">
       <Filter>Source\Engine\Utilities\TexCoords</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSScene.cpp" />
-    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.cpp" />
+    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSScene.cpp">
+      <Filter>Source\Media\Scene\NativeJS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.cpp">
+      <Filter>Source\Media\Scene\NativeJS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Streams\AxSerialStream.cpp">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Streams\AxRotaryBufferStream.cpp">
+      <Filter>Source\Tools\Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Platform\AxWindowsRegistry.cpp">
+      <Filter>Source\Tools\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\Serial\AxSerialPort.cpp">
+      <Filter>Source\Tools\Networking\Serial</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\Serial\AxSerialTransmission.cpp">
+      <Filter>Source\Tools\Networking\Serial</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebSockets\AxWebSocketsConnection.cpp">
+      <Filter>Source\Tools\Networking\WebSockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebSockets\AxWebSocketsServer.cpp">
+      <Filter>Source\Tools\Networking\WebSockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\WebSockets\AxWebSocketUtils.cpp">
+      <Filter>Source\Tools\Networking\WebSockets</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeChannel.cpp">
+      <Filter>Source\Tools\Networking\Exchange</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeConnection.cpp">
+      <Filter>Source\Tools\Networking\Exchange</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeServer.cpp">
+      <Filter>Source\Tools\Networking\Exchange</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

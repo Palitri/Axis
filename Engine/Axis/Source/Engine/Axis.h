@@ -137,7 +137,7 @@ public:
     
 	// Loads a module and adds its dispatchers to the appropriate collections and the module itself to the collection of loaded modules.
 	// Returns the loaded module. If loading was not successful, return 0
-	virtual AxModule *Axis::LoadModule(AxString moduleFileName);
+	virtual AxModule *LoadModule(AxString moduleFileName);
 	// Unloads a module and removes its dispatchers and itself from the respective collections
 	virtual void UnloadModule(AxModule *module);
 

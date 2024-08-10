@@ -20,10 +20,12 @@ int AxTcpIpServer::Listen(void *tcpIpServer)
 
 	while (server->opened)
 	{
-		AxTcpIpConnection *connection = server->listener->AcceptConnection();
-
-		if (connection == 0)
+		AxTcpIpConnection *connection = server->CreateConnection();
+		if (!server->listener->AcceptConnection(connection))
+		{
+			delete connection;
 			return 0;
+		}
 
 		bool synchronized = server->synchronized;
 		if (synchronized)
@@ -152,6 +154,11 @@ void AxTcpIpServer::Close()
 
 		this->opened = false;
 	}
+}
+
+AxTcpIpConnection *AxTcpIpServer::CreateConnection()
+{
+	return new AxTcpIpConnection();
 }
 
 bool AxTcpIpServer::OnAcceptConnection(AxTcpIpConnection *connection)

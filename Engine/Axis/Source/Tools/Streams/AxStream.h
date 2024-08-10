@@ -12,8 +12,8 @@ class AXDLLCLASS StreamException
 public:
 	char *message;
 
-	StreamException::StreamException(const char *message);
-	StreamException::~StreamException(void);
+	StreamException(const char *message);
+	~StreamException(void);
 
 	virtual const char *what() const throw();
 };
@@ -38,6 +38,8 @@ public:
 	virtual long long WriteData(const void *data, long long size) = 0;
 
 	virtual bool Seek(long long offset, StreamSeekMode seekType = StreamSeekMode_FromBeginning);
+	
+	virtual long long Peek(void *data, long long size);
 
 	//virtual long long ReadStreamData(AxStream &stream, long long size = -1, int maxBufferSize = 65536) { stream.WriteStreamData(this, size, maxBufferSize); };
 	virtual long long WriteStreamData(AxStream &source, long long size = -1, int maxBufferSize = 65536);

@@ -99,3 +99,28 @@ void AxMem::CopyBits(const void *src, int srcBitOffset, void *dest, int destBitO
 		bitCount -= bitsWritten;
 	}
 }
+
+void AxMem::ReverseByteOrder(void *data, int size) 
+{
+	unsigned char *lo = (unsigned char*)data;
+	unsigned char *hi = (unsigned char*)data + size - 1;
+
+	while (lo < hi) 
+	{
+		unsigned char temp = *lo;
+		*lo++ = *hi;
+		*hi-- = temp;
+	}
+}
+
+void AxMem::CopyReversedByteOrder(void* destination, const void* source, int size)
+{
+	unsigned char *dst = (unsigned char*)destination;
+	unsigned char *src = (unsigned char*)source + size - 1;
+
+	while (size > 0)
+	{
+		*dst++ = *src--;
+		size--;
+	}
+}

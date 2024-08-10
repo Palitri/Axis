@@ -21,7 +21,7 @@ public:
 	void Tick();
 	void TickOut(float time);
 
-	static long long AxTimer::GetFrequency();
-	static long long AxTimer::GetAnchor();
-	static float AxTimer::GetAnchorTime(long long anchor);
+	static long long GetFrequency();
+	static long long GetAnchor();
+	static float GetAnchorTime(long long anchor);
 };

@@ -58,10 +58,10 @@ AxMem.Fill = function(destination, destinationOffset, fillSize, value, valueOffs
 AxMem.Copy = function(destination, destinationOffset, source, sourceOffset, size)
 {
     var destBytes = new Uint8Array(destination);
-    var soruceBytes = new Uint8Array(source);
+    var sourceBytes = new Uint8Array(source);
     
     for (var i = 0; i < size; i++)
-        destBytes[destinationOffset + i] = soruceBytes[sourceOffset + i];
+        destBytes[destinationOffset + i] = sourceBytes[sourceOffset + i];
 };
 
 AxMem.Compare = function(block1, block1Offset, block2, block2Offset, size)

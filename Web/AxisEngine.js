@@ -10,6 +10,9 @@ var scriptFiles =
     'Tools/AxString.js',
     'Tools/AxStrings.js',
     
+    'Tools/Networking/WebSockets/AxWebSocketClient.js',
+    'Tools/Networking/Exchange/AxExchangeClient.js',
+
     'Tools/Platform/AxReferenceParameter.js',
     'Tools/Platform/AxAnimationElement.js',
     'Tools/Platform/AxPlatformUtils.js',
@@ -182,6 +185,7 @@ var scriptFiles =
     'Engine/AxSerializationParameters.js',
     'Engine/Axis.js',
 
+    'Tools/Platform/AxViewport.js',
     'Tools/Platform/HTMLAxisViewportElement.js'
 ];
 

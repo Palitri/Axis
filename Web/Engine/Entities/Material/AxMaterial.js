@@ -266,7 +266,7 @@ AxMaterial.prototype.InsertShadingLayer = function(shadingOp, colorOp, index)
         case AxShadingOperation.RefractionMap:
         {
             this.properties.Insert(propertyIndex++, new AxProperty(AxMaterial.CreatePropertyName("Refraction map", countRecurringOps), defaultTexture, AxParameterType.ReferenceTexture));
-            this.properties.Insert(propertyIndex++, new AxProperty(AxMaterial.CreatePropertyName("Refraction factor", countRecurringOps), 0.0));
+            this.properties.Insert(propertyIndex++, new AxProperty(AxMaterial.CreatePropertyName("Refraction map factor", countRecurringOps), 0.0));
 
             this.InsertColorOperationProperty(propertyIndex++, AxMaterial.CreatePropertyName("Refraction map amount", countRecurringOps), colorOp);
             break;

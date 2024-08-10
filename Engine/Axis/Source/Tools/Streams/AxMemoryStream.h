@@ -29,7 +29,7 @@ public:
 
 	virtual void SetWriteMode(StreamWriteMode writeMode);
 
-	void AxMemoryStream::Resize(long long newCapacity);
+	void Resize(long long newCapacity);
 	void *GetDataPointer(long long offset);
 
 };

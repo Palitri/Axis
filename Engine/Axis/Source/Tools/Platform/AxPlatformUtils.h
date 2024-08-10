@@ -33,5 +33,10 @@ public:
 	static void *LoadModule(AxString &fileName);
 	static void UnloadModule(void **module);
 	static void *GetModuleFunction(void *module, AxString &functionName);
+
+	static void *OpenComPort(AxString comPortName, int baudRate = 9600);
+	static void CloseComPort(void **comPortHandle);
+	static int ReadComPort(void *comPortHandle, void *buffer, int bytesToRead);
+	static int WriteComPort(void *comPortHandle, void *buffer, int bytesToWrite);
 };
 

@@ -353,16 +353,20 @@ AxString.DecodeUtf8Char = function(utf, utfOffset)
 /**
  * Encodes a string in UTF-8
  * @param {ArrayBuffer} result The destination buffer where the encoded result will be stored
- * @param {Number} resultOffset The offset in bytes, at which the encoded data should be written
  * @param {AxString} str The source string to be encoded
+ * @param {Number} resultOffset The offset in bytes, at which the encoded data should be written
  * @return {Number} The number of bytes in the encoded result
  */
-AxString.EncodeUtf8String = function(result, resultOffset, str)
+AxString.EncodeUtf8String = function(result, str, resultOffset)
 {
+    if (AxUtils.IsUndefinedOrNull(resultOffset))
+        resultOffset = 0;
+    
+    var resultBytes = new Uint8Array(result);
     var bytesEncoded = 0;
     for (var i = 0; i < str.length; i++)
     {
-        bytesEncoded += AxString.EncodeUtf8Char(result, resultOffset + bytesEncoded, str.charCodeAt(i));
+        bytesEncoded += AxString.EncodeUtf8Char(resultBytes, resultOffset + bytesEncoded, str.contents.charCodeAt(i));
     }
     return bytesEncoded;
 };

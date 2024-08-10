@@ -26,10 +26,7 @@ AxTcpIpConnection::AxTcpIpConnection(void *socketId)
 {
 	this->Initialize();
 
-	*(SOCKET*)this->id = *(SOCKET*)socketId;
-	this->opened = true;
-
-	this->RetrieveAddresses();
+	this->Open(socketId);
 }
 
 
@@ -150,6 +147,15 @@ bool AxTcpIpConnection::Open(AxString &address, int port)
 
 	return true;
 }
+
+bool AxTcpIpConnection::Open(void *socketId)
+{
+	*(SOCKET*)this->id = *(SOCKET*)socketId;
+	this->opened = this->RetrieveAddresses();
+
+	return this->opened;
+}
+
 
 bool AxTcpIpConnection::Close()
 {

@@ -16,8 +16,8 @@ AxMath.Phi_d = 1.6180339887498948482;
 AxMath.E = 2.71828182845904;
 AxMath.E_d = 2.7182818284590452353;
 
-AxMath.IntMin = Math.trunc(Number.MIN_VALUE);
-AxMath.IntMax = Math.trunc(Number.MIN_VALUE);
+AxMath.IntMin = 0x80000000;
+AxMath.IntMax = -0x7FFFFFFF;
 
 AxMath.FloatMin = Number.MIN_VALUE;
 AxMath.FloatMax = Number.MAX_VALUE;

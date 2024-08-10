@@ -34,6 +34,8 @@ public:
 	static const float FloatMin;
 	static const float FloatMax;
 
+	static const int SHA1SizeBytes;
+
 	static const unsigned int crcPolynomial_Normal;
 	static const unsigned int crcPolynomial_Reversed;
 	static const unsigned int crcPolynomial_ReversedReciprocal;
@@ -124,11 +126,31 @@ public:
 	static float ArcTan2(float y, float x);
 	static double ArcTan2(double y, double x);
 
+	static unsigned char ROL(unsigned char value, int bits);
+	static unsigned short ROL(unsigned short value, int bits);
+	static unsigned unsigned int ROL(unsigned unsigned int value, int bits);
+	static unsigned long long ROL(unsigned long long value, int bits);
+
+	static unsigned char ROR(unsigned char value, int bits);
+	static unsigned short ROR(unsigned short value, int bits);
+	static unsigned int ROR(unsigned int value, int bits);
+	static unsigned long long ROR(unsigned long long value, int bits);
+
+
 	static int Random(int n);
 	static float Random();
 	static void Randomize();
 
 	static void CRC32GenerateTable(unsigned int crcPolynomial);
 	static unsigned int CRC32(const void *source, unsigned int size, unsigned int seed);
+	static unsigned int IterativeCRC32Init(unsigned int seed);
+	static unsigned int IterativeCRC32Iterate(unsigned int crc16, unsigned char data);
+
+	static unsigned short CRC16(const void *source, unsigned int size, unsigned short seed = 0x1D0F);
+	static unsigned short IterativeCRC16Init(unsigned short seed = 0x1D0F);
+	static unsigned short IterativeCRC16Iterate(unsigned short crc16, unsigned char data);
+
+	static void SHA1(void *result, const void *data, int size);
+
 };
 

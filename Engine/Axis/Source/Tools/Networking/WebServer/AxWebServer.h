@@ -48,7 +48,7 @@ public:
 	AxWebServer(void);
 	~AxWebServer(void);
 
-	void OnConnectionReceive(AxTcpIpConnection *connection, void *data, int dataSize);
+	virtual void OnConnectionReceive(AxTcpIpConnection *connection, void *data, int dataSize);
 
 	// Creates a response with http code 303, which makes the client redirect to the given url
 	void Redirect(AxWebResponse *response, AxString url);

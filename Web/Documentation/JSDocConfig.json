@@ -5,7 +5,7 @@
 	
     "source": {
 		"include": ["../"],
-		"exclude": [ "./", "../AxisEngine-full.js", "../AxisEngine-min.js"],
+		"exclude": [ "./", "../AxisEngine-full.js", "../AxisEngine-min.js", "../Projects" ],
         "includePattern": ".+\\.js(doc|x)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },

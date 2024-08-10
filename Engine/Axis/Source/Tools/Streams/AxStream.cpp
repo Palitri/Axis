@@ -51,6 +51,17 @@ bool AxStream::Seek(long long offset, StreamSeekMode seekType)
 	return false;
 }
 
+long long AxStream::Peek(void *data, long long size)
+{
+	long long originalPosition = this->position;
+
+	long long result = this->ReadData(data, size);
+
+	this->Seek(originalPosition, StreamSeekMode_FromBeginning);
+
+	return result;
+}
+
 long long AxStream::WriteStreamData(AxStream &source, long long size, int maxBufferSize)
 {
 	if (size == -1)

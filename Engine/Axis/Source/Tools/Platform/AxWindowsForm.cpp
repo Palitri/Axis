@@ -14,7 +14,7 @@
 
 #include <windowsx.h>
 
-const wchar_t* AxWindowsForm::FormClassName = L"MyWindowsForm";
+const wchar_t* AxWindowsForm::FormClassName = L"AxisForm";
 
 AxList<AxWindowsForm*> AxWindowsForm::instances;
 

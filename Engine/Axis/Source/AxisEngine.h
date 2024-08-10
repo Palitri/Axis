@@ -257,6 +257,9 @@
 #include "Tools\AxString.h"
 #include "Tools\AxStrings.h"
 
+#include "Tools\Networking\Serial\AxSerialPort.h"
+#include "Tools\Networking\Serial\AxSerialTransmission.h"
+
 #include "Tools\Networking\TCPIP\AxTcpIpConnection.h"
 #include "Tools\Networking\TCPIP\AxTcpIpListener.h"
 #include "Tools\Networking\TCPIP\AxTcpIpClient.h"
@@ -270,6 +273,14 @@
 #include "Tools\Networking\WebServer\WebPageComponents\AxWebPageFileListing.h"
 #include "Tools\Networking\WebServer\WebPageComponents\AxWebPageHostName.h"
 
+#include "Tools\Networking\WebSockets\AxWebSocketsServer.h"
+#include "Tools\Networking\WebSockets\AxWebSocketsConnection.h"
+#include "Tools\Networking\WebSockets\AxWebSocketUtils.h"
+
+#include "Tools\Networking\Exchange\AxWebSocketsExchangeServer.h"
+#include "Tools\Networking\Exchange\AxWebSocketsExchangeConnection.h"
+#include "Tools\Networking\Exchange\AxWebSocketsExchangeChannel.h"
+
 #include "Tools\Platform\AxDrawSurface.h"
 #include "Tools\Platform\AxPlatformUtils.h"
 #include "Tools\Platform\AxWindowsForm.h"
@@ -278,6 +289,8 @@
 #include "Tools\Streams\AxFileStream.h"
 #include "Tools\Streams\AxMemoryStream.h"
 #include "Tools\Streams\AxSubStream.h"
+#include "Tools\Streams\AxRotaryBufferStream.h"
+#include "Tools\Streams\AxSerialStream.h"
 
 #include "Tools\Threading\AxMutex.h"
 #include "Tools\Threading\AxThread.h"

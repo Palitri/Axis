@@ -15,8 +15,8 @@ public:
     int flags;
     float tension, continuity, bias, easeTo, easeFrom;
 
-	AxFile3dsKeyFrameBase::AxFile3dsKeyFrameBase(void);
-	virtual AxFile3dsKeyFrameBase::~AxFile3dsKeyFrameBase(void);
+	AxFile3dsKeyFrameBase(void);
+	virtual ~AxFile3dsKeyFrameBase(void);
 };
 
 class AXDLLCLASS AxFile3dsKeyFramePosition : 

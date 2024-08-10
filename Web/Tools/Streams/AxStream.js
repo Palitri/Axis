@@ -57,7 +57,7 @@ AxStream.prototype.WriteData = function(source, size) { };
 /**
  * Seeks number of offset bytes, in a manner determined by a seek type
  * @param {Integer} offset The offset of seeking is a number of bytes
- * @param {StreamSeekMode} seekType A seeking mode determines how to perform the seek. If omitted, seeking is performed from the beginning of the stream
+ * @param {!StreamSeekMode} seekType A seeking mode determines how to perform the seek. If omitted, seeking is performed from the beginning of the stream
  * @return {Boolean} True if seek was successful, False other wise, if for example it was outside the bounds of the stream
  */
 AxStream.prototype.Seek = function(offset, seekType)
@@ -81,7 +81,7 @@ AxStream.prototype.Seek = function(offset, seekType)
  * After the writing is performed, the source stream's location is changed, according to the size of the data which was written
  * @param {AxStream} source Stream which is the source of the data to write
  * @param {Integer} size Size in bytes of the data to be written
- * @param {Integer} maxBufferSize Maximum size of the buffer to use for the writing. Can be omitted.
+ * @param {!Integer} maxBufferSize Maximum size of the buffer to use for the writing. Can be omitted.
  * @return {Integer} The number of bytes actually written
  */
 AxStream.prototype.WriteStreamData = function(source, size, maxBufferSize)
@@ -261,10 +261,8 @@ AxStream.prototype.Write7BitEncodedInt32 = function(value)
             break;
     }
 
-    var data = new ArrayBuffer(4);
-    var dataArray = new Int32Buffer(data);
-    dataArray[0] = writeValue;
-    this.WriteData(data, writeBytes);
+    this.bufferInt32[0] = writeValue;
+    this.WriteData(this.buffer, writeBytes);
 };
 
 /**
@@ -414,6 +412,8 @@ AxStream.prototype.ReadString = function()
  */
 AxStream.prototype.WriteString = function(value)
 {
+    value = AxString.GetAxString(value);
+            
     var dataLength = AxString.GetStringAsUTF8Length(value);
     var data = new ArrayBuffer(dataLength);
     AxString.EncodeUtf8String(data, value);

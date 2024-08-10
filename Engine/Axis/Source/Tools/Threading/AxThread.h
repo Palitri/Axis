@@ -35,5 +35,7 @@ public:
 	// Waits until the thread has terminated;
 	void Wait();
 
+	void Terminate();
+
 	virtual int Execute();
 };

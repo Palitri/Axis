@@ -15,5 +15,7 @@ public:
 	static void Copy(void* destination, const void* source, int size);
 	static int Compare(const void* block1, const void* block2, int size);
 	static void CopyBits(const void *src, int srcBitOffset, void *dest, int destBitOffset, int bitCount);
+	static void ReverseByteOrder(void *data, int size);
+	static void CopyReversedByteOrder(void* destination, const void* source, int size);
 };
 

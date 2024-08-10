@@ -31,6 +31,9 @@ public:
 	// Closes the listener, disabling it to accept connections
 	void Close();
 
+	// Waits until there is an incoming connection and opens the given AxTcpIpConnection as a means to communicate with the remote client who requested the connection
+	bool AcceptConnection(AxTcpIpConnection *connection);
+
 	// Waits until there is an incoming connection and returns a new instance of AxTcpIpConnection as a means to communicate with the remote client who requested the connection
 	AxTcpIpConnection *AcceptConnection();
 };

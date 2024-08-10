@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-const int jsFilesCount = 145;
+const int jsFilesCount = 148;
 const char *jsFiles[jsFilesCount] = {
     "Supplemental/AxisLicense-full.js",
     "Supplemental/Supplemental.js",
@@ -17,9 +17,13 @@ const char *jsFiles[jsFilesCount] = {
     "Tools/AxString.js",
     "Tools/AxStrings.js",
     
-    "Tools/Platform/AxReferenceParameter.js",
+	"Tools/Networking/WebSockets/AxWebSocketClient.js",
+    "Tools/Networking/Exchange/AxExchangeClient.js",
+
+	"Tools/Platform/AxReferenceParameter.js",
     "Tools/Platform/AxAnimationElement.js",
     "Tools/Platform/AxPlatformUtils.js",
+	"Tools/Platform/AxViewport.js",
     
     "Tools/Streams/AxStream.js",
     "Tools/Streams/AxMemoryStream.js",

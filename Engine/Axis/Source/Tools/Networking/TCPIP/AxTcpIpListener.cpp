@@ -155,18 +155,32 @@ void AxTcpIpListener::Close()
 	this->wsaStarted = false;
 }
 
-AxTcpIpConnection *AxTcpIpListener::AcceptConnection()
+bool AxTcpIpListener::AcceptConnection(AxTcpIpConnection *connection)
 {
 	if (!this->wsaStarted)
-		return 0;
+		return false;
     
 	SOCKET clientSocket = accept(*(SOCKET*)this->listeningSocket, 0, 0);
 
 	if (clientSocket == INVALID_SOCKET) 
 	{
 		int errorCode = WSAGetLastError();
-		return 0;
+		return false;
     }
 
-	return new AxTcpIpConnection(&clientSocket);
+	connection->Open(&clientSocket);
+
+	return true;
+}
+
+AxTcpIpConnection *AxTcpIpListener::AcceptConnection()
+{
+	AxTcpIpConnection *result = new AxTcpIpConnection();
+	if (!this->AcceptConnection(result))
+	{
+		delete result;
+		result = 0;
+	}
+
+	return result;
 }

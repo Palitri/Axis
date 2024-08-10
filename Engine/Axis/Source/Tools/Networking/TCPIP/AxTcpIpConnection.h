@@ -26,12 +26,14 @@ public:
 
 	// Creates AxTcpIpConnection instance ready to open a connection to a remote listener
 	AxTcpIpConnection(void);
-	// Creates AxTcpIpConnection instance from a given socket id, which is already opened, for example by a listener
+	// Creates AxTcpIpConnection instance from a given socket id, which is already opened, for example by a listener. Useful for server-side connections.
 	AxTcpIpConnection(void *socketId);
-	~AxTcpIpConnection(void);
+	virtual ~AxTcpIpConnection(void);
 
-	// Opens a connection to a listener at the given address and port
+	// Opens a connection to a listener at the given address and port. Useful for client-side connections
 	bool Open(AxString &address, int port);
+	// Opens a connection from a given socket id, which is already opened, for example by a listener. Useful for server-side connections.
+	bool Open(void *socketId);
 	// Closes the connection
 	bool Close();
 
@@ -40,6 +42,6 @@ public:
 	// Returns the number of bytes received if reception was successful, 0 if connection is closing and -1 if there was an error.
 	int Receive(void *buffer, int bufferLength);
 	// Returns the number of bytes sent, if sending was successful or -1 if there was an error
-	int Send(const void *data, int dataSize);
+	virtual int Send(const void *data, int dataSize);
 };
 

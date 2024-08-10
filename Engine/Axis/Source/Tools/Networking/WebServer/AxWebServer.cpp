@@ -16,6 +16,8 @@
 
 AxWebServer::AxWebServer(void)
 {
+	AxTcpIpServer();
+
 	this->rootPath = AxPlatformUtils::GetApplicationPath();
 	this->synchronized = true;
 

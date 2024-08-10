@@ -48,6 +48,8 @@ public:
 	bool Open(int port = 80);
 	void Close();
 
+	virtual AxTcpIpConnection *CreateConnection();
+
 	virtual bool OnAcceptConnection(AxTcpIpConnection *connection);
 
 	virtual void OnConnectionReceive(AxTcpIpConnection *connection, void *data, int dataSize);

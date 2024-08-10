@@ -8,6 +8,8 @@
 
 #include "AxMath.h"
 
+#include "AxMem.h"
+
 #include <stdlib.h>
 #include <time.h>
 #include <cmath>
@@ -37,6 +39,8 @@ const int AxMath::IntMax = INT_MAX;
 
 const float AxMath::FloatMin = FLT_MIN;
 const float AxMath::FloatMax = FLT_MAX;
+
+const int AxMath::SHA1SizeBytes = 20;
 
 const unsigned int AxMath::crcPolynomial_Normal = 0x04C11DB7;
 const unsigned int AxMath::crcPolynomial_Reversed = 0xEDB88320;
@@ -401,6 +405,45 @@ double AxMath::ArcTan2(double y, double x)
 	return atan2(y, x);
 }
 
+unsigned char AxMath::ROL(unsigned char value, int bits)
+{
+	return (value << bits) | (value >> (8 - bits));
+}
+
+unsigned short AxMath::ROL(unsigned short value, int bits)
+{
+	return (value << bits) | (value >> (16 - bits));
+}
+
+unsigned int AxMath::ROL(unsigned int value, int bits)
+{
+	return (value << bits) | (value >> (32 - bits));
+}
+
+unsigned long long AxMath::ROL(unsigned long long value, int bits)
+{
+	return (value << bits) | (value >> (64 - bits));
+}
+
+unsigned char AxMath::ROR(unsigned char value, int bits)
+{
+	return (value >> bits) | (value << (8 - bits));
+}
+
+unsigned short AxMath::ROR(unsigned short value, int bits)
+{
+	return (value >> bits) | (value << (16 - bits));
+}
+
+unsigned int AxMath::ROR(unsigned int value, int bits)
+{
+	return (value >> bits) | (value << (32 - bits));
+}
+
+unsigned long long AxMath::ROR(unsigned long long value, int bits)
+{
+	return (value >> bits) | (value << (64 - bits));
+}
 
 int AxMath::Random(int n)
 {
@@ -446,4 +489,127 @@ unsigned int AxMath::CRC32(const void *source, unsigned int size, unsigned int s
         result = AxMath::crcTable[((result & 0xFF) ^ ((unsigned char*)source)[i])] ^ (result >> 8);
             
     return ~result;
+}
+
+// CRC16-CCITT, polynomial 0x1021 (0b1000000100001), that is x^16 + x^12 + x^5 + 1
+unsigned short AxMath::CRC16(const void *source, unsigned int size, unsigned short seed)
+{
+	unsigned short result = seed;
+
+	for (unsigned int i = 0; i < size; i++)
+	{
+		unsigned char x = result >> 8 ^ ((unsigned char*)source)[i];
+		x ^= x >> 4;
+		result = (result << 8) ^ ((unsigned short)(x << 12)) ^ ((unsigned short)(x << 5)) ^ ((unsigned short)x);
+	}
+
+	return result;
+}
+
+unsigned short AxMath::IterativeCRC16Init(unsigned short seed)
+{
+	return seed;
+}
+
+unsigned short AxMath::IterativeCRC16Iterate(unsigned short crc16, unsigned char data)
+{
+	unsigned char x = crc16 >> 8 ^ data;
+	x ^= x >> 4;
+	crc16 = (crc16 << 8) ^ ((unsigned short)(x << 12)) ^ ((unsigned short)(x << 5)) ^ ((unsigned short)x);
+	
+	return crc16;
+}
+
+
+void AxMath::SHA1(void *result, const void *data, int size)
+{
+	unsigned int h0 = 0x67452301;
+	unsigned int h1 = 0xEFCDAB89;
+	unsigned int h2 = 0x98BADCFE;
+	unsigned int h3 = 0x10325476;
+	unsigned int h4 = 0xC3D2E1F0;
+
+
+	unsigned long long sizeBits = size * 8;
+	unsigned long long bufferSizeBits = sizeBits;
+
+	// Calculate size of buffer in bits. That is original data size plus one bit with value "1" added at the end of data, plus zero bits so that total buffer size is divisible by 512, plus 64 bits containing data length
+	bufferSizeBits += 1 + 64;
+	unsigned long long mod = bufferSizeBits % 512;
+	if (mod != 0)
+		bufferSizeBits += 512 - mod;
+
+	unsigned int bufferSizeBytes = (unsigned int)(bufferSizeBits / 8);
+
+	// Create a buffer, copy original data, append bit "1", append bits "0", so that buffer size in bits is devisible by 448, append 64 bits containing data length, so total buffer size in bits is divisible by 512
+	char *buffer = new char[bufferSizeBytes];
+	AxMem::Copy(buffer, data, size);
+	buffer[size] = 0x80;
+	AxMem::Fill(&(buffer[size + 1]), bufferSizeBytes - size - 1, "\0", 1);
+	AxMem::CopyReversedByteOrder(&buffer[bufferSizeBytes - 8], &sizeBits, 8);
+
+
+	unsigned int blocksCount = bufferSizeBits / 512;
+	unsigned int blockWords[80];
+
+	for (unsigned int blockIndex = 0; blockIndex < blocksCount; blockIndex++)
+	{
+		for (int i = 0; i < 16; i++)
+			AxMem::CopyReversedByteOrder(&blockWords[i], &buffer[blockIndex * 64 + i * 4], 4);
+
+		for (int i = 16; i < 80; i++)
+			blockWords[i] = AxMath::ROL(blockWords[i - 3] ^ blockWords[i - 8] ^ blockWords[i - 14] ^ blockWords[i - 16], 1);
+
+		unsigned int a = h0;
+		unsigned int b = h1;
+		unsigned int c = h2;
+		unsigned int d = h3;
+		unsigned int e = h4;
+
+		for (int i = 0; i < 80; i++)
+		{
+			unsigned int f, k;
+			if (i >= 60)
+			{
+				f = b ^ c ^ d;
+				k = 0xCA62C1D6;
+			}
+			else if (i >= 40)
+			{
+				f = (b & c) | (b & d) | (c & d);
+				k = 0x8F1BBCDC;
+			}
+			else if (i >= 20)
+			{
+				f = b ^ c ^ d;
+				k = 0x6ED9EBA1;
+			}
+			else
+			{
+				f = (b & c) | ((~b) & d);
+				k = 0x5A827999;
+			}
+
+			unsigned int temp = AxMath::ROL(a, 5) + f + e + k + blockWords[i];
+			e = d;
+			d = c;
+			c = AxMath::ROL(b, 30);
+			b = a;
+			a = temp;
+		}
+
+		h0 += a;
+		h1 += b;
+		h2 += c;
+		h3 += d;
+		h4 += e;
+	}
+
+	delete[] buffer;
+
+	AxMem::CopyReversedByteOrder((char*)result, &h0, 4);
+	AxMem::CopyReversedByteOrder((char*)result + 4, &h1, 4);
+	AxMem::CopyReversedByteOrder((char*)result + 8, &h2, 4);
+	AxMem::CopyReversedByteOrder((char*)result + 12, &h3, 4);
+	AxMem::CopyReversedByteOrder((char*)result + 16, &h4, 4);
 }

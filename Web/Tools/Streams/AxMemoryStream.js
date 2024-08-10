@@ -19,6 +19,9 @@ function AxMemoryStream(arg1, arg2)
     this.capacity = 0;
     this.data = null;
     
+    if (AxUtils.IsUndefinedOrNull(arg1))
+        arg1 = 256;
+    
     if (AxUtils.IsInteger(arg1))
         this.AxMemoryStream_1(arg1);
     else if (AxUtils.IsInteger(arg2))

@@ -155,3 +155,80 @@ void *AxPlatformUtils::GetModuleFunction(void *module, AxString &functionName)
 	
 	return GetProcAddress(*dllHandle, functionName.GetCharContents());
 }
+
+void *AxPlatformUtils::OpenComPort(AxString comPortName, int baudRate)
+{
+	HANDLE serialHandle = CreateFile(AxString(AxString("\\\\.\\") + comPortName).GetCharContents(), GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	// Do some basic settings
+	DCB serialParams = { 0 };
+	serialParams.DCBlength = sizeof(serialParams);
+
+	GetCommState(serialHandle, &serialParams);
+	serialParams.BaudRate = baudRate;//BAUD_9600;
+	serialParams.ByteSize = 8;
+	serialParams.StopBits = ONESTOPBIT;
+	serialParams.Parity = NOPARITY;
+	SetCommState(serialHandle, &serialParams);
+
+	// Set timeouts
+	COMMTIMEOUTS timeout = { 0 };
+	timeout.ReadIntervalTimeout = 20;
+	timeout.ReadTotalTimeoutMultiplier = 0;
+	timeout.ReadTotalTimeoutConstant = 20;
+	timeout.WriteTotalTimeoutMultiplier = 0;
+	timeout.WriteTotalTimeoutConstant = 50;
+
+	SetCommTimeouts(serialHandle, &timeout);
+
+	HANDLE *result = new HANDLE();
+	*result = serialHandle;
+
+	return result;
+}
+
+void AxPlatformUtils::CloseComPort(void **comPortHandle)
+{
+	if (*comPortHandle == 0)
+		return;
+
+	HANDLE *serialHandle = (HANDLE*)*comPortHandle;
+
+	if (*serialHandle == NULL)
+		return;
+
+	CloseHandle(*serialHandle);
+	*serialHandle = NULL;
+
+	delete *comPortHandle;
+	*comPortHandle = 0;
+};
+
+int AxPlatformUtils::ReadComPort(void *comPortHandle, void *buffer, int bytesToRead)
+{
+	if (comPortHandle == 0)
+		return 0;
+
+	HANDLE *serialHandle = (HANDLE*)comPortHandle;
+
+	DWORD result;
+	if (FAILED(ReadFile(*serialHandle, buffer, bytesToRead, &result, NULL)))
+		return 0;
+
+	return result;
+};
+
+int AxPlatformUtils::WriteComPort(void *comPortHandle, void *buffer, int bytesToWrite)
+{
+	if (comPortHandle == 0)
+		return 0;
+
+	HANDLE *serialHandle = (HANDLE*)comPortHandle;
+
+	DWORD result;
+	if (FAILED(WriteFile(*serialHandle, buffer, bytesToWrite, &result, NULL)))
+		return 0;
+
+	return result;
+};
+

@@ -13,20 +13,21 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{128616AE-BF37-4335-AA97-CF1AE795AB31}</ProjectGuid>
     <RootNamespace>Axis</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -77,6 +78,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeChannel.h" />
+    <ClInclude Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeConnection.h" />
+    <ClInclude Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeServer.h" />
+    <ClInclude Include="Source\Tools\Networking\Serial\AxSerialTransmission.h" />
+    <ClInclude Include="Source\Tools\Networking\Serial\AxSerialPort.h" />
+    <ClInclude Include="Source\Tools\Networking\WebSockets\AxWebSocketsConnection.h" />
+    <ClInclude Include="Source\Tools\Networking\WebSockets\AxWebSocketsServer.h" />
+    <ClInclude Include="Source\Tools\Networking\WebSockets\AxWebSocketUtils.h" />
+    <ClInclude Include="Source\Tools\Streams\AxRotaryBufferStream.h" />
+    <ClInclude Include="Source\Tools\Streams\AxSerialStream.h" />
     <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSScene.h" />
     <ClInclude Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.h" />
     <ClInclude Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.h" />
@@ -328,6 +339,16 @@
     <ClInclude Include="Source\Tools\Threading\AxThreadsPoolThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeChannel.cpp" />
+    <ClCompile Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeConnection.cpp" />
+    <ClCompile Include="Source\Tools\Networking\Exchange\AxWebSocketsExchangeServer.cpp" />
+    <ClCompile Include="Source\Tools\Networking\Serial\AxSerialTransmission.cpp" />
+    <ClCompile Include="Source\Tools\Networking\Serial\AxSerialPort.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebSockets\AxWebSocketsConnection.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebSockets\AxWebSocketsServer.cpp" />
+    <ClCompile Include="Source\Tools\Networking\WebSockets\AxWebSocketUtils.cpp" />
+    <ClCompile Include="Source\Tools\Streams\AxRotaryBufferStream.cpp" />
+    <ClCompile Include="Source\Tools\Streams\AxSerialStream.cpp" />
     <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSScene.cpp" />
     <ClCompile Include="Source\Media\Scene\NativeJS\AxNativeJSSceneDispatcher.cpp" />
     <ClCompile Include="Source\Engine\Utilities\TexCoords\AxTexCoordChannels.cpp" />
