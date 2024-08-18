@@ -1,0 +1,124 @@
+<html>
+
+<head>
+    <title>Axis Engine Gamepad Sample</title>
+    
+    <script type="text/javascript" src="http://www.palitri.com/vault/axis/engine/web/current/AxisEngine-min.js"></script> 
+    
+    <script type="text/javascript">
+		// Gets called when the page has finished loading
+		function Initialize() {
+            var robotOrientation = 0.0;
+            var actorTransform = null;
+            var armTransform = null;
+            var objectTransform = null;
+            var actorAnimation = null;
+            var controlLeft = new AxInputControls();
+            var controlRight = new AxInputControls();
+            var controlForward = new AxInputControls();
+            var controlBackward = new AxInputControls();
+            var controlActionUp = new AxInputControls();
+            var controlActionDown = new AxInputControls();
+            var controlRotateArm = new AxInputControls();
+            var lastFrameValue = 0.0;
+
+            // Create an object to handle the HTML canvas with id='viewport'
+			var viewport = new AxAnimationElement("viewport");
+			// Create the axis engine object, ready to render onto the canvas
+			var axis = new Axis(viewport.canvas);
+			
+			// Set the OnRender method, which gets called continuously by the AxAnimation element
+			viewport.OnRender = function () { 
+                axis.RenderScene(); 
+            
+                if (axis.timer.speed === 0.0)
+                    return;
+
+                var intersectionInfo = new AxIntersectionInfo();
+                var traceParams = new AxTraceParameters();
+
+                if (!AxUtils.IsUndefinedOrNull(actorTransform))
+                {
+                    var moveVector = new AxVector3();
+                    moveVector.Set(controlForward.GetValue(axis.timer.time) - controlBackward.GetValue(axis.timer.time), 0.0, 0.0);
+                    actorTransform.TranslateIntrinsic(moveVector.Scale(300.0));
+
+                    robotOrientation += (controlLeft.GetValue(axis.timer.time) - controlRight.GetValue(axis.timer.time)) * 2.0;
+
+                    if (axis.PickByRayPointAndOrientation(
+						actorTransform.GetPositionExtrinsic().Add(new AxVector3(0.0, 10.0, 0.0)), 
+						new AxVector3(0.0, -1.0, 0.0)))
+                    {
+                        actorTransform.SetPositionExtrinsic(axis.rayIntersectionEvents.intersectionInfo.point.position);
+                        actorTransform.SetRotationExtrinsic(new AxVector3(0.0, 0.0, 0.0));
+                        actorTransform.RotateExtrinsic(new AxVector3(0.0, robotOrientation, 0.0));
+                        actorTransform.RotateExtrinsic(new AxVector3(axis.rayIntersectionEvents.intersectionInfo.point.normal.z, 0.0, 0.0));
+                        actorTransform.RotateExtrinsic(new AxVector3(0.0, 0.0, -axis.rayIntersectionEvents.intersectionInfo.point.normal.x));
+                    }
+                }
+                
+                if (actorAnimation !== null)
+                    actorAnimation.GetProperty("Speed").SetFloat((controlActionDown.GetValue(1.0) - controlActionUp.GetValue(1.0)) * 30.0);
+                
+                if (armTransform !== null)
+                    armTransform.GetProperty("Rotate Y").SetFloat(
+					armTransform.GetProperty("Rotate Y").GetFloat() + 
+					controlRotateArm.GetValue(axis.timer.time) * 4.0);
+                
+                var currentFrameValue = actorAnimation.parameter.GetFloat();
+                var lastFrameDelta = lastFrameValue - 90;
+                var currentFrameDelta = currentFrameValue - 90;
+                lastFrameValue = currentFrameValue;
+                if ((lastFrameDelta < 0.0) && (currentFrameDelta > 0.0))
+                {
+                    var movedObjectTransform = axis.FindResource("MovedObject", AxResourceType.Transform);
+                    var robotHeadTransform = axis.FindResource("RobotHead", AxResourceType.Transform);
+                    // Picked objectd up
+                    var d = movedObjectTransform.GetPositionExtrinsic().DistanceTo(robotHeadTransform.GetPositionExtrinsic());
+                    if (d < 2.3)
+                    {
+                        movedObjectTransform.SetPositionExtrinsic(robotHeadTransform.GetPositionExtrinsic().Subtract(new AxVector3(0.0, 2.0, 0.0)));
+                        axis.Attach(
+							axis.FindResource("Terrain", AxResourceType.EntitySet), 5, 
+							axis.FindResource("RobotHead", AxResourceType.EntitySet), 3, robotHeadTransform);
+                    }
+                }
+                else if ((lastFrameDelta > 0.0) && (currentFrameDelta < 0.0))
+                {
+                    // Drop object down
+                    axis.Attach(
+						axis.FindResource("RobotHead", AxResourceType.EntitySet), 3, 
+						axis.FindResource("Terrain", AxResourceType.EntitySet), 5, axis.FindResource("Terrain", AxResourceType.Transform));
+                }
+                
+            };
+
+			
+			// Import a scene and when loading is done, start rendering
+			axis.ImportScene("Gamepad.axs", 
+				function() {
+                    axis.input.GetInputControls(controlLeft, "Key Arrow left,Key A");
+                    axis.input.GetInputControls(controlRight, "Key Arrow right,Key D,Pad Analog X left");
+                    axis.input.GetInputControls(controlForward, "Key Arrow up,Key W,Pad Analog Y left");
+                    axis.input.GetInputControls(controlBackward, "Key Arrow down,Key S");
+                    axis.input.GetInputControls(controlActionUp, "Mouse Right,Pad B,Pad Analog Y right");
+                    axis.input.GetInputControls(controlActionDown, "Mouse Left,Pad A");
+                    axis.input.GetInputControls(controlRotateArm, "Mouse X,Pad Analog X right");
+
+                    actorTransform = axis.FindResource("Robot", AxResourceType.Transform);
+                    armTransform = axis.FindResource("Robot arm", AxResourceType.Transform);
+                    objectTransform = axis.FindResource("Object001", AxResourceType.Transform);
+                    actorAnimation = axis.FindResource("Robot frame", AxResourceType.Mechanism);
+
+                    viewport.StartRendering(); 
+                }
+    		);
+        }
+</script>
+</head>
+
+<body onload="Initialize();" style="margin:0;">
+    <canvas id="viewport" style="width:100%; height:100%;"></canvas>
+</body>
+
+</html>
